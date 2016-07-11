@@ -66,4 +66,9 @@ def question_detail(id):
     return render_template("question_detail.html")
 
 
+@app.route('/people/<name>')
+def people(name):
+    return 'person page.'
+
+
 
