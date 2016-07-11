@@ -26,6 +26,11 @@ def topic():
     return render_template("topic.html")
 
 
+@app.route('/topic/<name>')
+def topic_detail(name):
+    return render_template('topic_detail.html')
+
+
 @app.route('/topic-recent-week')
 def recent_week_topic():
     return render_template("recent_week_topics.html")
