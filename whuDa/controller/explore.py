@@ -53,12 +53,12 @@ def about():
 
 @app.route('/login')
 def login():
-    return "login page."
+    return render_template('login.html')
 
 
 @app.route('/register')
 def register():
-    return "register page."
+    return render_template('register.html')
 
 
 @app.route('/question/<id>')
@@ -70,5 +70,9 @@ def question_detail(id):
 def people(name):
     return 'person page.'
 
+
+@app.route('/dynamic')
+def dynamic():
+    return render_template('login-dynamic.html')
 
 

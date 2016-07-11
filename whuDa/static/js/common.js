@@ -21,12 +21,6 @@ $(document).ready(function ()
         }
     });
 
-    //检测通知
-    if (typeof (G_NOTIFICATION_INTERVAL) != 'undefined')
-    {
-        AWS.Message.check_notifications();
-        AWS.G.notification_timer = setInterval('AWS.Message.check_notifications()', G_NOTIFICATION_INTERVAL);
-    }
 
     //文章列表样式调整
     if ($('.aw-common-list').length)
@@ -68,16 +62,6 @@ $(document).ready(function ()
             $.scrollTo($('a[name=' + window.location.hash.replace('#!', '') + ']').offset()['top'] - 20, 600, {queue:true});
         }
     }
-
-    /*用户头像提示box*/
-    AWS.show_card_box('.aw-user-name, .aw-user-img', 'user');
-
-    AWS.show_card_box('.topic-tag, .aw-topic-name, .aw-topic-img', 'topic');
-
-    //文章页添加评论, 话题添加 绑定事件
-    AWS.Init.init_article_comment_box('.aw-article-content .aw-article-comment');
-
-    AWS.Init.init_topic_edit_box('.aw-edit-topic');
 
     //话题编辑下拉菜单click事件
     $(document).on('click', '.aw-edit-topic-box .aw-dropdown-list li', function ()
@@ -214,24 +198,6 @@ $(document).ready(function ()
     {
         $(this).tooltip('show');
     });
-
-    //搜索下拉
-    AWS.Dropdown.bind_dropdown_list('#aw-search-query', 'search');
-
-    //编辑器@人
-    AWS.at_user_lists('#wmd-input, .aw-article-replay-box #comment_editor', 5);
-
-    //ie浏览器下input,textarea兼容
-    if (document.all)
-    {
-        AWS.check_placeholder($('input, textarea'));
-
-        // 每隔1s轮询检测placeholder
-        setInterval(function()
-        {
-            AWS.check_placeholder($('input[data-placeholder!="true"], textarea[data-placeholder!="true"]'));
-        }, 1000);
-    }
 
     if ($('.aw-back-top').length)
     {
