@@ -1,7 +1,8 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
-from flask import render_template, redirect
+from flask import render_template, redirect, session
 from utils import is_login
+import whuDa.model.users as db_users
 import sys
 
 reload(sys)
@@ -117,5 +118,13 @@ def people(name):
 def change_pass():
     if is_login():
         return render_template('login/change_pass.html')
+    return redirect('/')
+
+
+@app.route('/publish', methods=['GET', 'POST'])
+def publish():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/publish.html', user=user)
     return redirect('/')
 

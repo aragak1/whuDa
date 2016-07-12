@@ -5,9 +5,6 @@ $(document).ready(function ()
     // fix form bug...
     $("form[action='']").attr('action', window.location.href);
 
-    // 输入框自动增高
-    $('.autosize').autosize();
-
     //响应式导航条效果
     $('.aw-top-nav .navbar-toggle').click(function()
     {
@@ -34,27 +31,6 @@ $(document).ready(function ()
         });
     }
 
-    $('a[rel=lightbox]:visible').fancybox(
-    {
-        openEffect: 'none',
-        closeEffect: 'none',
-        prevEffect: 'none',
-        nextEffect: 'none',
-        centerOnScroll : true,
-        closeBtn: false,
-        helpers:
-        {
-            buttons:
-            {
-                position: 'bottom'
-            }
-        },
-        afterLoad: function ()
-        {
-            this.title = '第 ' + (this.index + 1) + ' 张, 共 ' + this.group.length + ' 张' + (this.title ? ' - ' + this.title : '');
-        }
-    });
-
     if (window.location.hash.indexOf('#!') != -1)
     {
         if ($('a[name=' + window.location.hash.replace('#!', '') + ']').length)
@@ -69,72 +45,6 @@ $(document).ready(function ()
         $(this).parents('.aw-edit-topic-box').find('#aw_edit_topic_title').val($(this).text());
         $(this).parents('.aw-edit-topic-box').find('.add').click();
         $(this).parents('.aw-edit-topic-box').find('.aw-dropdown').hide();
-    });
-
-    //话题删除按钮
-    $(document).on('click', '.topic-tag .close',  function()
-    {
-        var data_type = $(this).parents('.aw-topic-bar').attr('data-type'),
-            data_id = $(this).parents('.aw-topic-bar').attr('data-id'),
-            data_url = '',
-            topic_id = $(this).parents('.topic-tag').attr('data-id');
-
-        switch (data_type)
-        {
-            case 'question':
-                data_url = G_BASE_URL + '/topic/ajax/remove_topic_relation/';
-                break;
-
-            case 'topic':
-                data_url = G_BASE_URL + '/topic/ajax/remove_related_topic/related_id-' + $(this).parents('.topic-tag').attr('data-id') + '__topic_id-' + data_id;
-                break;
-
-            case 'favorite':
-                data_url = G_BASE_URL + '/favorite/ajax/remove_favorite_tag/';
-                break
-
-            case 'article':
-                data_url = G_BASE_URL + '/topic/ajax/remove_topic_relation/';
-                break;
-        }
-
-        if ($(this).parents('.aw-topic-bar').attr('data-url'))
-        {
-            data_url = $(this).parents('.aw-topic-bar').attr('data-url');
-        }
-
-        if (data_type == 'topic')
-        {
-            $.get(data_url);
-        }
-        else if (data_type == 'favorite')
-        {
-            $.post(data_url, 
-            {
-                'item_type': data_type,
-                'topic_id': topic_id,
-                'item_id' : data_id,
-                'tags' : $.trim($(this).parents('.topic-tag').text())
-            }, function (result)
-            {
-            }, 'json');
-        }
-        else
-        {
-            $.post(data_url, 
-            {
-                'type': data_type,
-                'topic_id': topic_id,
-                'item_id' : data_id
-            }, function (result)
-            {
-                $('#aw-ajax-box').empty();
-            }, 'json');
-        }
-
-        $(this).parents('.topic-tag').remove();
-
-        return false;
     });
 
     //小卡片mouseover

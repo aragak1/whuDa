@@ -32,6 +32,7 @@ class Users(db.Model):
     last_login = db.Column(db.Integer)
     last_ip = db.Column(db.String(255))
     forbidden = db.Column(db.Integer, default=0)  # 1代表被禁止
+    avatar_url = db.Column(db.String(255), default="static/img/avatar/avatar.png")
 
     # 注册
     def register(self, username, password, email, last_ip):
@@ -62,3 +63,6 @@ class Users(db.Model):
                 return False
         return False
 
+    # 获通过用户名取一个user
+    def get_user(self, username):
+        return db.session.query(Users).filter(Users.username == username).first()

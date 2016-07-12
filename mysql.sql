@@ -27,6 +27,7 @@ create table users(
     last_login int(10) default null comment '上次登录时间',
     last_ip varchar(255) default null comment '上次登录IP',
     forbidden tinyint(1) default 0 comment '是否被禁止',
+    avatar_url varchar(255) default 'static/img/avatar/avatar.png',
     primary key (uid)
 ) default charset=utf8;
 
@@ -86,6 +87,7 @@ create table topics(
     topic_id int(11) unsigned not null auto_increment comment '话题ID',
     name varchar(32) not null comment '话题名字',
     introducation text comment '话题介绍',
+    topic_url varchar(255) default 'static/img/topic/topic.png',
     primary key (topic_id)
 ) default charset=utf8;
 
