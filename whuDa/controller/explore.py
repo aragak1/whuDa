@@ -79,32 +79,12 @@ def dynamic():
     return render_template('/login/login-dynamic.html')
 
 
-@app.route('/login-discover')
-def login_discover():
-    return render_template('/login/login-discover.html')
-
-
-@app.route('/login-hot')
-def login_hot():
-    return render_template('/login/login-hot_questions.html')
-
-
-@app.route('/login-wait-reply')
-def login_wait_reply():
-    return render_template('/login/login-wait_reply.html')
-
-
-@app.route('/login-topic')
-def login_topic():
-    return render_template('/login/login-topic.html')
-
-
-@app.route('/login-question-detail')
-def aaa():
-    return render_template('/login/login-question_detail.html')
-
-
 @app.route('/temp')
 def temp():
-    return render_template('/login/login-topic_detail.html')
+    return render_template('login/publish.html')
+
+
+@app.route('/notifications')
+def notifications():
+    return render_template('login/notifications.html')
 
