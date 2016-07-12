@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
 from time import time
+from hashlib import md5
+salt = '3JJLohSJXbJUXYxp'
 
 
 class Users(db.Model):
@@ -34,7 +36,7 @@ class Users(db.Model):
     # 注册
     def register(self, username, password, email, last_ip):
         user = Users(username=username,
-                     password=password,
+                     password=md5(password + salt).hexdigest(),
                      email=email,
                      reg_time=time(),
                      last_ip=last_ip,
@@ -46,4 +48,17 @@ class Users(db.Model):
             db.session.add(user)
             db.session.commit()
             return True
+
+    # 登录验证
+    def vaild(self, username, password, login_type):
+        if login_type == 'email':
+            user = db.session.query(Users).filter(Users.email == username).first()
+        elif login_type == 'username':
+            user = db.session.query(Users).filter(Users.username == username).first()
+        if user:
+            if md5(password + salt).hexdigest() == user.password:
+                return True
+            else:
+                return False
+        return False
 
