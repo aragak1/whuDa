@@ -1,3 +1,4 @@
+# _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template
 import sys
@@ -71,8 +72,24 @@ def people(name):
     return 'person page.'
 
 
+# 以下是开发用的临时路由，到时候会和上面合并用session判断返回不同的页面。
+
 @app.route('/dynamic')
 def dynamic():
-    return render_template('login-dynamic.html')
+    return render_template('/login/login-dynamic.html')
 
+
+@app.route('/login-discover')
+def login_discover():
+    return render_template('/login/login-discover.html')
+
+
+@app.route('/login-hot')
+def login_hot():
+    return render_template('/login/login-hot_questions.html')
+
+
+@app.route('/login-wait-reply')
+def login_wait_reply():
+    return render_template('/login/login-wait_reply.html')
 
