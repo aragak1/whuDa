@@ -103,3 +103,8 @@ def login_topic():
 def aaa():
     return render_template('/login/login-question_detail.html')
 
+
+@app.route('/temp')
+def temp():
+    return render_template('/login/login-topic_detail.html')
+

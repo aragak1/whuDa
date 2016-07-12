@@ -39,7 +39,6 @@
         <div class="aw-logo hidden-xs">
             <a href="/"></a>
         </div>
-        <!-- end logo -->
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
             <form class="navbar-search" action="/search" id="global_search_form" method="post">
@@ -57,7 +56,6 @@
                 </div>
             </form>
         </div>
-        <!-- end 搜索框 -->
         <!-- 导航 -->
         <div class="aw-top-nav navbar">
             <div class="navbar-header">
@@ -89,7 +87,7 @@
                     <a style="font-weight:bold;">· · ·</a>
                     <div class="dropdown-list pull-right">
                         <ul id="extensions-nav-list">
-                            <li><a href="/abount"><i class="icon icon-activity"></i> 关于</a></li>
+                            <li><a href="/about"><i class="icon icon-activity"></i> 关于</a></li>
                         </ul>
                     </div>
                     </li>
@@ -106,22 +104,20 @@
             </a>
             <div class="aw-dropdown dropdown-list pull-right">
                 <ul class="aw-dropdown-list">
-                    <li><a href="http://wenda.wecenter.com/inbox/"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">0</span></a></li>
-                    <li class="hidden-xs"><a href="http://wenda.wecenter.com/account/setting/profile/"><i class="icon icon-setting"></i> 设置</a></li>
-                    <li><a href="http://wenda.wecenter.com/account/logout/"><i class="icon icon-logout"></i> 退出</a></li>
+                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">0</span></a></li>
+                    <li class="hidden-xs"><a href="/setting/"><i class="icon icon-setting"></i> 设置</a></li>
+                    <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
                 </ul>
             </div>
-            <!-- end 登陆&注册栏 -->
         </div>
-        <!-- end 用户栏 -->
         <!-- 发起 -->
         <div class="aw-publish-btn">
 
-            <a id="header_publish" class="btn-primary" href="http://wenda.wecenter.com/publish/" onclick="AWS.dialog('publish', {'category_enable':'0', 'category_id':'0', 'topic_title':''}); return false;"><i class="icon icon-ask"></i>发起</a>
+            <a id="header_publish" class="btn-primary" href="/publish" onclick=";"><i class="icon icon-ask"></i>发起</a>
             <div class="dropdown-list pull-right">
                 <ul>
                     <li>
-                        <form method="post" action="http://wenda.wecenter.com/publish/">
+                        <form method="post" action="/publish">
                             <a onclick="$(this).parents('form').submit();">问题</a>
                         </form>
 
@@ -129,10 +125,8 @@
                 </ul>
             </div>
         </div>
-        <!-- end 发起 -->
     </div>
 </div>
-
 
 <div class="aw-container-wrap">
     <div class="container">
@@ -142,69 +136,55 @@
                     <!-- 话题推荐bar -->
                     <!-- 话题推荐bar -->
                     <!-- 话题bar -->
-                    <div class="aw-mod aw-topic-bar" id="question_topic_editor" data-type="question" data-id="29991">
+                    <div class="aw-mod aw-topic-bar" id="question_topic_editor">
                         <div class="tag-bar clearfix">
-														<span class="topic-tag" data-id="345">
-								<a href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93" class="text">数据库</a>
+                            <span class="topic-tag">
+								<a href="/topic/1" class="text">所属话题</a>
 							</span>
-
                         </div>
                     </div>
-                    <!-- end 话题bar -->
+
                     <div class="aw-mod aw-question-detail aw-item">
                         <div class="mod-head">
-                            <h1>
-                                如果我想在某个php文件使用wecenter数据库内容怎么办							</h1>
-
+                            <h1>问题的标题，比如老白为什么这么漂亮。</h1>
                             <div class="operate clearfix">
-                                <a href="javascript:;" onclick="AWS.User.follow($(this), 'question', 29991);" class="follow btn btn-normal btn-success pull-left "><span>关注</span> <em>|</em> <b>1</b></a>
-                                <!-- 下拉菜单 -->
-                                <div class="btn-group pull-left">
-                                    <a class="btn btn-gray dropdown-toggle" data-toggle="dropdown" href="javascript:;">...</a>
-                                    <div class="aw-dropdown pull-right" role="menu" aria-labelledby="dropdownMenu">
-                                        <ul class="aw-dropdown-list">
-                                            <li>
-                                                <a href="http://wenda.wecenter.com/question/29991?column=log&rf=false" rel="nofollow">修改记录</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- end 下拉菜单 -->
+                                <a href="javascript:;" onclick=";" class="follow btn btn-normal btn-success pull-left ">
+                                    <span>关注</span>
+                                    <em>|</em>
+                                    <b>1</b>
+                                </a>
                             </div>
                         </div>
                         <div class="mod-body">
                             <div class="content markitup-box">
-                                一开始想的是用官方的js插件调取数据库内容，但是这样页面可以采集到数据库的内容，boss不让这样用，那么我怎么样才能在文件里引入wecenter框架然后操作数据库呢
+                                问题的具体描述，比如老白为什么这么漂亮，可以有图片。
+                                问题的具体描述，比如老白为什么这么漂亮，可以有图片。
+                                问题的具体描述，比如老白为什么这么漂亮，可以有图片。
                             </div>
                         </div>
                         <div class="mod-footer">
                             <div class="meta">
                                 <span class="text-color-999">21 小时前</span>
-
-                                <a data-id="29991" data-type="question" class="aw-add-comment text-color-999 active" data-comment-count="1" data-first-click=""><i class="icon icon-comment"></i>1 条评论</a>
-
+                                <!-- 这里邀请点了以后下面站内邀请的display none 变成block -->
                                 <a class="text-color-999 aw-invite-replay"><i class="icon icon-invite"></i>邀请 </a>
-
-                                <a class="text-color-999" href="http://wenda.wecenter.com/publish/29991"><i class="icon icon-edit"></i>编辑</a>
+                                <a class="text-color-999" href="/publish/2"><i class="icon icon-edit"></i>编辑</a>
                                 <div class="pull-right more-operate">
-                                    <a data-placement="bottom" title="" data-toggle="tooltip" data-original-title="感谢提问者" onclick="AWS.User.question_thanks($(this), 29991);" class="aw-icon-thank-tips text-color-999"><i class="icon icon-thank"></i>感谢</a>
-
-                                    <!-- <a class="text-color-999"  onclick="AWS.dialog('shareOut', {item_type:'question', item_id:29991});"> -->
                                     <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon icon-share"></i>分享									</a>
+                                        <i class="icon icon-share"></i>分享</a>
                                     <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
                                         <ul class="aw-dropdown-list">
-                                            <li><a onclick="AWS.User.share_out({webid: 'tsina', content: $(this).parents('.aw-question-detail').find('.markitup-box')});"><i class="icon icon-weibo"></i> 微博</a></li>
-                                            <li><a onclick="AWS.User.share_out({webid: 'qzone', content: $(this).parents('.aw-question-detail')});"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                            <li><a onclick="AWS.User.share_out({webid: 'weixin', content: $(this).parents('.aw-question-detail')});"><i class="icon icon-wechat"></i> 微信</a></li>
+                                            <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
+                                            <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
+                                            <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
                                         </ul>
                                     </div>
 
-                                    <a href="javascript:;" class="text-color-999" onclick="AWS.dialog('report', {item_type:'question', item_id:29991})"><i class="icon icon-report"></i>举报</a>								</div>
+                                    <a href="javascript:;" class="text-color-999" onclick=""><i class="icon icon-report"></i>举报</a>
+                                </div>
                             </div>
                         </div>
                         <!-- 站内邀请 -->
-                        <div class="aw-invite-box collapse">
+                        <div class="aw-invite-box collapse" style="display: none">
                             <div class="mod-head clearfix">
                                 <div class="search-box pull-left">
                                     <input id="invite-input" class="form-control" type="text"  placeholder="搜索你想邀请的人..."/>
@@ -214,19 +194,15 @@
                                     </div>
                                     <i class="icon icon-search"></i>
                                 </div>
-                                <div class="invite-list pull-left collapse">
-                                    已邀请:
-                                </div>
+                                <div class="invite-list pull-left collapse">已邀请:</div>
                             </div>
                             <div class="mod-body clearfix">
                                 <ul>
                                     <li>
-                                        <a class="aw-user-img pull-left" data-id="2" href="http://wenda.wecenter.com/people/zhengqiang"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/00/02_avatar_mid.jpg" /></a>
+                                        <a class="aw-user-img pull-left" href="/people/laobai"><img class="img" alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
                                         <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="zhengqiang" data-id="2" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="2" href="http://wenda.wecenter.com/people/zhengqiang">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>
-
+                                            <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>
+                                            <a class="aw-user-name" href="/people/laobai">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>
                                             <p>
 
                                                 在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>
@@ -430,58 +406,48 @@
                                 <a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>
                             </div>
                         </div>
-                        <!-- end 站内邀请 -->
                         <!-- 相关链接 -->
                         <div class="aw-question-related-box collapse">
-                            <form action="http://wenda.wecenter.com/publish/ajax/save_related_link/" method="post" onsubmit="return false" id="related_link_form">
+                            <form action="/" method="post" onsubmit="return false" id="related_link_form">
                                 <div class="mod-head">
                                     <h2>与内容相关的链接</h2>
                                 </div>
                                 <div class="mod-body clearfix">
-                                    <input type="hidden" name="item_id" value="29991" />
+                                    <input type="hidden" name="item_id" />
                                     <input type="text" class="form-control pull-left" name="link" value="" />
-
-                                    <a onclick="AWS.ajax_post($('#related_link_form'));" class="pull-left btn btn-success">提交</a>
+                                    <a onclick=";" class="pull-left btn btn-success">提交</a>
                                 </div>
                             </form>
                         </div>
-                        <!-- end 相关链接 -->
                     </div>
 
                     <div class="aw-mod aw-question-comment">
                         <div class="mod-head">
                             <ul class="nav nav-tabs aw-nav-tabs active">
-                                <li><a href="http://wenda.wecenter.com/question/29991?uid=focus">关注的人</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/29991?sort_key=add_time&sort=ASC">时间 <i class="icon icon-up"></i></a></li>
-                                <li class="active"><a href="http://wenda.wecenter.com/question/29991&sort_key=agree_count&sort=DESC">票数</a></li>
-
+                                <li class="active"><a href="">票数</a></li>
                                 <h2 class="hidden-xs">1 个回复</h2>
                             </ul>
                         </div>
                         <div class="mod-body aw-feed-list">
                             <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
                                 <div class="mod-head">
-                                    <a class="anchor" name="answer_46859"></a>
+                                    <a class="anchor" name="answer_1"></a>
                                     <!-- 用户头像 -->
-                                    <a class="aw-user-img aw-border-radius-5" href="http://wenda.wecenter.com/people/xiaoming" data-id="14871"><img src="http://wenda.wecenter.com/uploads/avatar/000/01/48/71_avatar_mid.jpg" alt="" /></a>										<!-- end 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="/people/laobai"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
                                     <div class="title">
                                         <p>
-                                            <a class="aw-user-name" href="http://wenda.wecenter.com/people/xiaoming" data-id="14871">小明明</a>
-                                            - <span class="text-color-999">WeCenter官方QQ群493577498；个人QQ群129361385</span>																																			</p>
+                                            <a class="aw-user-name" href="/people/xiaoming">小明明</a>
+                                            - <span class="text-color-999">自我介绍。</span>																																			</p>
                                         <p class="text-color-999 aw-agree-by collapse">
                                             赞同来自:
-
                                         </p>
                                     </div>
                                 </div>
                                 <div class="mod-body clearfix">
-                                    <!-- 评论内容 -->
+                                    <!-- 回答内容 -->
                                     <div class="markitup-box">
-                                        引用system/system.php<br />
-                                        AWS_APP::run();										</div>
-
-
-                                    <!-- end 评论内容 -->
+                                        这是回答的具体内容，可以有图片。<br />
+                                    </div>
                                 </div>
                                 <div class="mod-footer">
                                     <!-- 社交操作 -->
@@ -489,36 +455,25 @@
                                         <span class="text-color-999 pull-right">17 小时前</span>
                                         <!-- 投票栏 -->
 											<span class="operate">
-												<a class="agree  " onclick="AWS.User.agree_vote(this, 'terry0314', 46859);"><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">0</b></a>
-																								<a class="disagree " onclick="AWS.User.disagree_vote(this, 'terry0314', 46859)"><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-disagree" data-original-title="对回复持反对意见"></i></a>
-																							</span>
-                                        <!-- end 投票栏 -->
-											<span class="operate">
-												<a class="aw-add-comment" data-id="46859" data-type="answer" data-comment-count="0" data-first-click="collapse" href="javascript:;"><i class="icon icon-comment"></i> 0</a>
-											</span>
+												<a class="agree" onclick=";"><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i><b class="count">0</b></a>
+												<a class="disagree " onclick=""><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-disagree" data-original-title="对回复持反对意见"></i></a>
+												</span>
                                         <!-- 可显示/隐藏的操作box -->
                                         <div class="more-operate">
-                                            <a class="aw-icon-thank-tips text-color-999" data-original-title="这是一个没有价值的回复" data-toggle="tooltip" title="" data-placement="bottom" onclick="AWS.User.answer_user_rate($(this), 'uninterested', 46859);"><i class="icon icon-fold"></i>没有帮助</a>
-
-                                            <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:46859, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
-
-                                            <a href="javascript:;" onclick="AWS.User.answer_user_rate($(this), 'thanks', 46859);" class="aw-icon-thank-tips text-color-999" data-original-title="感谢热心的回复者" data-toggle="tooltip" title="" data-placement="bottom"><i class="icon icon-thank"></i> 感谢</a>
+                                            <a href="javascript:;" onclick=";" class="text-color-999"><i class="icon icon-favor"></i> 收藏</a>
                                             <div class="btn-group pull-left">
                                                 <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                    <i class="icon icon-share"></i>分享</a>
                                                 <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
                                                     <ul class="aw-dropdown-list">
-                                                        <li><a onclick="AWS.User.share_out({webid: 'tsina', title: $(this).parents('.aw-item').find('.markitup-box').text()});"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick="AWS.User.share_out({webid: 'qzone', title: $(this).parents('.aw-item').find('.markitup-box').text()});"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick="AWS.User.share_out({webid: 'weixin', title: $(this).parents('.aw-item').find('.markitup-box').text()});"><i class="icon icon-wechat"></i> 微信</a></li>
+                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
+                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
+                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- end 可显示/隐藏的操作box -->
-
                                     </div>
-                                    <!-- end 社交操作 -->
                                 </div>
                             </div>
                         </div>
@@ -530,27 +485,24 @@
 
                             <div class="collapse aw-feed-list" id="uninterested_answers_list"></div>
                         </div>
-
                     </div>
-                    <!-- end 问题详细模块 -->
 
                     <!-- 回复编辑器 -->
                     <div class="aw-mod aw-replay-box question">
                         <a name="answer_form"></a>
-                        <form action="http://wenda.wecenter.com/question/ajax/save_answer/" onsubmit="return false;" method="post" id="answer_form" class="question_answer_form">
-                            <input type="hidden" name="post_hash" value="a2e5eeb820a2642bc8bc66c022980903" />
-                            <input type="hidden" name="question_id" value="29991" />
-                            <input type="hidden" name="attach_access_key" value="d60a16959e835991f88eeff8650851dc" />
+                        <form action="/" onsubmit="return false;" method="post" id="answer_form" class="question_answer_form">
+                            <input type="hidden" name="post_hash" />
+                            <input type="hidden" name="question_id" />
+                            <input type="hidden" name="attach_access_key" />
                             <div class="mod-head">
-                                <a href="http://wenda.wecenter.com/people/" class="aw-user-name"><img alt="terry0314" src="http://wenda.wecenter.com/static/common/avatar-mid-img.png" /></a>
+                                <a href="/people" class="aw-user-name"><img alt="terry0314" src="/static/img/avatar/avatar-max-img.png" /></a>
                                 <p>
                                     <label class="pull-right">
-                                        <input type="checkbox" value="1" name="anonymous" /> 匿名回复								</label>
+                                        <input type="checkbox" value="1" name="anonymous" />匿名回复</label>
                                     <label class="pull-right">
-                                        <input type="checkbox" checked="checked" value="1" name="auto_focus" /> 关注问题								</label>
-                                    <label class="pull-right">
-                                        <a href="http://wenda.wecenter.com/integral/rule/" target="_blank">积分规则</a>								</label>
-                                    terry0314							</p>
+                                        <input type="checkbox" checked="checked" value="1" name="auto_focus" />关注问题</label>
+                                    terry0314
+                                </p>
                             </div>
                             <div class="mod-body">
                                 <div class="aw-mod aw-editor-box">
@@ -560,7 +512,7 @@
                                         </div>
                                     </div>
                                     <div class="mod-body clearfix">
-                                        <a href="javascript:;" onclick="AWS.ajax_post($('#answer_form'), AWS.ajax_processer, 'reply_question');" class="btn btn-normal btn-success pull-right btn-reply">回复</a>
+                                        <a href="javascript:;" onclick=");" class="btn btn-normal btn-success pull-right btn-reply">回复</a>
                                         <span class="pull-right text-color-999" id="answer_content_message">&nbsp;</span>
                                         <div class="aw-upload-box">
                                             <a class="btn btn-default">上传附件</a>
@@ -573,7 +525,6 @@
                             </div>
                         </form>
                     </div>
-                    <!-- end 回复编辑器 -->
                 </div>
                 <!-- 侧边栏 -->
                 <div class="col-md-3 aw-side-bar hidden-xs hidden-sm">
@@ -585,17 +536,15 @@
                         <div class="mod-body">
                             <dl>
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="http://wenda.wecenter.com/people/%E9%A3%8E%E8%A7%81%E9%9B%A8%E4%B8%8B"><img alt="风见雨下" src="http://wenda.wecenter.com/uploads/avatar/000/02/64/66_avatar_mid.jpg" /></a>
+                                    <a href="/people"><img alt="风见雨下" src="/static/img/avatar/avatar-max-img.png" /></a>
                                 </dt>
                                 <dd class="pull-left">
-                                    <a class="aw-user-name" href="http://wenda.wecenter.com/people/%E9%A3%8E%E8%A7%81%E9%9B%A8%E4%B8%8B" data-id="26466">风见雨下</a>
-                                    <a class="icon-inverse follow tooltips icon icon-plus " onclick="AWS.User.follow($(this), 'user', 26466);" data-original-title="关注"></a>
+                                    <a class="aw-user-name" href="/people/1">提问人的名字</a>
                                     <p></p>
                                 </dd>
                             </dl>
                         </div>
                     </div>
-                    <!-- end 发起人 -->
 
                     <!-- 邀请别人回复 -->
                     <div class="aw-mod email-invite-replay">
@@ -604,14 +553,12 @@
                         </div>
                         <div class="mod-body clearfix">
                             <!-- 侧边栏邀请box -->
-                            <form method="post" action="http://wenda.wecenter.com/question/ajax/email_invite/question_id-29991" onsubmit="return false;" id="email_invite_form">
+                            <form method="post" action="/" onsubmit="return false;" id="email_invite_form">
                                 <input class="form-control" type="text" name="email" placeholder="邮件邀请回复..."/>
-                                <a class="pull-right btn btn-mini btn-success" onclick="AWS.ajax_post($('#email_invite_form'));">邀请</a>
+                                <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>
                             </form>
-                            <!-- end 侧边栏邀请box -->
                         </div>
                     </div>
-                    <!-- end 邀请别人回复 -->
 
                     <!-- 推荐内容 -->
                     <div class="aw-mod">
@@ -621,12 +568,11 @@
                         <div class="mod-body font-size-12">
                             <ul>
                                 <li>
-                                    <a href="http://wenda.wecenter.com/question/6730">如果站点数据库压力过大，请利用memcached优化数据库缓存！</a>
+                                    <a href="/question/6">如果站点数据库压力过大，请利用memcached优化数据库缓存！</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <!-- end 推荐内容 -->
 
                     <!-- 相关问题 -->
                     <div class="aw-mod">
@@ -635,21 +581,15 @@
                         </div>
                         <div class="mod-body font-size-12">
                             <ul>
-                                <li><a href="http://wenda.wecenter.com/question/8896">一般程序都有缩写，如DZ、PW。大家说说WeCenter的缩写</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/5171">Wecenter自定义模版开发和设计指南</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/10952">我们有个wecenter模板设计大赛设想，大家需要哪些方面的技术支持？</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/14168">通过Excel文件批量导入问题和答案</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/9853">WeCenter 2.1 Preview 1版本15条BUG与建议！</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/12206">wecenter瞎想</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/13730">纵观Wecenter近期发展趋势之我的五点建议</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/14188">{bug反馈}WeCenter 2.5 RC 1[积分规则] 没这个页面  </a></li>
-                                <li><a href="http://wenda.wecenter.com/question/18397">wecenter阅读模块还有多大的作用？</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/9451">wecenter核心代码注释，持续更新中</a></li>
-                                <li><a href="http://wenda.wecenter.com/question/11560">专业问答网站的内容再出版，大家有什么好方案？</a></li>
-                            </ul>
+                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
+                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
+                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
+                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
+                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
+                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
+                             </ul>
                         </div>
                     </div>
-                    <!-- end 相关问题 -->
 
                     <!-- 问题状态 -->
                     <div class="aw-mod question-status">
@@ -666,15 +606,11 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- end 问题状态 -->
                 </div>
-                <!-- end 侧边栏 -->
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="http://wenda.wecenter.com/static/js/app/question_detail.js"></script>
 
 <div class="aw-footer-wrap">
     <div class="aw-footer">

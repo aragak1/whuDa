@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <title>wecenter的bug反馈内容</title>
+    <meta name="keywords" content="bug" />
+    <meta name="description" content="英文单词，本意是臭虫、缺陷、损坏等意思。现在人们将在电脑系统或程序中，隐藏着的一些未被发现的缺陷或问题统称为bug（漏洞）"  />
+    <base href="/" /><!--[if IE]></base><![endif]-->
+    <link href="" rel="shortcut icon" type="image/x-icon" />
+
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <script src="/static/js/jquery.2.js?" type="text/javascript"></script>
+    <script src="/static/js/jquery.form.js" type="text/javascript"></script>
+    <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
+    <script src="/static/js/compatibility.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+    <!--[if lte IE 8]>
+	<script type="text/javascript" src="/static/js/respond.js"></script>
+    <![endif]-->
+</head>
+<noscript unselectable="on" id="noscript">
+    <div class="aw-404 aw-404-wrap container">
+        <img src="/static/img/no-js.jpg">
+        <p>你的浏览器禁用了JavaScript, 请开启后刷新浏览器获得更好的体验!</p>
+    </div>
+</noscript>
+<body>
+<div class="aw-top-menu-wrap">
+    <div class="container">
+        <!-- logo -->
+        <div class="aw-logo hidden-xs">
+            <a href="http://wenda.wecenter.com"></a>
+        </div>
+        <!-- end logo -->
+        <!-- 搜索框 -->
+        <div class="aw-search-box  hidden-xs hidden-sm">
+            <form class="navbar-search" action="http://wenda.wecenter.com/search/" id="global_search_form" method="post">
+                <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query" />
+                <span title="搜索" id="global_search_btns" onClick="$('#global_search_form').submit();"><i class="icon icon-search"></i></span>
+                <div class="aw-dropdown">
+                    <div class="mod-body">
+                        <p class="title">输入关键字进行搜索</p>
+                        <ul class="aw-dropdown-list collapse"></ul>
+                        <p class="search"><span>搜索:</span><a onClick="$('#global_search_form').submit();"></a></p>
+                    </div>
+                    <div class="mod-footer">
+                        <a href="javascript:;" onClick="$('#header_publish').click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 导航 -->
+            <div class="aw-top-nav navbar">
+                <div class="navbar-header">
+                    <button class="navbar-toggle pull-left">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/dynamic" class="active"><i class="icon icon-home"></i> 动态</a></li>
+                        <li><a href="/login-discover" class=""><i class="icon icon-list"></i> 发现</a></li>
+                        <li><a href="/login-topic"><i class="icon icon-topic"></i> 话题</a></li>
+                        <li>
+                            <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
+                            <span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
+                            <div class="aw-dropdown pull-right hidden-xs">
+                                <div class="mod-body">
+                                    <ul id="header_notification_list"><p class="aw-padding10" align="center">没有未读通知</p></ul>
+                                </div>
+                                <div class="mod-footer">
+                                    <a href="/notifications">查看全部</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a href="/help"><i class="icon icon-bulb"></i> 帮助</a></li>
+                        <li>
+                            <a style="font-weight:bold;">· · ·</a>
+                            <div class="dropdown-list pull-right">
+                                <ul id="extensions-nav-list">
+                                    <li><a href="/about"><i class="icon icon-activity"></i>关于</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- 用户栏 -->
+            <div class="aw-user-nav">
+                <a href="/people/terry0314" class="aw-user-nav-dropdown">
+                    <img alt="terry0314" src="/static/img/avatar/avatar-max-img.png">
+
+                </a>
+                <div class="aw-dropdown dropdown-list pull-right">
+                    <ul class="aw-dropdown-list">
+                        <li><a href="/inbox"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
+                        <li class="hidden-xs"><a href="/setting"><i class="icon icon-setting"></i> 设置</a></li>
+                        <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 发起 -->
+            <div class="aw-publish-btn">
+                <a id="header_publish" class="btn-primary" href="/publish" onclick="AWS.dialog('publish', {'category_enable':'0', 'category_id':'0', 'topic_title':''}); return false;"><i class="icon icon-ask"></i>发起</a>
+                <div class="dropdown-list pull-right">
+                    <ul>
+                        <li>
+                            <form method="post" action="/publish">
+                                <a onclick="$(this).parents('form').submit();">问题</a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="aw-global-tips">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <div class="aw-mod aw-topic-detail-title">
+                        <div class="mod-body">
+                            <img src="/static/img/topic-mid-img.png" alt="bug" />
+                            <h2 class="pull-left">bug </h2>
+                            <div class="aw-topic-operate text-color-999">
+                                <a href="javascript:;" onclick=";" class="follow btn btn-normal btn-success"><span>关注</span> <em>|</em> <b>434</b></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aw-mod aw-topic-list-mod">
+                        <div class="mod-head">
+                            <div class="tabbable">
+                                <!-- tab 切换 -->
+                                <ul class="nav nav-tabs aw-nav-tabs hidden-xs">
+                                    <li class="active"><a href="#" data-toggle="tab">全部内容</a></li>
+                                    <div class="aw-search-bar pull-right hidden-xs">
+                                        <i class="icon icon-search"></i>
+                                        <input type="text" id="question-input" class="search-query form-control" placeholder="搜索...">
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mod-body">
+                            <!-- tab 切换内容 -->
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="all">
+                                    <div class="aw-mod">
+                                        <div class="mod-body">
+                                            <div class="aw-common-list" id="c_all_list">
+                                                <div class="aw-item " data-topic-id="480,858,2183,2078,">
+                                                    <a class="aw-user-name hidden-xs" href="javascript:;"><img src="/static/img/avatar/avatar-max-img.png" alt="匿名用户" title="匿名用户" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">发起了问题 • 1 人关注 • 0 个回复 • 195 次浏览 • 2016-01-07 20:46	</span>
+                                                    </p>
+
+                                                    </div>
+                                                </div>
+                                                <div class="aw-item active">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">发起了问题 • 1 人关注 • 0 个回复 • 195 次浏览 • 2016-01-07 20:46	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item ">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/28534">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                         <span class="text-color-999">发起了问题 • 1 人关注 • 0 个回复 • 195 次浏览 • 2016-01-07 20:46	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item active">
+                                                    <a class="aw-user-name hidden-xs" href="/people/laobai" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question/a" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/8" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">发起了问题 • 1 人关注 • 0 个回复 • 302 次浏览 • 2015-11-05 19:34	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item ">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question/a" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/lz" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">回复了问题 • 2 人关注 • 1 个回复 • 371 次浏览 • 2015-05-04 10:54</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question/a" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/laobai" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">回复了问题 • 2 人关注 • 1 个回复 • 243 次浏览 • 2015-04-06 00:51	</span>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item active">
+                                                    <a class="aw-user-name hidden-xs" href="/people/laobai" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">发起了问题 • 2 人关注 • 0 个回复 • 316 次浏览 • 2014-12-22 12:00</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item ">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">回复了问题 • 6 人关注 • 2 个回复 • 667 次浏览 • 2014-11-21 16:46</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item active">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="question/2">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">发起了问题 • 2 人关注 • 0 个回复 • 307 次浏览 • 2014-10-24 09:34	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item ">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/1">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name" data-id="2">老白</a>
+                                                        <span class="text-color-999">回复了问题 • 3 人关注 • 2 个回复 • 504 次浏览 • 2014-08-26 00:10	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/18">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">回复了问题 • 5 人关注 • 2 个回复 • 574 次浏览 • 2014-08-13 10:01</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item ">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="question/1">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question" class="pull-right text-color-999">回复</a>
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">回复了问题 • 2 人关注 • 1 个回复 • 356 次浏览 • 2014-07-20 21:26	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item active">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/1">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question/1" class="pull-right text-color-999">回复</a>
+
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a><span class="text-color-999">发起了问题 • 1 人关注 • 0 个回复 • 928 次浏览 • 2013-08-07 18:28	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                                <div class="aw-item">
+                                                    <a class="aw-user-name hidden-xs" href="/people/lb" rel="nofollow"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                                    <div class="aw-question-content">
+                                                    <h4>
+                                                        <a href="/question/1">老白这个话题下面的问题。</a>
+                                                    </h4>
+                                                    <a href="/question/1" class="pull-right text-color-999">回复</a>
+                                                    <p>
+                                                        <a href="/people/lb" class="aw-user-name">老白</a>
+                                                        <span class="text-color-999">回复了问题 • 2 人关注 • 1 个回复 • 542 次浏览 • 2013-08-06 17:33	</span>
+                                                    </p>
+
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mod-footer">
+                                            <a class="aw-load-more-content" id="c_all_more" auto-load="false">
+                                                <span>更多...</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 侧边栏 -->
+                <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs">
+                    <!-- 话题描述 -->
+                    <div class="aw-mod aw-text-align-justify">
+                        <div class="mod-head">
+                            <h3>话题描述</h3>
+                        </div>
+                        <div class="mod-body">
+                            <p>    英文单词，本意是臭虫、缺陷、损坏等意思。现在人们将在电脑系统或程序中，隐藏着的一些未被发现的缺陷或问题统称为bug（漏洞）</p>
+                        </div>
+                    </div>
+
+                    <!-- 相关话题 -->
+                    <div class="aw-mod topic-about">
+                        <div class="mod-head">
+                            <h3>相关话题</h3>
+                        </div>
+                        <div class="mod-body" data-type="topic">
+                            <div class="aw-topic-bar" data-type="topic" data-id="2078">
+                                <div class="tag-bar clearfix">
+														<span class="topic-tag" data-id="531">
+						<a class="text" href="http://wenda.wecenter.com/topic/%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F">问答系统</a>
+					</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- xx人关注该话题 -->
+                    <div class="aw-mod topic-status">
+                        <div class="mod-head">
+                            <h3>434 人关注该话题</h3>
+                        </div>
+                        <div class="mod-body">
+                            <div id="focus_users" class="aw-border-radius-5">
+                                <a href="/people/z">
+                                    <img src="/static/img/avatar/avatar-max-img.png" alt="">
+                                </a>
+                                <a href="/people/S">
+                                    <img src="/static/img/avatar/avatar-max-img.png" alt="">
+                                </a>
+                                <a href="/people/T">
+                                    <img src="/static/img/avatar/avatar-max-img.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 话题修改记录 -->
+                    <div class="aw-mod topic-edit-notes">
+                        <div class="mod-head">
+                            <h3><i class="icon icon-down pull-right"></i>话题修改记录</h3>
+                        </div>
+                        <div class="mod-body collapse">
+                            <ul>
+                                <li onclick="">
+                                    <span class="pull-right text-color-999">2015-02-17</span>
+                                    <a href="javascript:;" class="aw-user-name">kimwang</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end 话题修改记录 -->
+
+                </div>
+                <!-- end 侧边栏 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/topic.js"></script>
+
+<div class="aw-footer-wrap">
+    <div class="aw-footer">
+        Copyright © 2016<span class="hidden-xs"> - All Rights Reserved</span>
+
+    </div>
+</div>
+
+    <a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
+    <script type="text/javascript" src="/static/js/bughd.min.js" crossOrigin="anonymous"></script>
+    <div id="aw-ajax-box" class="aw-ajax-box"></div>
+
+</body>
+</html>
