@@ -98,3 +98,8 @@ def login_wait_reply():
 def login_topic():
     return render_template('/login/login-topic.html')
 
+
+@app.route('/login-question-detail')
+def aaa():
+    return render_template('/login/login-question_detail.html')
+
