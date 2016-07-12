@@ -93,3 +93,8 @@ def login_hot():
 def login_wait_reply():
     return render_template('/login/login-wait_reply.html')
 
+
+@app.route('/login-topic')
+def login_topic():
+    return render_template('/login/login-topic.html')
+
