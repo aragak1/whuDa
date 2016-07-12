@@ -2,7 +2,7 @@ drop database whuDa;
 create database whuDa;
 use whuDa;
 
-create table users(bi
+create table users(
     uid int(11) unsigned not null auto_increment comment '用户的UID',
     username varchar(255) not null comment '用户名',
     password varchar(32) not null comment '密码',
