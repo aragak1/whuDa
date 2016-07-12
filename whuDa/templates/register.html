@@ -9,6 +9,7 @@
     <link rel='stylesheet prefetch' href='/static/css/googleapis.css'>
     <link rel='stylesheet prefetch' href='/static/css/font-awesome.min.css'>
     <link rel="stylesheet" href="/static/css/login_style.css">
+    <script src="/static/js/global.js"></script>
 
 </head>
 
@@ -47,31 +48,29 @@
         <h1 class="title">注册
             <div class="close"></div>
         </h1>
-        <form>
             <div class="input-container">
-                <input type="text" id="Username" required="required"/>
+                <input type="text" id="username" required="required"/>
                 <label for="Username">用户名</label>
                 <div class="bar"></div>
             </div>
             <div class="input-container">
-                <input type="text" id="Email" required="required"/>
+                <input type="text" id="email" required="required"/>
                 <label for="Email">邮箱</label>
                 <div class="bar"></div>
             </div>
             <div class="input-container">
-                <input type="password" id="Password" required="required"/>
+                <input type="password" id="password" name="password" required="required"/>
                 <label for="Password">密码</label>
                 <div class="bar"></div>
             </div>
             <div class="input-container">
-                <input type="password" id="Repeat Password" required="required"/>
+                <input type="password" id="repeat_password" name="repeat_password" required="required"/>
                 <label for="Repeat Password">再次输入</label>
                 <div class="bar"></div>
             </div>
             <div class="button-container">
-                <button><span>下一步</span></button>
+                <button onclick="register();"><span>下一步</span></button>
             </div>
-        </form>
     </div>
 </div>
 <!-- Portfolio--><a id="portfolio" href="/" title="View my portfolio!"><i class="fa fa-link"></i></a>
@@ -79,9 +78,6 @@
 <script src='/static/js/jquery.2.js'></script>
 
 <script src="/static/js/login.js"></script>
-
-
-
 
 </body>
 </html>

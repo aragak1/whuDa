@@ -11,3 +11,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 import whuDa.controller.explore
+import whuDa.controller.user

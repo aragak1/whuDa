@@ -57,11 +57,6 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register')
-def register():
-    return render_template('register.html')
-
-
 @app.route('/question/<id>')
 def question_detail(id):
     return render_template("question_detail.html")
