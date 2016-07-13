@@ -66,3 +66,25 @@ class Users(db.Model):
     # 获通过用户名取一个user
     def get_user(self, username):
         return db.session.query(Users).filter(Users.username == username).first()
+
+
+    # 用户问题数加一
+    def add_question_count(self, username):
+        user = db.session.query(Users).filter(Users.username == username).first()
+        if user:
+            db.session.query(Users).filter(Users.username == username).update({
+                Users.question_count: Users.question_count + 1})
+            db.session.commit()
+            return True
+        return False
+
+
+    # 用户问题数加一
+    def add_answer_count(self, username):
+        user = db.session.query(Users).filter(Users.username == username).first()
+        if user:
+            db.session.query(Users).filter(Users.username == username).update({
+                Users.answer_count: Users.answer_count + 1})
+            db.session.commit()
+            return True
+        return False

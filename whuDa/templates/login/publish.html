@@ -183,12 +183,8 @@
                                         <a class="btn btn-normal btn-success add" style="display: none;">添加</a>
                                         <a class="btn btn-normal btn-gray close-edit">取消</a>
                                         <div class="aw-dropdown" id="edit_topic_title_div" style="display: none;">
-                                            <p class="title" style="display: block;">没有找到相关结果</p>
-                                            <ul class="aw-dropdown-list" style="display: block;">
-                                                <li class="question"><a><b class="active">bug</b></a></li>
-                                                <li class="question"><a><b class="active">bug</b>_1.1</a></li>
-                                                <li class="question"><a><b class="active">BUG</b>修复</a></li>
-                                                <li class="question"><a><b class="active">bug</b>反馈</a></li>
+                                            <p class="title" style="display: none;">没有找到相关结果</p>
+                                            <ul class="aw-dropdown-list" style="display: none;">
                                             </ul>
                                         </div>
                                     </div>
@@ -198,7 +194,7 @@
                                 <span class="aw-anonymity">
 								    <label><input type="checkbox" class="pull-left" value="1" name="anonymous" />匿名</label>
                                 </span>
-                                <a class="btn btn-large btn-success btn-publish-submit" id="publish_submit" onclick="">确认发起</a>
+                                <a class="btn btn-large btn-success btn-publish-submit" id="publish_submit" onclick="publish_question()">确认发起</a>
                             </div>
                         </div>
                     </form>

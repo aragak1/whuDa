@@ -1,3 +1,49 @@
+/*
+* 页面监听*/
+$(document).ready(function () {
+        // 文本框内容发生改变
+        $('#aw_edit_topic_title').bind('input propertychange', function () {
+            if ($('#aw_edit_topic_title').val() != '') {
+            $('#edit_topic_title_div').css('display', 'block');
+            var keyword = $('#aw_edit_topic_title').val();
+            $.post('/api/topic/find/' + keyword + '.find', function (result) {
+                if (result == 'success') {
+                $('#edit_topic_title_div').children('p.title').css('display', 'none');
+                $('#edit_topic_title_div').children('ul.aw-dropdown-list').empty();
+                $.getJSON('/api/topic/like/' + keyword + '.json', function (data) {
+                    $.each(data.topics, function (i, item) {
+                        $('#edit_topic_title_div').children('ul.aw-dropdown-list').append('<li class="question"><a><b class="active">' + item.name + '</b></a></li>')
+                    })
+                })
+                $('#edit_topic_title_div').children('ul').css('display', 'block');
+                $('#edit_topic_title_div').css('display', 'block');
+                }
+                else{
+                    $('#edit_topic_title_div').children('ul.aw-dropdown-list').css('display', 'none');
+                    $('#edit_topic_title_div').children('p.title').css('display', 'block');
+                }
+            })}
+        });
+        // // 文本框失去焦点
+        // $('#aw_edit_topic_title').blur(function () {
+        //     $('#edit_topic_title_div').children('p.title').css('display', 'none');
+        //     $('#edit_topic_title_div').css('display', 'none');
+        //     $('#edit_topic_title_div').children('ul.aw-dropdown-list').css('display', 'none');
+        // });
+
+        // 添加topic tags
+        $('.aw-dropdown-list').on('click', '.question', function () {
+            var topic_name = $(this).text();
+            $('.tag-bar').append('<span class="topic-tag"><a class="text">' +
+                topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
+                '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
+                topic_name + '" name="topics[]"></span>');
+        });
+});
+
+
+/*
+* 自定义函数*/
 function register() {
     var username = $('#username').val()
     var password = $('#password').val()
@@ -43,7 +89,7 @@ function register() {
             }
         }
     )
-}
+};
 
 function login() {
     var username = $('#l_username').val()
@@ -69,9 +115,14 @@ function login() {
             }
         }
     )
-}
+};
 
-$('#aw_edit_topic_title').bind('input propertychange', function () {
-    var text = $('#aw_edit_topic_title').val()
-    alert(text)
-})
+function publish_question() {
+    var title = $('#question_contents').val()
+    var content =  editor.$txt.html();
+    var topics = new Array()
+    $('a.text').each(function () {
+        topics.push($(this).text())
+    })
+    alert(topics)
+}
