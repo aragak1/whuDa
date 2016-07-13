@@ -28,10 +28,10 @@ function register() {
                 location.reload()
             }
             else if (result == 'error6') {
-                alert('邮箱名非法，请正确填写')
+                alert('用户名必须以字母开头')
             }
             else if (result == 'error7') {
-                alert('用户名必须以字母开头')
+                alert('邮箱名非法，请正确填写')
             }
             else if (result == 'error8') {
                 alert('用户名或者邮箱已存在，请重新输入！')

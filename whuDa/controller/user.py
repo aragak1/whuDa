@@ -29,9 +29,9 @@ def register():
             return 'error4'
         elif password != repeat_password:
             return 'error5'
-        elif not check_mail(email):
-            return 'error6'
         elif not check_username(username):
+            return 'error6'
+        elif not check_mail(email):
             return 'error7'
         elif db_users.Users().register(username=username, password=password, email=email, last_ip=ip):
             session['username'] = username
