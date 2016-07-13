@@ -18,3 +18,7 @@ class Topics(db.Model):
     def get_by_keyword(self, keyword):
         key_str = '{}{}{}'.format('%', keyword, '%')
         return db.session.query(Topics).filter(Topics.name.like(key_str)).all()
+
+    # 根据话题名精确匹配
+    def get_by_name(self, topic_name):
+        return db.session.query(Topics).filter(Topics.name == topic_name).first()
