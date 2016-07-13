@@ -121,10 +121,3 @@ def change_pass():
     return redirect('/')
 
 
-@app.route('/publish', methods=['GET', 'POST'])
-def publish():
-    if is_login():
-        user = db_users.Users().get_user(session['username'])
-        return render_template('login/publish.html', user=user)
-    return redirect('/')
-
