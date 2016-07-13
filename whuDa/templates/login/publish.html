@@ -11,7 +11,7 @@
     <base href="/" /><!--[if IE]></base><![endif]-->
     <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/icon.css"  rel="stylesheet" type="text/css" />
     <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
@@ -174,6 +174,7 @@
                                 <h3>添加话题:</h3>
                                 <div class="aw-topic-bar active" data-type="publish">
                                     <div class="tag-bar clearfix">
+                                        <span class="topic-tag"><a class="text">bug</a><a class="close" onclick="$(this).parents('.topic-tag').remove();"><i class="icon icon-delete"></i></a><input type="hidden" value="bug" name="topics[]"></span>
                                         <span class="aw-edit-topic icon-inverse" style="display: none;"><i class="icon icon-edit"></i> 编辑话题</span>
                                     </div>
                                     <div class="aw-edit-topic-box form-inline" style="display: block;">
@@ -204,7 +205,7 @@
                             <h3>问题发起指南</h3>
                         </div>
                         <div class="mod-body">
-                            <p><b>• 问题标题:</b> XXXXXXXXX</p>
+                            <p><b>• 问题标题:</b> <br />问题标题是整个提问的核心，需要遵循真实、客观、简洁、明确、规范的原则。</p>
                             <p><b>• 问题内容:</b> XXXXXXXXX</p>
                             <p><b>• 所属话题:</b> XXXXXXXXX</p>
                         </div>
