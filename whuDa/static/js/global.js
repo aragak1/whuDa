@@ -70,3 +70,8 @@ function login() {
         }
     )
 }
+
+$('#aw_edit_topic_title').bind('input propertychange', function () {
+    var text = $('#aw_edit_topic_title').val()
+    alert(text)
+})

@@ -1,6 +1,6 @@
 DB_NAME = 'whuDa'
 DB_USER = 'root'
-DB_PASS = 'weiqilong'
+DB_PASS = '513030tu'
 DB_PORT = '3306'
 DB_HOST = '127.0.0.1'
 

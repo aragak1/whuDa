@@ -22,6 +22,7 @@
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
+    <script src="/static/js/global.js" type="text/javascript"></script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
     <![endif]-->
@@ -181,9 +182,14 @@
                                         <input type="text" class="form-control" id="aw_edit_topic_title" autocomplete="off" placeholder="创建或搜索添加新话题...">
                                         <a class="btn btn-normal btn-success add" style="display: none;">添加</a>
                                         <a class="btn btn-normal btn-gray close-edit">取消</a>
-                                        <div class="aw-dropdown">
-                                            <p class="title">没有找到相关结果</p>
-                                            <ul class="aw-dropdown-list"></ul>
+                                        <div class="aw-dropdown" id="edit_topic_title_div" style="display: none;">
+                                            <p class="title" style="display: block;">没有找到相关结果</p>
+                                            <ul class="aw-dropdown-list" style="display: block;">
+                                                <li class="question"><a><b class="active">bug</b></a></li>
+                                                <li class="question"><a><b class="active">bug</b>_1.1</a></li>
+                                                <li class="question"><a><b class="active">BUG</b>修复</a></li>
+                                                <li class="question"><a><b class="active">bug</b>反馈</a></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
