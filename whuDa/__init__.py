@@ -12,3 +12,4 @@ db = SQLAlchemy(app)
 
 import whuDa.controller.explore
 import whuDa.controller.user
+import whuDa.controller.api
