@@ -1,18 +1,35 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template, redirect, session
-from utils import is_login
+from utils import is_login, get_discover_datas
 import whuDa.model.users as db_users
+import whuDa.model.questions as db_questions
 import sys
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
 
+'''
+    渲染需要的数据:
+    判断page，根据page返回问题的list
+    问题标题，问题id （questions）
+    问题的最新回复者/发起者 (user)
+    问题关注人数 (question_focus)
+    问题回复数 (answers)
+    问题浏览次数 (questions)
+    问题发布时间 (questions)
+'''
+
+
 @app.route('/')
+@app.route('/discover/page/1')
 def index():
     if is_login():
-        return render_template('login/login-discover.html')
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/login-discover.html',
+                               user=user,
+                               datas=get_discover_datas(page_num=1, page_size=15))
     return render_template('index.html')
 
 

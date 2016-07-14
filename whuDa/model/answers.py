@@ -37,3 +37,7 @@ class Answers(db.Model):
     # 获取所有的回复，按照票数排序
     def get_all_answer(self, question_id):
         return db.session.query(Answers).filter_by(question_id=question_id).order_by(Answers.agree_count).all()
+
+    # 获取问题的回复数
+    def get_answer_count(self, question_id):
+        return db.session.query(Answers).filter_by(question_id=question_id).count()

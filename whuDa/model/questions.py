@@ -62,3 +62,14 @@ class Questions(db.Model):
     def get_question_view_count(self, question_id):
         return db.session.query(Questions, Questions.view_count).filter_by(question_id=question_id).first().view_count
 
+    # 获取所有问题，按照发布时间排序
+    def get_all_questions(self):
+        return db.session.query(Questions).order_by(Questions.publish_time).all()
+
+    # 获取问题总数
+    def get_questions_count(self):
+        return db.session.query(Questions).count()
+
+    # 获取最新的问题，按照分页获取
+    def get_questions_by_page(self, page_num, page_size):
+        return db.session.query(Questions).order_by(Questions.publish_time).limit(page_size).offset((page_num-1)*page_size)
