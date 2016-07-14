@@ -17,3 +17,7 @@ class Question_focus(db.Model):
         db.session.add(row)
         db.session.commit()
         return True
+
+    # 获取问题被关注的数量
+    def get_question_foucs_count(self, question_id):
+        pass

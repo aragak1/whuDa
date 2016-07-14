@@ -72,4 +72,19 @@ def publish_question():
     return redirect('/')
 
 
+@app.route('/question/<int:id>')
+def question(id):
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        question = db_questions.Questions().get_question_by_id(id)
+        if question:
+            topics = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
+            return render_template('login/login-question_detail.html',
+                                   question=question,
+                                   topics=topics,
+                                   user=user)
+        return '没有这个问题'
+    return render_template('question_detail.html')
+
+
 

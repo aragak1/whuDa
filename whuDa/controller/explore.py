@@ -100,13 +100,6 @@ def wait_reply():
     return render_template('wait_reply.html')
 
 
-@app.route('/question/<int:id>')
-def question(id):
-    if is_login():
-        return render_template('login/login-question_detail.html')
-    return render_template('question_detail.html')
-
-
 @app.route('/people/<name>')
 def people(name):
     if is_login():

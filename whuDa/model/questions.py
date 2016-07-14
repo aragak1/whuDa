@@ -44,3 +44,10 @@ class Questions(db.Model):
         db.session.commit()
         return question_id
 
+    # 通过id获取问题
+    def get_question_by_id(self, question_id):
+        question = db.session.query(Questions).filter(Questions.question_id == question_id).first()
+        if question:
+            return question
+        return False
+

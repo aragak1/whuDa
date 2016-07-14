@@ -17,3 +17,8 @@ class Topic_question(db.Model):
         db.session.add(row)
         db.session.commit()
         return True
+
+    # 通过id获取问题所属的话题
+    def get_topics_by_id(self, question_id):
+        topics = db.session.query(Topic_question).filter(Topic_question.question_id == question_id).all()
+        return topics
