@@ -175,7 +175,6 @@
                                 <h3>添加话题:</h3>
                                 <div class="aw-topic-bar active" data-type="publish">
                                     <div class="tag-bar clearfix">
-                                        <span class="topic-tag"><a class="text">bug</a><a class="close" onclick="$(this).parents('.topic-tag').remove();"><i class="icon icon-delete"></i></a><input type="hidden" value="bug" name="topics[]"></span>
                                         <span class="aw-edit-topic icon-inverse" style="display: none;"><i class="icon icon-edit"></i> 编辑话题</span>
                                     </div>
                                     <div class="aw-edit-topic-box form-inline" style="display: block;">
@@ -192,7 +191,7 @@
                             </div>
                             <div class="mod-footer clearfix">
                                 <span class="aw-anonymity">
-								    <label><input type="checkbox" class="pull-left" value="1" name="anonymous" />匿名</label>
+								    <label><input type="checkbox" class="pull-left" id="is_anonymous" name="anonymous" />匿名</label>
                                 </span>
                                 <a class="btn btn-large btn-success btn-publish-submit" id="publish_submit" onclick="publish_question()">确认发起</a>
                             </div>

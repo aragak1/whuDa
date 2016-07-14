@@ -1,55 +1,58 @@
 /*
-* 页面监听*/
+ * 页面监听*/
 $(document).ready(function () {
-        // 文本框内容发生改变
-        $('#aw_edit_topic_title').bind('input propertychange', function () {
-            if ($('#aw_edit_topic_title').val() != '') {
-            $('#edit_topic_title_div').css('display', 'block');
+    // 文本框内容发生改变
+    $('#aw_edit_topic_title').bind('input propertychange', function () {
+        if ($('#aw_edit_topic_title').val() != '') {
             var keyword = $('#aw_edit_topic_title').val();
             $.post('/api/topic/find/' + keyword + '.find', function (result) {
                 if (result == 'success') {
-                $('#edit_topic_title_div').children('p.title').css('display', 'none');
-                $('#edit_topic_title_div').children('ul.aw-dropdown-list').empty();
-                $.getJSON('/api/topic/like/' + keyword + '.json', function (data) {
-                    $.each(data.topics, function (i, item) {
-                        $('#edit_topic_title_div').children('ul.aw-dropdown-list').append('<li class="question"><a><b class="active">' + item.name + '</b></a></li>')
+                    $('#edit_topic_title_div').children('p.title').hide();
+                    $('#edit_topic_title_div').children('ul.aw-dropdown-list').empty();
+                    $.getJSON('/api/topic/like/' + keyword + '.json', function (data) {
+                        $.each(data.topics, function (i, item) {
+                            $('#edit_topic_title_div').children('ul.aw-dropdown-list').append('<li class="question"><a><b class="active">' + item.name + '</b></a></li>')
+                        })
                     })
-                })
-                $('#edit_topic_title_div').children('ul').css('display', 'block');
-                $('#edit_topic_title_div').css('display', 'block');
+                    $('#edit_topic_title_div').children('ul').show();
+                    $('#edit_topic_title_div').show();
                 }
                 else{
-                    $('#edit_topic_title_div').children('ul.aw-dropdown-list').css('display', 'none');
-                    $('#edit_topic_title_div').children('p.title').css('display', 'block');
+                    $('#edit_topic_title_div').children('ul.aw-dropdown-list').hide();
+                    $('#edit_topic_title_div').children('p.title').show();
                 }
             })}
-        });
-        // // 文本框失去焦点
-        // $('#aw_edit_topic_title').blur(function () {
-        //     $('#edit_topic_title_div').children('p.title').css('display', 'none');
-        //     $('#edit_topic_title_div').css('display', 'none');
-        //     $('#edit_topic_title_div').children('ul.aw-dropdown-list').css('display', 'none');
-        // });
+        else {
+            $('#edit_topic_title_div').hide();
+        }
+    });
 
-        // 添加topic tags
-        $('.aw-dropdown-list').on('click', '.question', function () {
-            var topic_name = $(this).text();
-            $('.tag-bar').append('<span class="topic-tag"><a class="text">' +
-                topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
-                '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
-                topic_name + '" name="topics[]"></span>');
-        });
+    //
+    // // 文本框失去焦点
+    // $('#aw_edit_topic_title').blur(function () {
+    //     $('#edit_topic_title_div').children('p.title').hide();
+    //     $('#edit_topic_title_div').hide();
+    //     $('#edit_topic_title_div').children('ul.aw-dropdown-list').hide();
+    // });
+
+    // 添加topic tags
+    $(document).on('click', '.question', function () {
+        var topic_name = $(this).text();
+        $('.tag-bar').append('<span class="topic-tag"><a class="text">' +
+            topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
+            '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
+            topic_name + '" name="topics[]"></span>');
+    });
 });
 
-
 /*
-* 自定义函数*/
+ * 自定义函数*/
 function register() {
     var username = $('#username').val()
     var password = $('#password').val()
     var repeat_password = $('#repeat_password').val()
     var email = $('#email').val()
-    
+
     $.post('/register',
         {
             username:username,
@@ -95,9 +98,9 @@ function login() {
     var username = $('#l_username').val()
     var password = $('#l_password').val()
     $.post('/login',{
-        username:username,
-        password:password,
-    },function (result) {
+            username:username,
+            password:password,
+        },function (result) {
             if (result == 'error1')
             {
                 alert('用户名不能为空')
@@ -121,8 +124,28 @@ function publish_question() {
     var title = $('#question_contents').val()
     var content =  editor.$txt.html();
     var topics = new Array()
+    var is_anonymous = 0
     $('a.text').each(function () {
         topics.push($(this).text())
-    })
-    alert(topics)
+    });
+    if ($('#is_anonymous').is(':checked')){
+        is_anonymous = 1
+    }
+    $.post('/publish/question',{
+        title:title,
+        content:content,
+        'topics[]':topics,
+        anonymous:is_anonymous
+    },function (status) {
+        if (status == 'empty_title') {
+            alert('标题不能为空')
+        }
+        else if (status == 'empty_topics') {
+            alert('至少应该选择一个话题')
+        }
+        else{
+            alert('发布成功')
+            location.href = '/question/' + status
+        }
+    });
 }

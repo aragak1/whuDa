@@ -22,3 +22,8 @@ class Topics(db.Model):
     # 根据话题名精确匹配
     def get_by_name(self, topic_name):
         return db.session.query(Topics).filter(Topics.name == topic_name).first()
+
+    # 根据话题名字获取话题id
+    def get_topic_id_by_name(self, topic_name):
+        topic = db.session.query(Topics, Topics.topic_id).filter(Topics.name == topic_name).first()
+        return topic.topic_id

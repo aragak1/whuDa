@@ -3,6 +3,8 @@ from whuDa import app
 from flask import request, redirect, render_template, session
 from utils import is_login
 import whuDa.model.questions as db_questions
+import whuDa.model.topic_question as db_topic_questions
+import whuDa.model.topics as db_topics
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.users as db_users
 
@@ -27,16 +29,46 @@ def publish():
 def update_question(question_id):
     if is_login():
         if request.method == 'POST':
-            pass
+
+            return 'success'
         else:
-            pass
+            return 'error'
     return redirect('/')
 
 
-@app.route('/publish/question', methods=['GET', 'POST'])
+@app.route('/publish/question', methods=['POST'])
 def publish_question():
-    if is_login() and request.method == 'POST':
-        pass
+    if is_login():
+        if request.method == 'POST':
+            title = request.form.get('title')
+            content = request.form.get('content')
+            topics = request.form.getlist('topics[]')
+            is_anonymous = int(request.form.get('anonymous'))
+            if title == '':
+                return 'empty_title'
+            if not topics:
+                return 'empty_topics'
+            uid = db_users.Users().get_uid_by_username(session['username'])
+
+            # 在question表中插入问题
+            question_id = db_questions.Questions().publish(
+                questioner_uid=uid,
+                title=title,
+                content=content,
+                is_anonymous=is_anonymous)
+            # 把问题所属的话题加入表中
+            for topic in topics:
+                topic_id = db_topics.Topics().get_topic_id_by_name(topic)
+                db_topic_questions.Topic_question().add_to_topic(
+                    question_id=question_id,
+                    topic_id=topic_id)
+
+            # 用户关注该问题
+            db_question_focus.Question_focus().add_focus_question(uid=uid, question_id=question_id, cnt=1)
+
+            # 用户问题数加一
+            db_users.Users().add_answer_count(session['username'])
+            return str(question_id)
     return redirect('/')
 
 
