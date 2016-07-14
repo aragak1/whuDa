@@ -77,12 +77,16 @@ def question(id):
     if is_login():
         user = db_users.Users().get_user(session['username'])
         question = db_questions.Questions().get_question_by_id(id)
+        questioner = db_users.Users().get_user_by_id(uid=question.questioner_uid)
+        question_focus_cnt = db_topic_questions.Topic_question().get_topics_by_id(question.question_id)
         if question:
             topics = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
             return render_template('login/login-question_detail.html',
                                    question=question,
                                    topics=topics,
-                                   user=user)
+                                   user=user,
+                                   question_focus_cnt=question_focus_cnt,
+                                   questioner=questioner)
         return '没有这个问题'
     return render_template('question_detail.html')
 

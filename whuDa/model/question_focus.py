@@ -20,4 +20,4 @@ class Question_focus(db.Model):
 
     # 获取问题被关注的数量
     def get_question_foucs_count(self, question_id):
-        pass
+        return len(db.session.query(Question_focus).filter_by(question_id=question_id).all())

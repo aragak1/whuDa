@@ -67,6 +67,10 @@ class Users(db.Model):
     def get_user(self, username):
         return db.session.query(Users).filter(Users.username == username).first()
 
+    # 通过uid获取一个user
+    def get_user_by_id(self, uid):
+        return db.session.query(Users).filter_by(uid=uid).first()
+
     # 用户问题数加一
     def add_question_count(self, username):
         user = db.session.query(Users).filter(Users.username == username).first()
@@ -79,9 +83,9 @@ class Users(db.Model):
 
     # 用户问题数加一
     def add_answer_count(self, username):
-        user = db.session.query(Users).filter(Users.username == username).first()
+        user = db.session.query(Users).filter_by(username=username).first()
         if user:
-            db.session.query(Users).filter(Users.username == username).update({
+            db.session.query(Users).filter_by(username=username).update({
                 Users.answer_count: Users.answer_count + 1})
             db.session.commit()
             return True

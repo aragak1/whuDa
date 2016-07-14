@@ -9,7 +9,7 @@
     <meta name="keywords" content="" />
     <meta name="description" content=""/>
     <base href="/" /><!--[if IE]></base><![endif]-->
-    <link href="#" rel="shortcut icon" type="image/x-icon" />
+    <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
 
     <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
@@ -346,13 +346,23 @@
                         </div>
                         <div class="mod-body">
                             <dl>
+                                {% if question.is_anonymous %}
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people"><img alt="" src="/" /></a>
+                                    <img alt="" src="/static/img/avatar/avatar.img" />
                                 </dt>
                                 <dd class="pull-left">
-                                    <a class="aw-user-name" href="/people/1"></a>
+                                    <a class="aw-user-name">匿名用户</a>
                                     <p></p>
                                 </dd>
+                                {% else %}
+                                    <dt class="pull-left aw-border-radius-5">
+                                        <a href="/people/{{ questioner.uid }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
+                                    </dt>
+                                    <dd class="pull-left">
+                                        <a class="aw-user-name" href="/people/{{ questioner.uid }}">{{ questioner.username }}</a>
+                                        <p></p>
+                                    </dd>
+                                {% endif %}
                             </dl>
                         </div>
                     </div>
@@ -411,7 +421,7 @@
                             <ul>
                                 <li>最新活动: <span class="aw-text-color-blue">17 小时前</span></li>
                                 <li>浏览: <span class="aw-text-color-blue">68</span></li>
-                                <li>关注: <span class="aw-text-color-blue">1</span> 人</li>
+                                <li>关注: <span class="aw-text-color-blue">{{ question_focus_cnt }}</span> 人</li>
 
                                 <li class="aw-border-radius-5" id="focus_users"></li>
                             </ul>
