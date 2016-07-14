@@ -53,7 +53,7 @@
                         <p class="search"><span>搜索:</span><a onClick=""></a></p>
                     </div>
                     <div class="mod-footer">
-                        <a href="javascript:;" onClick="" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+                        <a href="/publish" class="pull-right btn btn-mini btn-success publish">发起问题</a>
                     </div>
                 </div>
             </form>
@@ -96,7 +96,6 @@
                 </ul>
             </nav>
         </div>
-        <!-- end 导航 -->
         <!-- 用户栏 -->
         <div class="aw-user-nav">
             <!-- 登陆&注册栏 -->
@@ -116,15 +115,11 @@
         </div>
         <!-- 发起 -->
         <div class="aw-publish-btn">
-
-            <a id="header_publish" class="btn-primary" href="/publish" onclick=";"><i class="icon icon-ask"></i>发起</a>
+            <a id="header_publish" class="btn-primary" href="/publish"><i class="icon icon-ask"></i>发起</a>
             <div class="dropdown-list pull-right">
                 <ul>
                     <li>
-                        <form method="post" action="/publish">
-                            <a onclick="">问题</a>
-                        </form>
-
+                            <a href="/publish">问题</a>
                     </li>
                 </ul>
             </div>
@@ -156,7 +151,7 @@
                                 <a href="javascript:;" onclick=";" class="follow btn btn-normal btn-success pull-left ">
                                     <span>关注</span>
                                     <em>|</em>
-                                    <b>1</b>
+                                    <b>{{ question_focus_cnt}}</b>
                                 </a>
                             </div>
                         </div>
@@ -242,17 +237,16 @@
                             </ul>
                         </div>
                         <div class="mod-body aw-feed-list">
-                            {% for answer in answers %}
+                            {% for x in answers_and_users %}
                                 <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
                                 <div class="mod-head">
-                                    {% if answer.is_anonymous %}
+                                    {% if x.is_anonymous %}
                                     <a class="anchor" name="answer_1"></a>
                                     <!-- 用户头像 -->
                                     <a class="aw-user-img aw-border-radius-5"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
                                     <div class="title">
                                         <p>
-                                            <a class="aw-user-name">匿名用户</a>
-                                            - <span class="text-color-999">自我介绍。</span>																																			</p>
+                                            <a class="aw-user-name">匿名用户</a>																																		</p>
                                         <p class="text-color-999 aw-agree-by collapse">
                                             赞同来自:
                                         </p>
@@ -260,11 +254,15 @@
                                     {% else %}
                                         <a class="anchor" name="answer_1"></a>
                                     <!-- 用户头像 -->
-                                    <a class="aw-user-img aw-border-radius-5" href="/people/{{ answer.answer_uid }}"><img src="/" alt="" /></a>
+                                    <a class="aw-user-img aw-border-radius-5" href="/people/{{ x.uid }}"><img src="/{{ x.avatar_url }}" alt="" /></a>
                                     <div class="title">
                                         <p>
-                                            <a class="aw-user-name" href="/people/xiaoming">小明明</a>
-                                            - <span class="text-color-999">自我介绍。</span>																																			</p>
+                                            <a class="aw-user-name" href="/people/{{ x.uid }}">{{ x.username }}</a>
+                                            {% if x.introduction %}
+                                                - <span class="text-color-999">
+                                                {{ x.introduction }}
+                                            {% endif %}
+                                            </span>																																			</p>
                                         <p class="text-color-999 aw-agree-by collapse">
                                             赞同来自:
                                         </p>
@@ -275,7 +273,7 @@
                                     <!-- 回答内容 -->
                                     <div class="markitup-box">
                                         {% autoescape false %}
-                                        {{ answer.content }}<br />
+                                        {{ x.content }}<br />
                                         {% endautoescape %}
                                     </div>
                                 </div>
@@ -369,10 +367,9 @@
                             <dl>
                                 {% if question.is_anonymous %}
                                 <dt class="pull-left aw-border-radius-5">
-                                    <img alt="" src="/static/img/avatar/avatar.img" />
+                                    <img alt="匿名用户" src="/static/img/avatar/avatar.png" />
                                 </dt>
-                                <dd class="pull-left">
-                                    <a class="aw-user-name">匿名用户</a>
+                                <dd class="pull-left"><br />匿名用户
                                     <p></p>
                                 </dd>
                                 {% else %}
@@ -380,7 +377,7 @@
                                         <a href="/people/{{ questioner.uid }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
                                     </dt>
                                     <dd class="pull-left">
-                                        <a class="aw-user-name" href="/people/{{ questioner.uid }}">{{ questioner.username }}</a>
+                                        <a class="aw-user-name" href="/people/{{ questioner.uid }}"><br />{{ questioner.username }}</a>
                                         <p></p>
                                     </dd>
                                 {% endif %}
@@ -441,7 +438,7 @@
                         <div class="mod-body">
                             <ul>
                                 <li>最新活动: <span class="aw-text-color-blue">17 小时前</span></li>
-                                <li>浏览: <span class="aw-text-color-blue">68</span></li>
+                                <li>浏览: <span class="aw-text-color-blue">{{ question.view_count }}</span></li>
                                 <li>关注: <span class="aw-text-color-blue">{{ question_focus_cnt }}</span> 人</li>
 
                                 <li class="aw-border-radius-5" id="focus_users"></li>

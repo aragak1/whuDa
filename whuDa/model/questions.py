@@ -51,3 +51,14 @@ class Questions(db.Model):
             return question
         return False
 
+    # 问题浏览数加一
+    def add_question_view_count(self, question_id):
+        db.session.query(Questions).filter_by(question_id=question_id).update({
+            Questions.view_count: Questions.view_count + 1})
+        db.session.commit()
+        return True
+
+    # 获取问题浏览数
+    def get_question_view_count(self, question_id):
+        return db.session.query(Questions, Questions.view_count).filter_by(question_id=question_id).first().view_count
+
