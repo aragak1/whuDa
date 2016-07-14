@@ -21,3 +21,7 @@ class Question_focus(db.Model):
     # 获取问题被关注的数量
     def get_question_foucs_count(self, question_id):
         return len(db.session.query(Question_focus).filter_by(question_id=question_id).all())
+
+    # 判断用户是否已经关注该问题
+    def question_focused(self, question_id, uid):
+        return db.session.query(Question_focus).filter(Question_focus.uid == uid, Question_focus.question_id == question_id).first()

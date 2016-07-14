@@ -38,7 +38,7 @@ $(document).ready(function () {
     // 添加topic tags
     $(document).on('click', '.question', function () {
         var topic_name = $(this).text();
-        $('.tag-bar').append('<span class="topic-tag"><a class="text">' +
+        $('#pb_tag-bar').append('<span class="topic-tag"><a class="text">' +
             topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
             '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
             topic_name + '" name="topics[]"></span>');
@@ -143,9 +143,40 @@ function publish_question() {
         else if (status == 'empty_topics') {
             alert('至少应该选择一个话题')
         }
+        else if(status == 'empty_content') {
+            alert('请填写回复内容')
+        }
         else{
             alert('发布成功')
             location.href = '/question/' + status
         }
     });
+};
+
+function publish_comment() {
+    var question_id = $('#question_id').val()
+    var answer_content =  editor.$txt.html()
+    var is_anonymous = 0
+    var focus_question = 1
+    if ($('#is_anonymous').is(':checked')) {
+        is_anonymous = 1
+    }
+    if ($('#auto_focus').is(':checked')) {
+        focus_question = 0
+    }
+    $.post('/question/answer',{
+        question_id:question_id,
+        answer_content:answer_content,
+        is_anonymous:is_anonymous,
+        focus_question:focus_question
+    },function (status) {
+        if (status == 'answered') {
+            alert('你已经回复过这个问题')
+            location.reload()
+        }
+        else {
+            alert('回复成功')
+            location.reload()
+        }
+    })
 }

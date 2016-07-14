@@ -81,7 +81,7 @@ class Users(db.Model):
             return True
         return False
 
-    # 用户问题数加一
+    # 用户回答数加一
     def add_answer_count(self, username):
         user = db.session.query(Users).filter_by(username=username).first()
         if user:

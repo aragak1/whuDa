@@ -102,12 +102,7 @@ $(document).ready(function ()
             }
         });
     });
-
-    /*icon tooltips提示*/
-    $(document).on('mouseover', '.follow, .voter, .aw-icon-thank-tips, .invite-list-user', function ()
-    {
-        $(this).tooltip('show');
-    });
+    
 
     if ($('.aw-back-top').length)
     {
