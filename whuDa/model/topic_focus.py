@@ -12,3 +12,23 @@ class Topic_focus(db.Model):
     # 获取话题的关注数
     def get_foucs_count(self, topic_id):
         return db.session.query(Topic_focus).filter_by(topic_id=topic_id).count()
+
+    # 获取用户关注的话题id
+    def __get_user_foucs_topic_ids(self, uid):
+        topic_ids = []
+        for row in Topic_focus.query.filter_by(uid=uid).all():
+            topic_ids.append(row.topic_id)
+        return topic_ids
+
+    # 获取用户关注的话题id和话题名
+    def get_user_focus_topics(self, uid):
+        import whuDa.model.topics as db_topics
+        topic_ids = self.__get_user_foucs_topic_ids(uid)
+        datas = []
+        for topic_id in topic_ids:
+            data = {
+                'topic_id': topic_id,
+                'topic_name': db_topics.Topics().get_topic_name_by_id(topic_id)
+            }
+            datas.append(data)
+        return datas

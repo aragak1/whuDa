@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
 from time import time
-from sqlalchemy import desc, func, exists, not_
+from sqlalchemy import desc
 import whuDa.model.answers as db_answers
+from sqlalchemy import exists, not_
 
 
 '''
@@ -102,3 +103,12 @@ class Questions(db.Model):
         if time() - publish_time <= 2592000:
             return True
         return False
+
+    # 返回等待回复的问题
+    def get_wait_reply_questions(self):
+        result = []
+        questions = Questions.query.order_by(desc(Questions.publish_time)).all()
+        for question in questions:
+            if db_answers.Answers().question_is_answered(question.question_id):
+                result.append(question)
+        return result

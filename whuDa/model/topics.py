@@ -3,7 +3,6 @@ from whuDa import db
 from sqlalchemy import desc
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topic_question as db_topic_question
-from math import ceil
 
 
 class Topics(db.Model):
@@ -104,3 +103,16 @@ class Topics(db.Model):
     # 获取所有的话题数目
     def get_topic_count(self):
         return Topics.query.count()
+
+    # 获取最大的话题id
+    def get_max_topic_id(self):
+        return Topics.query.order_by(desc(Topics.topic_id)).first().topic_id
+
+    # 测试一个number是否为topic_id
+    def is_topic_id(self, number):
+        return Topics.query.filter_by(topic_id=number).first()
+
+    # 根据id获取话题
+    def get_topic_by_id(self, topic_id):
+        return Topics.query.filter_by(topic_id=topic_id).first()
+

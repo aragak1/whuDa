@@ -5,6 +5,8 @@ from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wa
 import whuDa.model.users as db_users
 import whuDa.model.questions as db_questions
 import whuDa.model.topics as db_topics
+import whuDa.model.topic_recommend as db_topic_recommend
+import whuDa.model.topic_focus as db_topic_focus
 import sys
 
 reload(sys)
@@ -23,23 +25,25 @@ sys.setdefaultencoding('utf8')
 '''
 
 
+# 登陆前后的index页面都是发现页面
 @app.route('/')
 def index():
     if is_login():
-        db_topics.Topics().get_topics_by_page(1,1)
         hot_topics = db_topics.Topics().get_top5_topics()
         hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
+        pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
                                current_page=1,
                                url='discover/page')
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=1, page_size=15),
-                               pagenation=pagenation,
+                               pagenation=pagination,
                                hot_topics=hot_topics,
-                               hot_users=hot_users)
+                               hot_users=hot_users,
+                               focus_topics=focus_topics)
     return render_template('index.html')
 
 
@@ -47,18 +51,20 @@ def index():
 def discover(page_num):
     hot_topics = db_topics.Topics().get_top5_topics()
     hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='discover/page')
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='discover/page')
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=page_num, page_size=15),
-                               pagenation=pagenation,
+                               pagenation=pagination,
                                hot_topics=hot_topics,
-                               hot_users=hot_users)
+                               hot_users=hot_users,
+                               focus_topics=focus_topics)
     return render_template('index.html')
 
 
@@ -109,9 +115,12 @@ def dynamic():
 
 @app.route('/topic')
 def topic():
+    db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
         datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15)
+        today_topic = db_topics.Topics().get_topic_by_id(
+            db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
         pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
                                page_size=15,
                                current_page=1,
@@ -119,12 +128,14 @@ def topic():
         return render_template('login/login-topic.html',
                                user=user,
                                datas=datas,
-                               pagination=pagination)
+                               pagination=pagination,
+                               today_topic=today_topic)
     return render_template('topic.html')
 
 
 @app.route('/topic/page/<int:page_num>')
 def get_page_topic(page_num):
+    db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
         datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15)
@@ -132,12 +143,28 @@ def get_page_topic(page_num):
                                page_size=15,
                                current_page=page_num,
                                url='topic/page')
+        today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
         return render_template('login/login-topic.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
-                               url='topic/page')
+                               url='topic/page',
+                               today_topic=today_topic)
     return render_template('topic.html')
+
+
+@app.route('/topic-recent-week')
+def topic_recent_week():
+    if is_login():
+        return render_template('login/login-recent_week_topics.html')
+    return render_template('recent_week_topics.html')
+
+
+@app.route('/topic-recent-month')
+def topic_recent_month():
+    if is_login():
+        return render_template('login/login-recent_month_topics.html')
+    return render_template('recent_month_topics.html')
 
 
 @app.route('/topic/<topic_name>')
@@ -182,34 +209,20 @@ def setting():
     return redirect('/')
 
 
-@app.route('/topic-recent-week')
-def topic_recent_week():
-    if is_login():
-        return render_template('login/login-recent_week_topics.html')
-    return render_template('recent_week_topics.html')
-
-
-@app.route('/topic-recent-month')
-def topic_recent_month():
-    if is_login():
-        return render_template('login/login-recent_month_topics.html')
-    return render_template('recent_month_topics.html')
-
-
 @app.route('/hot')
 def hot():
     if is_login():
         hot_topics = db_topics.Topics().get_top5_topics()
         hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+        pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
                                current_page=1,
                                url='hot/page')
         return render_template('login/login-hot_questions.html',
                                user=user,
                                datas=get_hot_datas(page_num=1, page_size=15),
-                               pagenation=pagenation,
+                               pagenation=pagination,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
     return render_template('hot_questions.html')

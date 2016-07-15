@@ -43,8 +43,8 @@ class Users(db.Model):
                      reg_time=time(),
                      last_ip=last_ip,
                      last_login=time())
-        if db.session.query(Users).filter(Users.username == username).first() or \
-                db.session.query(Users).filter(Users.username == username).first():
+        if Users.query.filter_by(username=username).first() or \
+                Users.query.filter_by(email=email).first():
             return False
         else:
             db.session.add(user)
