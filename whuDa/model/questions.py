@@ -3,6 +3,7 @@ from whuDa import db
 from time import time
 from sqlalchemy import desc
 import whuDa.model.answers as db_answers
+from sqlalchemy import exists, not_
 
 
 '''
@@ -80,6 +81,14 @@ class Questions(db.Model):
     # 获取发布者的uid
     def get_questioner_uid(self, question_id):
         return db.session.query(Questions.questioner_uid).filter_by(question_id=question_id).first().questioner_uid
+
+    # 获取等待回复的问题的数量
+    def get_wait_reply_questions_count(self):
+        return db.session.query(Questions).filter(not_(exists().where(db_answers.Answers.question_id == Questions.question_id))).count()
+
+    # 获取等待回复问题，按照分页获取
+    def get_wait_reply_questions_by_page(self, page_num, page_size):
+        return db.session.query(Questions).filter(not_(exists().where(db_answers.Answers.question_id == Questions.question_id))).limit(page_size).offset((page_num-1)*page_size)
 
     # 判断问题提是否其是七天内新增的
     def is_published_in_this_week(self, question_id):
