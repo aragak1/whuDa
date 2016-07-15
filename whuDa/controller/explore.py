@@ -4,6 +4,7 @@ from flask import render_template, redirect, session
 from utils import is_login, get_discover_datas, page_html, get_hot_datas
 import whuDa.model.users as db_users
 import whuDa.model.questions as db_questions
+import whuDa.model.topics as db_topics
 import sys
 
 reload(sys)
@@ -25,6 +26,7 @@ sys.setdefaultencoding('utf8')
 @app.route('/')
 def index():
     if is_login():
+        hot_topics = db_topics.Topics().get_top5_topics()
         user = db_users.Users().get_user(session['username'])
         pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
@@ -33,12 +35,14 @@ def index():
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=1, page_size=15),
-                               pagenation=pagenation)
+                               pagenation=pagenation,
+                               hot_topics=hot_topics)
     return render_template('index.html')
 
 
 @app.route('/discover/page/<int:page_num>')
 def discover(page_num):
+
     if is_login():
         user = db_users.Users().get_user(session['username'])
         pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),

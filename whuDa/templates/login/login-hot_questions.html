@@ -11,11 +11,11 @@
     <base href="#" /><!--[if IE]></base><![endif]-->
     <link href="#" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/icon.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/common.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/link.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="/static/js/jquery.2.js" type="text/javascript"></script>
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
@@ -86,8 +86,8 @@
             </div>
             <!-- 用户栏 -->
             <div class="aw-user-nav">
-                <a href="/people/terry0314" class="aw-user-nav-dropdown">
-                    <img alt="terry0314" src="/static/img/avatar/avatar-max-img.png">
+                <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                    <img alt="{{ user.username }}" src="/{{ user.avatar_url }}">
 
                 </a>
                 <div class="aw-dropdown dropdown-list pull-right">

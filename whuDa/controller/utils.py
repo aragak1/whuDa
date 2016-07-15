@@ -7,6 +7,8 @@ import whuDa.model.questions as db_questions
 import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
+import whuDa.model.topics as db_topics
+import whuDa.model.topic_focus as db_topic_foucs
 import sys
 
 reload(sys)
@@ -113,6 +115,7 @@ def get_hot_datas(page_num, page_size):
             'user_url': get_user_url(question.question_id)
         }
         datas.append(data)
+    print datas
     return datas
 
 
@@ -137,6 +140,3 @@ def page_html(total_count, page_size, current_page, url):
     return result
 
 
-# 获取前五个热门话题需要的数据(topic_id, topic_name, topic_url, 问题数， 关注人数)
-def get_top5_topics():
-    pass

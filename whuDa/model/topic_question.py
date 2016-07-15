@@ -30,3 +30,5 @@ class Topic_question(db.Model):
     # 获取话题下的问题数目
     def get_question_count(self, topic_id):
         return db.session.query(Topic_question).filter_by(topic_id=topic_id).count()
+
+
