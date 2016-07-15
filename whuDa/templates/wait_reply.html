@@ -136,71 +136,21 @@
                         </div>
                         <div class="mod-body">
                             <!-- 每一个dl是一个热门个话题 -->
+                            {% for x in hot_topics %}
                             <dl>
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/topic-mid-img.png" /></a>
+                                    <a href="/topic/{{ x.topic_id }}"><img alt="" src="/{{ x.topic_url }}" /></a>
                                 </dt>
                                 <dd class="pull-left">
                                     <p class="clearfix">
 						                <span class="topic-tag">
-                                            <a href="#" class="text">WhuDa</a>
+                                            <a href="/topic/{{ x.topic_id }}" class="text">{{ x.topic_name }}</a>
                                         </span>
                                     </p>
-                                    <p><b>868</b> 个问题, <b>341</b> 人关注</p>
+                                    <p><b>{{ x.question_count }}</b> 个问题, <b>{{ x.focus_count }}</b> 人关注</p>
                                 </dd>
                             </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/topic-mid-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <p class="clearfix">
-						<span class="topic-tag">
-							<a href="#" class="text">bug</a>
-						</span>
-                                    </p>
-                                    <p><b>1654</b> 个问题, <b>433</b> 人关注</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/topic-mid-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <p class="clearfix">
-						<span class="topic-tag">
-							<a href="#" class="text">模板</a>
-						</span>
-                                    </p>
-                                    <p><b>415</b> 个问题, <b>142</b> 人关注</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/topic-mid-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <p class="clearfix">
-						<span class="topic-tag">
-							<a href="#" class="text">bug反馈</a>
-						</span>
-                                    </p>
-                                    <p><b>298</b> 个问题, <b>26</b> 人关注</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/topic-mid-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <p class="clearfix">
-						<span class="topic-tag">
-							<a href="#" class="text">后台登录</a>
-						</span>
-                                    </p>
-                                    <p><b>36</b> 个问题, <b>2</b> 人关注</p>
-                                </dd>
-                            </dl>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="aw-mod aw-text-align-justify">
@@ -210,56 +160,18 @@
                         </div>
                         <div class="mod-body">
                             <!-- 每一个dl是一个热门个用户 -->
+                            {% for x in hot_users %}
                             <dl>
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
+                                    <a href="/people/{{ x.username }}"><img alt="{{ x.username }}" src="/{{ x.avatar_url }}" /></a>
                                 </dt>
                                 <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">老白 </a>
+                                    <a href="/people/{{ x.username }}" class="aw-user-name">{{ x.username }} </a>
                                     <p class="signature"></p>
-                                    <p><b>138</b> 个问题, <b>36</b> 次赞同</p>
+                                    <p><b>{{ x.question_count }}</b> 个问题, <b>{{ x.answer_count }}</b> 次答复</p>
                                 </dd>
                             </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">老白二哥 </a>
-                                    <p class="signature"></p>
-                                    <p><b>80</b> 个问题, <b>67</b> 次赞同</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">老白的梦想	</a>
-                                    <p class="signature"></p>
-                                    <p><b>63</b> 个问题, <b>5</b> 次赞同</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">小白	</a>
-                                    <p class="signature"></p>
-                                    <p><b>77</b> 个问题, <b>26</b> 次赞同</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">hello老白 </a>
-                                    <p class="signature"></p>
-                                    <p><b>1420</b> 个问题, <b>484</b> 次赞同</p>
-                                </dd>
-                            </dl>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
