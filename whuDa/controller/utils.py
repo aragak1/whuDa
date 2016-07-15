@@ -94,6 +94,28 @@ def get_discover_datas(page_num, page_size):
     return datas
 
 
+# 获取热门问题页面需要渲染的数据
+def get_hot_datas(page_num, page_size):
+    questions = db_questions.Questions().get_hot_questions_by_page(page_num=page_num, page_size=page_size)
+    datas = []
+    for question in questions:
+        data = {
+            'question_id': question.question_id,
+            'title': question.title,
+            'username': db_users.Users().get_user_by_id(question.questioner_uid).username,
+            'is_anonymous': question.is_anonymous,
+            'question_focus_count': db_question_focus.Question_focus().get_question_foucs_count(question.question_id),
+            'question_answer_count': db_answers.Answers().get_answer_count(question.question_id),
+            'question_view_count': db_questions.Questions().get_question_view_count(question.question_id),
+            'past_time': get_past_time(question.publish_time),
+            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url,
+            'dynamic_str': get_dynamic_str(question.question_id),
+            'user_url': get_user_url(question.question_id)
+        }
+        datas.append(data)
+    return datas
+
+
 # 生成分页html
 def page_html(total_count, page_size, current_page, url):
     # url类似 discover/page

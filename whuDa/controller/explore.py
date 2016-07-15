@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template, redirect, session
-from utils import is_login, get_discover_datas, page_html
+from utils import is_login, get_discover_datas, page_html, get_hot_datas
 import whuDa.model.users as db_users
 import whuDa.model.questions as db_questions
 import sys
@@ -49,6 +49,21 @@ def discover(page_num):
                                user=user,
                                datas=get_discover_datas(page_num=page_num, page_size=15),
                                pagenation=pagenation)
+    return render_template('index.html')
+
+
+@app.route('/hot/page/<int:page_num>')
+def hot_page(page_num):
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=page_num,
+                               url='hot/page')
+        return render_template('login/login-hot_questions.html',
+                                user=user,
+                                datas=get_hot_datas(page_num=page_num, page_size=15),
+                                pagenation=pagenation)
     return render_template('index.html')
 
 
@@ -125,8 +140,16 @@ def topic_recent_month():
 @app.route('/hot')
 def hot():
     if is_login():
-        return render_template('login/login-hot_questions.html')
-    return render_template('hot_questions.html')
+        user = db_users.Users().get_user(session['username'])
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=1,
+                               url='hot/page')
+        return render_template('login/login-hot_questions.html',
+                               user=user,
+                               datas=get_hot_datas(page_num=1, page_size=15),
+                               pagenation=pagenation)
+    return render_template('index.html')
 
 
 @app.route('/wait-reply')

@@ -72,6 +72,10 @@ class Questions(db.Model):
     def get_questions_by_page(self, page_num, page_size):
         return db.session.query(Questions).order_by(desc(Questions.publish_time)).limit(page_size).offset((page_num-1)*page_size)
 
+    # 获取热门问题，按照分页获取
+    def get_hot_questions_by_page(self, page_num, page_size):
+        return db.session.query(Questions).order_by(desc(Questions.view_count)).limit(page_size).offset((page_num-1)*page_size)
+
     # 获取发布者的uid
     def get_questioner_uid(self, question_id):
         return db.session.query(Questions.questioner_uid).filter_by(question_id=question_id).first().questioner_uid
