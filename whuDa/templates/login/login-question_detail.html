@@ -135,11 +135,11 @@
                     <!-- 话题bar -->
                     <div class="aw-mod aw-topic-bar" id="question_topic_editor">
                         <div class="tag-bar clearfix">
-                            <span class="topic-tag">
-                                {% for topic in topics %}
-								    <a href="/topic/{{ topic.topic_id }}" class="text">{{ topic.name }}</a>
-                                {% endfor %}
-							</span>
+                            {% for topic in topics %}
+                                <span class="topic-tag">
+                                <a href="/topic/{{ topic.topic_id }}" class="text">{{ topic.name }}</a>
+                                </span>
+                            {% endfor %}
                         </div>
                     </div>
 

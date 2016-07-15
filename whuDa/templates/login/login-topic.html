@@ -59,8 +59,8 @@
                 <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/dynamic"><i class="icon icon-home"></i> 动态</a></li>
-                        <li><a href="/" class="active"><i class="icon icon-list"></i> 发现</a></li>
-                        <li><a href="/topic"><i class="icon icon-topic"></i> 话题</a></li>
+                        <li><a href="/"><i class="icon icon-list"></i> 发现</a></li>
+                        <li><a href="/topic" class="active"><i class="icon icon-topic"></i> 话题</a></li>
                         <li>
                             <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
                             <span class="badge badge-important" style="display:none" id="notifications_unread">{{ user.noticication_unread }}</span>
@@ -174,16 +174,16 @@
                             <dl>
                                 <dt class="pull-left">
                                     <!-- 话题图片 -->
-                                    <a class="img aw-border-radius-5" href="/topic/WhuDa">
-                                        <img src="/static/img/topic-mid-img.png" alt="WhuDa" />
+                                    <a class="img aw-border-radius-5" href="/topic/{{ today_topic.topic_id }}">
+                                        <img src="/{{ today_topic.topic_url }}" alt="{{ today_topic.name }}" />
                                     </a>
 
                                 </dt>
-                                <dd class="pull-left">WhuDa</dd>
+                                <dd class="pull-left">{{ today_topic.name }}</dd>
                             </dl>
                             <!-- 话题描述 -->
                             <p>
-                                <span>WhuDa是一个类似知乎以问答为基础的完全开源的社交网络建站程序，基于 Python+MYSQL 应用架构，它集合了问答，digg，wiki 等多个程序的优点，帮助用户轻松搭建专业的知识库和在线问答社区。</span>...<a href="/topic/WhuDa">进入话题 »</a></p>
+                                <span>{{ today_topic.introducation }}</span>...<a href="/topic/{{ today_topic.topic_id }}">进入话题 »</a></p>
                         </div>
                     </div>
                     <!-- 新增话题 -->
