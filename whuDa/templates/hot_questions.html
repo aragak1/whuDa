@@ -11,11 +11,11 @@
     <base href="/" /><!--[if IE]></base><![endif]-->
     <link href="#" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/icon.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/common.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/link.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="/static/js/jquery.2.js" type="text/javascript"></script>
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
@@ -161,15 +161,15 @@
                             <!-- 每一个dl是一个热门个用户 -->
                             {% for x in hot_users %}
                                 <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people/{{ x.username }}"><img alt="{{ x.username }}" src="/{{ x.avatar_url }}" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/{{ x.username }}" class="aw-user-name">{{ x.username }} </a>
-                                    <p class="signature"></p>
-                                    <p><b>{{ x.question_count }}</b> 个问题, <b>{{ x.answer_count }}</b> 次答复</p>
-                                </dd>
-                            </dl>
+                                    <dt class="pull-left aw-border-radius-5">
+                                        <a href="/people/{{ x.username }}"><img alt="{{ x.username }}" src="/{{ x.avatar_url }}" /></a>
+                                    </dt>
+                                    <dd class="pull-left">
+                                        <a href="/people/{{ x.username }}" class="aw-user-name">{{ x.username }} </a>
+                                        <p class="signature"></p>
+                                        <p><b>{{ x.question_count }}</b> 个问题, <b>{{ x.answer_count }}</b> 次答复</p>
+                                    </dd>
+                                </dl>
                             {% endfor %}
                         </div>
                     </div>
