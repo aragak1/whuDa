@@ -100,3 +100,7 @@ class Topics(db.Model):
                 return datas[start_index:end_index]
             return datas[start_index:]
         return datas
+
+    # 获取所有的话题数目
+    def get_topic_count(self):
+        return Topics.query.count()

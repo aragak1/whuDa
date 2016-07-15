@@ -88,8 +88,7 @@
             <!-- 用户栏 -->
             <div class="aw-user-nav">
                 <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
-                    <img alt="{{ user.username }}" src="/{{ user.avatar_url }}">
-
+                    <img alt="{{ user.username }}..." src="/{{ user.avatar_url }}">
                 </a>
                 <div class="aw-dropdown dropdown-list pull-right">
                     <ul class="aw-dropdown-list">
@@ -146,22 +145,19 @@
 
                                 </p>
                                 <p class="text-color-999">
-                                    <span>{{ data.topic_question_count }} 个讨论</span>
+                                    <span>{{ data.topic_question_count }} 个问题</span>
                                     <span>{{ data.topic_focus }} 个关注</span>
                                 </p>
-                                <p class="text-color-999">7 天新增 {{ data.last_week_question_count }} 个讨论, 30 天新增 {{ data.last_month_question_count }} 个讨论 </p>
+                                <p class="text-color-999">7 天新增 {{ data.last_week_question_count }} 个问题, 30 天新增 {{ data.last_month_question_count }} 个问题 </p>
                             </div>
                             {% endfor %}
                         </div>
                         <div class="mod-footer clearfix">
                             <div class="page-control">
                                 <ul class="pagination pull-right">
-                                    <li class="active"><a href="javascript:;">1</a></li>
-                                    <li><a href="/topic/page-2">2</a></li>
-                                    <li><a href="/topic/page-3">3</a></li>
-                                    <li><a href="/topic/page-4">4</a></li>
-                                    <li><a href="/topic/page-2">&gt;</a></li>
-                                    <li><a href="/topic/page-119">&gt;&gt;</a></li>
+                                    {% autoescape false %}
+                                    {{ pagination }}
+                                    {% endautoescape %}
                                 </ul>
                             </div>
                         </div>

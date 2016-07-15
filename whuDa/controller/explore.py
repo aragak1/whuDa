@@ -91,21 +91,33 @@ def dynamic():
 @app.route('/topic')
 def topic():
     if is_login():
-        user = db_users.Users().get_uid_by_username(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=1,page_size=15)
+        user = db_users.Users().get_user(session['username'])
+        datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15)
+        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                               page_size=15,
+                               current_page=1,
+                               url='topic/page')
         return render_template('login/login-topic.html',
                                user=user,
-                               datas=datas)
+                               datas=datas,
+                               pagination=pagination)
     return render_template('topic.html')
+
 
 @app.route('/topic/page/<int:page_num>')
 def get_page_topic(page_num):
     if is_login():
-        user = db_users.Users().get_uid_by_username(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=page_num,page_size=15)
+        user = db_users.Users().get_user(session['username'])
+        datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15)
+        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                               page_size=15,
+                               current_page=page_num,
+                               url='topic/page')
         return render_template('login/login-topic.html',
                                user=user,
-                               datas=datas)
+                               datas=datas,
+                               pagination=pagination,
+                               url='topic/page')
     return render_template('topic.html')
 
 
