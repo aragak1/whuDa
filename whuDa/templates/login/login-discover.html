@@ -190,56 +190,18 @@
                         </div>
                         <div class="mod-body">
                             <!-- 每一个dl是一个热门个用户 -->
+                            {% for x in hot_users %}
                             <dl>
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
+                                    <a href="/people/{{ x.username }}"><img alt="{{ x.username }}" src="/{{ x.avatar_url }}" /></a>
                                 </dt>
                                 <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">老白 </a>
+                                    <a href="/people/{{ x.username }}" class="aw-user-name">{{ x.username }} </a>
                                     <p class="signature"></p>
-                                    <p><b>138</b> 个问题, <b>36</b> 次赞同</p>
+                                    <p><b>{{ x.question_count }}</b> 个问题, <b>{{ x.answer_count }}</b> 次答复</p>
                                 </dd>
                             </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">老白二哥 </a>
-                                    <p class="signature"></p>
-                                    <p><b>80</b> 个问题, <b>67</b> 次赞同</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">老白的梦想	</a>
-                                    <p class="signature"></p>
-                                    <p><b>63</b> 个问题, <b>5</b> 次赞同</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="#" data-id="8212" class="aw-user-name">小白	</a>
-                                    <p class="signature"></p>
-                                    <p><b>77</b> 个问题, <b>26</b> 次赞同</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="#"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/lb" class="aw-user-name">hello老白 </a>
-                                    <p class="signature"></p>
-                                    <p><b>1420</b> 个问题, <b>484</b> 次赞同</p>
-                                </dd>
-                            </dl>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

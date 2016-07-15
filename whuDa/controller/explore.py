@@ -27,6 +27,7 @@ sys.setdefaultencoding('utf8')
 def index():
     if is_login():
         hot_topics = db_topics.Topics().get_top5_topics()
+        hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
         pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
@@ -36,7 +37,8 @@ def index():
                                user=user,
                                datas=get_discover_datas(page_num=1, page_size=15),
                                pagenation=pagenation,
-                               hot_topics=hot_topics)
+                               hot_topics=hot_topics,
+                               hot_users=hot_users)
     return render_template('index.html')
 
 

@@ -56,10 +56,11 @@ class Topics(db.Model):
         for topic_id in self.get_all_topics_id():
             temp_dict = {
                 'topic_id': topic_id,
-                'focus_count': db_topic_focus.Topic_focus().get_foucs_count(topic_id)}
+                'focus_count': db_topic_focus.Topic_focus().get_foucs_count(topic_id),
+                'question_count': db_topic_question.Topic_question().get_question_count(topic_id)}
             topic_and_focus_count.append(temp_dict)
 
-        topic_and_focus_count.sort(lambda a, b: int(b['focus_count'] - b['focus_count']))
+        topic_and_focus_count.sort(lambda a, b: int(b['focus_count']+b['question_count'] - a['focus_count']-a['question_count']))
 
         if len(topic_and_focus_count) > 5:
             topic_and_focus_count = topic_and_focus_count[0:5]
@@ -69,7 +70,7 @@ class Topics(db.Model):
                 'topic_id': item['topic_id'],
                 'focus_count': item['focus_count'],
                 'topic_name': self.get_topic_name_by_id(item['topic_id']),
-                'question_count': db_topic_question.Topic_question().get_question_count(item['topic_id']),
+                'question_count': item['question_count'],
                 'topic_url': self.get_topic_url(item['topic_id'])
             }
             datas.append(temp_dict)

@@ -45,7 +45,9 @@ class Answers(db.Model):
 
     # 获取最新的回答用户uid
     def get_last_answer_uid(self, question_id):
-        return db.session.query(Answers.answer_uid).filter_by(question_id=question_id).order_by(desc(Answers.answer_time)).first()
+        answer = Answers.query.filter_by(question_id=question_id).first()
+        return answer.answer_uid
+
 
     # 获取问题最新的回答
     def get_last_answer(self, question_id):
