@@ -112,7 +112,6 @@ def dynamic():
     return redirect('/')
 
 
-
 @app.route('/notifications')
 def notifications():
     if is_login():
@@ -164,7 +163,10 @@ def hot():
                                pagenation=pagination,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
-    return render_template('hot_questions.html')
+    return render_template('hot_questions.html',
+                           datas=get_hot_datas(page_num=1, page_size=15),
+                           hot_users=db_users.Users().get_top5_users(),
+                           hot_topics=db_topics.Topics().get_top5_topics())
 
 
 @app.route('/wait-reply')
@@ -198,5 +200,3 @@ def change_pass():
     if is_login():
         return render_template('login/change_pass.html')
     return redirect('/')
-
-

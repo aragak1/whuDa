@@ -23,7 +23,6 @@
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
     <script src="/static/js/compatibility.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
-    <script src="/static/js/help.js" type="text/javascript"></script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
 <![endif]-->
@@ -100,16 +99,13 @@
                         </div>
                         <div class="mod-body clearfix">
                             <div class="col-sm-4 col-md-4">
-                                <div class="aw-item help-click">
-                                    <h3 >
-                                        <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt=" " >新手入门指南
-
-                                    </h3>
-                                        <div class="help-hide">
-                                            <p>在这里，你可以免费看到许多有用的关于武汉大学的各种息</p>
-                                            <p>也可以在登陆之后回答问题，在评论区发表自己的观点与看法</p>
-					                        <p>还可以在这里私聊结交新的朋友</p>
-                                        </div>
+                                <div class="aw-item">
+                                    <h3>
+                                            <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt=" " >新手入门指南
+                                    </h3
+					<p>在这里，你可以免费看到许多有用的关于武汉大学的各种息</p
+					<p>也可以在登陆之后回答问题，在评论区发表自己的观点与看法</p>
+					<p>还可以在这里私聊结交新的朋友</p>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4">
@@ -118,25 +114,13 @@
                                             <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt="">基本使用方法
                                     </h3>
                                     <ul>
-                                        <li class="help-click">浏览问题
-					                        <div class="help-hide">
-				         	                    <p>可以在发现浏览我们推荐的问题</p>
-						                        <p>也可以在话题页面中浏览与你所喜欢话题有关的问题</p>
-					                        </div>
-					                    </li>
-					                    <li class="help-click">回答问题
-                                            <div class="help-hide">
-				         	                    <p>注册之后你可以在这里回答问题</p>
-					                        </div>
-					                    </li>
-					                    <li class="help-click">提出问题
-                                            <div class="help-hide">
-						                        <p>登陆之后你可以在这里提出问题</p>
-					                        </div>
-					                    </li>
-					                    <li class="help-click">私信交流
-					                    </li>
-				                    </ul>
+                                        <li >浏览问题啦啦老白啦啦故事有许多啊，老白是一个有故事的男人啦啦老白啦啦故事有许多啊，老白是一个有故事的男人
+					    <div class="help-hide" width="100%" style="wordbreak:break-all">
+						    <p>可以在发现浏览我们推荐的问题</p>
+						    <p>也可以在话题中浏览与你所喜欢话题有关的问题</p>
+					    </div>
+					</li>                                    
+				    </ul>		
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4">
@@ -145,12 +129,7 @@
                                             <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt="">登陆与密码问题
                                     </h3>
                                     <ul>
-                                        <li class="help-click">如何注册
-					                    </li>
-					                    <li class="help-click">遗失密码
-					                    </li>
-					                    <li class="help-click">登陆特权
-					                    </li>
+                                        <li class="aw-hide-txt"><li>
                                     </ul>
                                 </div>
                             </div>
@@ -159,34 +138,29 @@
                                     <h3>
                                             <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt="">提问标签
                                     </h3>
-                                    <div class="help-hide">
-                                        <p>我们提供许多问题的标签便于对问题查找与分类，你也可以在提出问题的时候自定义新的标签</p>
-                                        <p>我们会根据您平时的使用来给您推荐您可能喜欢的新的问题</p>
-                                    </div>
-			                    </div>
-                            </div>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="aw-item help-click">
-                                    <h3>
-                                            <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt=" ">可能遇到的问题
-                                    </h3>
-                                    <div class="help-hide">
-                                        <ul>
-                                            <li class="aw-hide-txt">不知道，老白很漂亮</li>
-                                        </ul>
-                                    </div>
+                                    <ul>
+					    <li class="aw-hide-txt"></li> 
+				    </ul>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4">
-                                <div class="aw-item help-click">
+                                <div class="aw-item">
+                                    <h3>
+                                            <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt=" ">可能遇到的问题
+                                    </h3>
+                                    <ul>
+                                        <li class="aw-hide-txt"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="aw-item">
                                     <h3>
                                             <img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt="">版本说明
                                     </h3>
-                                    <div class="help-hide">
-                                        <ul>
-                                            <li class="aw-hide-txt">老白很帅</li>
-                                        </ul>
-                                    </div>
+                                    <ul>
+                                        <li class="aw-hide-txt"></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
