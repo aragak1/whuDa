@@ -14,3 +14,4 @@ import whuDa.controller.explore
 import whuDa.controller.user
 import whuDa.controller.api
 import whuDa.controller.question
+import whuDa.controller.topic

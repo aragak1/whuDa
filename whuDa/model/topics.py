@@ -77,7 +77,7 @@ class Topics(db.Model):
         return datas
 
     # 按照页数来获取所有的话题数据, 按照问题数+关注数的和排序
-    def get_topics_by_page(self, page_num, page_size):
+    def get_topics_by_page(self, page_num, page_size, last_week=False, last_month=False):
         total_count = Topics.query.count()
         start_index = (page_num-1)*page_size
         end_index = start_index + page_size
@@ -95,6 +95,10 @@ class Topics(db.Model):
                 }
                 datas.append(temp_dict)
                 datas.sort(cmp=lambda a, b: int(b['topic_question_count'] + b['topic_focus'] - a['topic_question_count'] - a['topic_focus']))
+                if last_week:
+                    datas.sort(cmp=lambda a, b: int(b['last_week_question_count'] - a['last_week_question_count']))
+                if last_month:
+                    datas.sort(cmp=lambda a, b: int(b['last_month_question_count'] - a['last_month_question_count']))
             if total_count > end_index:
                 return datas[start_index:end_index]
             return datas[start_index:]
