@@ -25,10 +25,10 @@ sys.setdefaultencoding('utf8')
 
 @app.route('/')
 def index():
+    db_topics.Topics().get_topics_by_page(1, 1)
+    hot_topics = db_topics.Topics().get_top5_topics()
+    hot_users = db_users.Users().get_top5_users()
     if is_login():
-        db_topics.Topics().get_topics_by_page(1,1)
-        hot_topics = db_topics.Topics().get_top5_topics()
-        hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
         pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
@@ -40,7 +40,18 @@ def index():
                                pagenation=pagenation,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
-    return render_template('index.html')
+    else:
+        user = db_users
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=1,
+                               url='discover/page')
+        return render_template('index.html',
+                               user=user,
+                               datas=get_discover_datas(page_num=1, page_size=15),
+                               pagenation=pagenation,
+                               hot_topics=hot_topics,
+                               hot_users=hot_users)
 
 
 @app.route('/discover/page/<int:page_num>')
@@ -59,14 +70,25 @@ def discover(page_num):
                                pagenation=pagenation,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
-    return render_template('index.html')
+    else:
+        user = db_users
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=page_num,
+                               url='discover/page')
+        return render_template('index.html',
+                               user=user,
+                               datas=get_discover_datas(page_num=page_num, page_size=15),
+                               pagenation=pagenation,
+                               hot_topics=hot_topics,
+                               hot_users=hot_users)
 
 
 @app.route('/hot/page/<int:page_num>')
 def hot_page(page_num):
+    hot_topics = db_topics.Topics().get_top5_topics()
+    hot_users = db_users.Users().get_top5_users()
     if is_login():
-        hot_topics = db_topics.Topics().get_top5_topics()
-        hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
         pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
@@ -78,7 +100,19 @@ def hot_page(page_num):
                                pagenation=pagenation,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    return render_template('hot_questions.html')
+    else:
+        user = db_users
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=page_num,
+                               url='hot/page')
+        return render_template('hot_questions.html',
+                               user=user,
+                               datas=get_hot_datas(page_num=page_num, page_size=15),
+                               pagenation=pagenation,
+                               hot_users=hot_users,
+                               hot_topics=hot_topics)
+
 
 
 @app.route('/dynamic')
@@ -179,9 +213,9 @@ def topic_recent_month():
 
 @app.route('/hot')
 def hot():
+    hot_topics = db_topics.Topics().get_top5_topics()
+    hot_users = db_users.Users().get_top5_users()
     if is_login():
-        hot_topics = db_topics.Topics().get_top5_topics()
-        hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
         pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
@@ -193,7 +227,18 @@ def hot():
                                pagenation=pagenation,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
-    return render_template('hot_questions.html')
+    else:
+        user = db_users
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=1,
+                               url='hot/page')
+    return render_template('hot_questions.html',
+                           user=user,
+                           datas=get_hot_datas(page_num=1, page_size=15),
+                           pagenation=pagenation,
+                           hot_topics=hot_topics,
+                           hot_users=hot_users)
 
 
 @app.route('/wait-reply')
