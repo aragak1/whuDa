@@ -113,3 +113,8 @@ def page_html(total_count, page_size, current_page, url):
         result += '<li><a href="/' + url + '/' + str(current_page + 1) + '">&gt;</a></li>'
         result += '<li><a href="/' + url + '/' + str(page_count) + '">&lt;&lt;</a></li>'
     return result
+
+
+# 获取前五个热门话题需要的数据(topic_id, topic_name, topic_url, 问题数， 关注人数)
+def get_top5_topics():
+    pass

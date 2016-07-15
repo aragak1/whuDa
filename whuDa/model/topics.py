@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
+from sqlalchemy import desc
 
 
 class Topics(db.Model):
