@@ -86,8 +86,8 @@
             </div>
             <!-- 用户栏 -->
             <div class="aw-user-nav">
-                <a href="/people/terry0314" class="aw-user-nav-dropdown">
-                    <img alt="terry0314" src="/static/img/avatar/avatar-max-img.png">
+                <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                    <img alt="{{ user.username }}" src="/{{ user.avatar_url }}">
 
                 </a>
                 <div class="aw-dropdown dropdown-list pull-right">
@@ -153,7 +153,7 @@
                             <div class="page-control">
                                 <ul class="pagination pull-right">
                                     {% autoescape false %}
-                                    {{ pagenation }}
+                                    {{ pagination }}
                                     {% endautoescape %}
                                 </ul>
                             </div>

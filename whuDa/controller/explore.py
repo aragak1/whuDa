@@ -32,13 +32,13 @@ def index():
     db_topics.Topics().get_topics_by_page(1, 1)
     hot_topics = db_topics.Topics().get_top5_topics()
     hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
+                           page_size=15,
+                           current_page=1,
+                           url='discover/page')
     if is_login():
         user = db_users.Users().get_user(session['username'])
         focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
-        pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
-                               page_size=15,
-                               current_page=1,
-                               url='discover/page')
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=1, page_size=15),
@@ -46,13 +46,9 @@ def index():
                                hot_topics=hot_topics,
                                hot_users=hot_users,
                                focus_topics=focus_topics)
-    pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
-                           page_size=15,
-                           current_page=1,
-                           url='discover/page')
     return render_template('index.html',
                            datas=get_discover_datas(page_num=1, page_size=15),
-                           pagenation=pagenation,
+                           pagination=pagination,
                            hot_topics=hot_topics,
                            hot_users=hot_users)
 
@@ -75,13 +71,9 @@ def discover(page_num):
                                hot_topics=hot_topics,
                                hot_users=hot_users,
                                focus_topics=focus_topics)
-    pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
-                           page_size=15,
-                           current_page=page_num,
-                           url='discover/page')
     return render_template('index.html',
                            datas=get_discover_datas(page_num=page_num, page_size=15),
-                           pagenation=pagenation,
+                           pagination=pagination,
                            hot_topics=hot_topics,
                            hot_users=hot_users)
 
@@ -90,31 +82,23 @@ def discover(page_num):
 def hot_page(page_num):
     hot_topics = db_topics.Topics().get_top5_topics()
     hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='hot/page')
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='hot/page')
         return render_template('login/login-hot_questions.html',
                                user=user,
                                datas=get_hot_datas(page_num=page_num, page_size=15),
-                               pagenation=pagenation,
+                               pagination=pagination,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    else:
-        user = db_users
-        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='hot/page')
-        return render_template('hot_questions.html',
-                               user=user,
-                               datas=get_hot_datas(page_num=page_num, page_size=15),
-                               pagenation=pagenation,
-                               hot_users=hot_users,
-                               hot_topics=hot_topics)
-
+    return render_template('hot_questions.html',
+                           datas=get_hot_datas(page_num=page_num, page_size=15),
+                           pagination=pagination,
+                           hot_users=hot_users,
+                           hot_topics=hot_topics)
 
 
 @app.route('/wait-reply/page/<int:page_num>')
@@ -123,14 +107,14 @@ def wait_reply_page(page_num):
         hot_topics = db_topics.Topics().get_top5_topics()
         hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
+        pagination = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
                                page_size=15,
                                current_page=page_num,
                                url='wait-reply/page')
         return render_template('login/login-wait_reply.html',
                                user=user,
                                datas=get_wait_reply_datas(page_num=page_num, page_size=15),
-                               pagenation=pagenation,
+                               pagination=pagination,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
     return render_template('wait_reply.html')
@@ -182,25 +166,21 @@ def setting():
 def hot():
     hot_topics = db_topics.Topics().get_top5_topics()
     hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
+                           page_size=15,
+                           current_page=1,
+                           url='hot/page')
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
-                               page_size=15,
-                               current_page=1,
-                               url='hot/page')
         return render_template('login/login-hot_questions.html',
                                user=user,
                                datas=get_hot_datas(page_num=1, page_size=15),
                                pagenation=pagination,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
-    pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
-                           page_size=15,
-                           current_page=1,
-                           url='hot/page')
     return render_template('hot_questions.html',
                            datas=get_hot_datas(page_num=1, page_size=15),
-                           pagenation=pagenation,
+                           pagination=pagination,
                            hot_topics=hot_topics,
                            hot_users=hot_users)
 
@@ -211,14 +191,14 @@ def wait_reply():
         hot_topics = db_topics.Topics().get_top5_topics()
         hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
+        pagination = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
                                page_size=15,
                                current_page=1,
                                url='wait-reply/page')
         return render_template('login/login-wait_reply.html',
                                user=user,
                                datas=get_wait_reply_datas(page_num=1, page_size=15),
-                               pagenation=pagenation,
+                               pagination=pagination,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
     return render_template('wait_reply.html')
