@@ -1,5 +1,6 @@
 # _*_ coding: utf-8 _*_
 from whuDa import db
+import whuDa.model.questions as db_questions
 
 
 class Topic_question(db.Model):
@@ -11,8 +12,7 @@ class Topic_question(db.Model):
 
     # 添加问题所属的话题
     def add_to_topic(self, question_id, topic_id):
-        if db.session.query(Topic_question).filter(Topic_question.question_id == question_id, Topic_question.topic_id == topic_id).first():
-            print '问题已属于该话题'
+        if Topic_question.query.filter(Topic_question.question_id == question_id, Topic_question.topic_id == topic_id).first():
             return False
         row = Topic_question(topic_id=topic_id, question_id=question_id)
         db.session.add(row)
@@ -30,5 +30,21 @@ class Topic_question(db.Model):
     # 获取话题下的问题数目
     def get_question_count(self, topic_id):
         return db.session.query(Topic_question).filter_by(topic_id=topic_id).count()
+
+    # 一个话题下一周内发布的问题数
+    def get_last_week_question_count(self, topic_id):
+        count = 0
+        for question in Topic_question.query.filter_by(topic_id=topic_id).all():
+            if db_questions.Questions().is_published_in_this_week(question.question_id):
+                count += 1
+        return count
+
+    # 一个话题下一个月内发布的问题数
+    def get_last_month_question_count(self, topic_id):
+        count = 0
+        for question in Topic_question.query.filter_by(topic_id=topic_id).all():
+            if db_questions.Questions().is_published_in_this_month(question.question_id):
+                count += 1
+        return count
 
 

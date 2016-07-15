@@ -26,6 +26,7 @@ sys.setdefaultencoding('utf8')
 @app.route('/')
 def index():
     if is_login():
+        db_topics.Topics().get_topics_by_page(1,1)
         hot_topics = db_topics.Topics().get_top5_topics()
         hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
@@ -63,9 +64,9 @@ def discover(page_num):
 
 @app.route('/hot/page/<int:page_num>')
 def hot_page(page_num):
-    hot_topics = db_topics.Topics().get_top5_topics()
-    hot_users = db_users.Users().get_top5_users()
     if is_login():
+        hot_topics = db_topics.Topics().get_top5_topics()
+        hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
         pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
@@ -77,7 +78,7 @@ def hot_page(page_num):
                                pagenation=pagenation,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    return render_template('index.html')
+    return render_template('hot_questions.html')
 
 
 @app.route('/dynamic')
@@ -91,6 +92,17 @@ def dynamic():
 def topic():
     if is_login():
         return render_template('login/login-topic.html')
+    return render_template('topic.html')
+
+
+@app.route('/topic/page/<int:page_num>')
+def get_page_topic(page_num):
+    if is_login():
+        user = db_users.Users().get_uid_by_username(session['username'])
+        datas = db_topics.Topics().get_topics_by_page(page_num=page_num,page_size=15)
+        return render_template('login/login-topic.html',
+                               user=user,
+                               datas=datas)
     return render_template('topic.html')
 
 
@@ -166,7 +178,7 @@ def hot():
                                pagenation=pagenation,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
-    return render_template('index.html')
+    return render_template('hot_questions.html')
 
 
 @app.route('/wait-reply')

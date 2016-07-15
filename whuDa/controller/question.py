@@ -73,7 +73,6 @@ def publish_question():
                     topic_id=topic_id)
 
             # 用户关注该问题
-            print '这里应该关注 question_id:%d, uid%d' %(uid, question_id)
             db_question_focus.Question_focus().add_focus_question(uid=uid, question_id=question_id, cnt=1)
 
             # 用户问题数加一
@@ -110,7 +109,6 @@ def question(id):
             for topic_id in topic_ids:
                 temp_dict = {'topic_id': topic_id, 'name': db_topics.Topics().get_topic_name_by_id(topic_id)}
                 topics.append(temp_dict)
-                print db_topics.Topics().get_topic_name_by_id(topic_id)
             return render_template('login/login-question_detail.html',
                                    question=question,
                                    topics=topics,

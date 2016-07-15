@@ -98,14 +98,13 @@ class Users(db.Model):
 
     # 根据uid获取用户名
     def get_username_by_uid(self, uid):
-        print 'uid: %d, type(uid): %s' %(uid, type(uid))
         user = Users.query.filter_by(uid=uid).first()
         return user.username
 
     # 获取前五个热门用户的数据(avatar_url, username, question_count, answer_count)
     def get_top5_users(self):
         datas = []
-        users = db.session.query(Users).order_by(desc(Users.answer_count + Users.question_count + Users.view_count)).limit(5)
+        users = Users.query.order_by(desc(Users.answer_count + Users.question_count + Users.view_count)).limit(5)
         for user in users:
             temp_dict = {
                 'username': user.username,
@@ -115,3 +114,4 @@ class Users(db.Model):
             }
             datas.append(temp_dict)
         return datas
+

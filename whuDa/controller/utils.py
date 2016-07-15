@@ -115,7 +115,6 @@ def get_hot_datas(page_num, page_size):
             'user_url': get_user_url(question.question_id)
         }
         datas.append(data)
-    print datas
     return datas
 
 

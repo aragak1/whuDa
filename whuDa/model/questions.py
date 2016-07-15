@@ -79,3 +79,17 @@ class Questions(db.Model):
     # 获取发布者的uid
     def get_questioner_uid(self, question_id):
         return db.session.query(Questions.questioner_uid).filter_by(question_id=question_id).first().questioner_uid
+
+    # 判断问题提是否其是七天内新增的
+    def is_published_in_this_week(self, question_id):
+        publish_time = Questions.query.filter_by(question_id=question_id).first().publish_time
+        if time() - publish_time <= 604800:
+            return True
+        return False
+
+    # 判断问题是否是一个月内新增的
+    def is_published_in_this_month(self, question_id):
+        publish_time = Questions.query.filter_by(question_id=question_id).first().publish_time
+        if time() - publish_time <= 2592000:
+            return True
+        return False
