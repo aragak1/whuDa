@@ -116,3 +116,4 @@ class Topics(db.Model):
     # 根据id获取话题
     def get_topic_by_id(self, topic_id):
         return Topics.query.filter_by(topic_id=topic_id).first()
+
