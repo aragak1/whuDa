@@ -3,7 +3,6 @@ from whuDa import db
 from sqlalchemy import desc
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topic_question as db_topic_question
-from math import ceil
 
 
 class Topics(db.Model):

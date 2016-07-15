@@ -16,7 +16,7 @@ class Answers(db.Model):
     agree_count = db.Column(db.Integer, nullable=False, default=0)
     disagree_count = db.Column(db.Integer, nullable=False, default=0)
 
-    # 判断用户是否已经回复
+    # 判断用户是否已经回复某一个问题
     def answered(self, uid, question_id):
         if db.session.query(Answers).filter(Answers.answer_uid == uid, Answers.question_id == question_id).first():
             return True
@@ -50,3 +50,10 @@ class Answers(db.Model):
     # 获取问题最新的回答
     def get_last_answer(self, question_id):
         return db.session.query(Answers).filter_by(question_id=question_id).order_by(desc(Answers.answer_time)).first()
+
+    # 判断一个问题是否有回答
+    def question_is_answered(self, question_id):
+        if Answers.query.filter_by(question_id=question_id).count():
+            return True
+        return False
+

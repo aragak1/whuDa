@@ -6,6 +6,7 @@ import whuDa.model.users as db_users
 import whuDa.model.questions as db_questions
 import whuDa.model.topics as db_topics
 import whuDa.model.topic_recommend as db_topic_recommend
+import whuDa.model.topic_focus as db_topic_focus
 import sys
 
 reload(sys)
@@ -24,23 +25,25 @@ sys.setdefaultencoding('utf8')
 '''
 
 
+# 登陆前后的index页面都是发现页面
 @app.route('/')
 def index():
     if is_login():
-        db_topics.Topics().get_topics_by_page(1,1)
         hot_topics = db_topics.Topics().get_top5_topics()
         hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
+        pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
                                page_size=15,
                                current_page=1,
                                url='discover/page')
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=1, page_size=15),
-                               pagenation=pagenation,
+                               pagenation=pagination,
                                hot_topics=hot_topics,
-                               hot_users=hot_users)
+                               hot_users=hot_users,
+                               focus_topics=focus_topics)
     return render_template('index.html')
 
 
@@ -48,18 +51,20 @@ def index():
 def discover(page_num):
     hot_topics = db_topics.Topics().get_top5_topics()
     hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=db_questions.Questions().get_questions_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='discover/page')
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='discover/page')
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=page_num, page_size=15),
-                               pagenation=pagenation,
+                               pagenation=pagination,
                                hot_topics=hot_topics,
-                               hot_users=hot_users)
+                               hot_users=hot_users,
+                               focus_topics=focus_topics)
     return render_template('index.html')
 
 
