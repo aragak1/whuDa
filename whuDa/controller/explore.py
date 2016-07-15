@@ -91,9 +91,12 @@ def dynamic():
 @app.route('/topic')
 def topic():
     if is_login():
-        return render_template('login/login-topic.html')
+        user = db_users.Users().get_uid_by_username(session['username'])
+        datas = db_topics.Topics().get_topics_by_page(page_num=1,page_size=15)
+        return render_template('login/login-topic.html',
+                               user=user,
+                               datas=datas)
     return render_template('topic.html')
-
 
 @app.route('/topic/page/<int:page_num>')
 def get_page_topic(page_num):
