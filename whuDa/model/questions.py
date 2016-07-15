@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
 from time import time
-from sqlalchemy import desc
+from sqlalchemy import desc, exists, not_
 import whuDa.model.answers as db_answers
-from sqlalchemy import exists, not_
 
 
 '''

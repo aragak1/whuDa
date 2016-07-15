@@ -42,7 +42,7 @@ def index():
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=1, page_size=15),
-                               pagenation=pagination,
+                               pagination=pagination,
                                hot_topics=hot_topics,
                                hot_users=hot_users,
                                focus_topics=focus_topics)
@@ -175,7 +175,7 @@ def hot():
         return render_template('login/login-hot_questions.html',
                                user=user,
                                datas=get_hot_datas(page_num=1, page_size=15),
-                               pagenation=pagination,
+                               pagination=pagination,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
     return render_template('hot_questions.html',
