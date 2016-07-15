@@ -1,6 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import db
 from time import time
+from sqlalchemy import desc
 
 
 class Answers(db.Model):
@@ -36,8 +37,16 @@ class Answers(db.Model):
 
     # 获取所有的回复，按照票数排序
     def get_all_answer(self, question_id):
-        return db.session.query(Answers).filter_by(question_id=question_id).order_by(Answers.agree_count).all()
+        return db.session.query(Answers).filter_by(question_id=question_id).order_by(desc(Answers.agree_count)).all()
 
     # 获取问题的回复数
     def get_answer_count(self, question_id):
         return db.session.query(Answers).filter_by(question_id=question_id).count()
+
+    # 获取最新的回答用户uid
+    def get_last_answer_uid(self, question_id):
+        return db.session.query(Answers.answer_uid).filter_by(question_id=question_id).order_by(desc(Answers.answer_time)).first()
+
+    # 获取问题最新的回答
+    def get_last_answer(self, question_id):
+        return db.session.query(Answers).filter_by(question_id=question_id).order_by(desc(Answers.answer_time)).first()

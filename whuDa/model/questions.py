@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
 from time import time
+from sqlalchemy import desc
 
 
 '''
@@ -46,10 +47,7 @@ class Questions(db.Model):
 
     # 通过id获取问题
     def get_question_by_id(self, question_id):
-        question = db.session.query(Questions).filter(Questions.question_id == question_id).first()
-        if question:
-            return question
-        return False
+        return db.session.query(Questions).filter(Questions.question_id == question_id).first()
 
     # 问题浏览数加一
     def add_question_view_count(self, question_id):
@@ -72,4 +70,8 @@ class Questions(db.Model):
 
     # 获取最新的问题，按照分页获取
     def get_questions_by_page(self, page_num, page_size):
-        return db.session.query(Questions).order_by(Questions.publish_time).limit(page_size).offset((page_num-1)*page_size)
+        return db.session.query(Questions).order_by(desc(Questions.publish_time)).limit(page_size).offset((page_num-1)*page_size)
+
+    # 获取发布者的uid
+    def get_questioner_uid(self, question_id):
+        return db.session.query(Questions.questioner_uid).filter_by(question_id=question_id).first().questioner_uid

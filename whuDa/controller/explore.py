@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template, redirect, session
-from utils import is_login, get_discover_datas
+from utils import is_login, get_discover_datas, page_html
 import whuDa.model.users as db_users
 import whuDa.model.questions as db_questions
 import sys
@@ -23,13 +23,32 @@ sys.setdefaultencoding('utf8')
 
 
 @app.route('/')
-@app.route('/discover/page/1')
 def index():
     if is_login():
         user = db_users.Users().get_user(session['username'])
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=1,
+                               url='discover/page')
         return render_template('login/login-discover.html',
                                user=user,
-                               datas=get_discover_datas(page_num=1, page_size=15))
+                               datas=get_discover_datas(page_num=1, page_size=15),
+                               pagenation=pagenation)
+    return render_template('index.html')
+
+
+@app.route('/discover/page/<int:page_num>')
+def discover(page_num):
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        pagenation = page_html(total_count=db_questions.Questions().get_questions_count(),
+                               page_size=15,
+                               current_page=page_num,
+                               url='discover/page')
+        return render_template('login/login-discover.html',
+                               user=user,
+                               datas=get_discover_datas(page_num=page_num, page_size=15),
+                               pagenation=pagenation)
     return render_template('index.html')
 
 

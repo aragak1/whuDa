@@ -20,5 +20,8 @@ class Topic_question(db.Model):
 
     # 通过id获取问题所属的话题
     def get_topics_by_id(self, question_id):
-        topics = db.session.query(Topic_question).filter(Topic_question.question_id == question_id).all()
-        return topics
+        topic_ids = []
+        topic_qustions =  db.session.query(Topic_question).filter_by(question_id=question_id).all()
+        for topic_question in topic_qustions:
+            topic_ids.append(topic_question.topic_id)
+        return topic_ids

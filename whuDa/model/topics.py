@@ -27,3 +27,7 @@ class Topics(db.Model):
     def get_topic_id_by_name(self, topic_name):
         topic = db.session.query(Topics, Topics.topic_id).filter(Topics.name == topic_name).first()
         return topic.topic_id
+
+    # 根据话题id获取话题名字
+    def get_topic_name_by_id(self, topic_id):
+        return db.session.query(Topics).filter_by(topic_id=topic_id).first().name

@@ -11,6 +11,7 @@ class Question_focus(db.Model):
 
     # 添加关注的问题
     def add_focus_question(self, uid, question_id, cnt):
+        print 'fuckfuckfuck.'
         row = Question_focus(uid=uid, question_id=question_id, current_answer_count=cnt)
         if db.session.query(Question_focus).filter(uid == uid, question_id == question_id).first():
             return False

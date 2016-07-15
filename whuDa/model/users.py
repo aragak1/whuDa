@@ -94,3 +94,7 @@ class Users(db.Model):
     # 根据用户名获取uid
     def get_uid_by_username(self, username):
         return db.session.query(Users, Users.uid).filter(Users.username == username).first().uid
+
+    # 根据uid获取用户名
+    def get_username_by_uid(self, uid):
+        return db.session.query(Users.username).filter(Users.uid == uid).first().username

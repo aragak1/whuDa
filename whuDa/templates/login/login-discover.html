@@ -11,11 +11,11 @@
     <base href="#" /><!--[if IE]></base><![endif]-->
     <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/icon.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/common.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/link.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="/static/js/jquery.2.js" type="text/javascript"></script>
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
@@ -133,14 +133,14 @@
                                     {% if data.is_anonymous %}
                                         <a class="aw-user-name hidden-xs" rel="nofollow"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
                                     {% else %}
-                                        <a class="aw-user-name hidden-xs"href="/people/{{ data.username }}" rel="nofollow"><img src="/{{ data.avatar_url }}" alt="{{ data.username }}" /></a>
+                                        <a class="aw-user-name hidden-xs" href="/people/{{ data.username }}" rel="nofollow"><img src="/{{ data.avatar_url }}" alt="{{ data.username }}" /></a>
                                     {% endif %}
                                     <div class="aw-question-content">
                                         <h4><a href="/question/{{ data.question_id }}">{{ data.title }}</a></h4>
                                         <a href="#" class="pull-right text-color-999">回复</a>
                                         <p>
-                                            <a href="/people/{{ data.username }}" class="aw-user-name">{{ data.username }}</a>
-                                            <span class="text-color-999">发起了问题 • {{ data.question_focus_count }} 人关注 • {{ data.question_answer_count }} 个回复 • {{ data.question_view_count }} 次浏览 • {{ data.past_time }}前</span>
+                                            <span class="text-color-999">
+                                                <a href="/people{{ data.user_url }}" class="aw-user-name">{{ data.dynamic_str }}</a> • {{ data.question_focus_count }} 人关注 • {{ data.question_answer_count }} 个回复 • {{ data.question_view_count }} 次浏览 • {{ data.past_time }}前</span>
                                         </p>
                                     </div>
                                 </div>
@@ -150,12 +150,9 @@
                         <div class="mod-footer">
                             <div class="page-control">
                                 <ul class="pagination pull-right">
-                                    <li class="active"><a href="javascript:;">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">&gt;</a></li>
-                                    <li><a href="#">&gt;&gt;</a></li>
+                                    {% autoescape false %}
+                                    {{ pagenation }}
+                                    {% endautoescape %}
                                 </ul>
                             </div>
                         </div>

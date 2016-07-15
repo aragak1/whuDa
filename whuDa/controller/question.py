@@ -103,7 +103,11 @@ def question(id):
                 'introduction': answer_users[i].introduction}
             answers_and_users.append(answer_and_user)
         if question:
-            topics = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
+            topic_ids = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
+            topics = []
+            for topic_id in topic_ids:
+                temp_dict = {'topic_id': topic_id, 'name': db_topics.Topics().get_topic_name_by_id(topic_id)}
+                topics.append(temp_dict)
             return render_template('login/login-question_detail.html',
                                    question=question,
                                    topics=topics,
