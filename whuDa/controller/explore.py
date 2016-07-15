@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template, redirect, session
-from utils import is_login, get_discover_datas, page_html, get_hot_datas
+from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas
 import whuDa.model.users as db_users
 import whuDa.model.questions as db_questions
 import whuDa.model.topics as db_topics
@@ -86,6 +86,25 @@ def hot_page(page_num):
     return render_template('hot_questions.html')
 
 
+@app.route('/wait-reply/page/<int:page_num>')
+def wait_reply_page(page_num):
+    if is_login():
+        hot_topics = db_topics.Topics().get_top5_topics()
+        hot_users = db_users.Users().get_top5_users()
+        user = db_users.Users().get_user(session['username'])
+        pagenation = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
+                               page_size=15,
+                               current_page=page_num,
+                               url='wait-reply/page')
+        return render_template('login/login-wait_reply.html',
+                               user=user,
+                               datas=get_wait_reply_datas(page_num=page_num, page_size=15),
+                               pagenation=pagenation,
+                               hot_users=hot_users,
+                               hot_topics=hot_topics)
+    return render_template('wait-reply.html')
+
+
 @app.route('/dynamic')
 def dynamic():
     if is_login():
@@ -151,8 +170,20 @@ def hot():
 @app.route('/wait-reply')
 def wait_reply():
     if is_login():
-        return render_template('login/login-wait_reply.html')
-    return render_template('wait_reply.html')
+        hot_topics = db_topics.Topics().get_top5_topics()
+        hot_users = db_users.Users().get_top5_users()
+        user = db_users.Users().get_user(session['username'])
+        pagenation = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
+                               page_size=15,
+                               current_page=1,
+                               url='wait-reply/page')
+        return render_template('login/login-wait_reply.html',
+                               user=user,
+                               datas=get_wait_reply_datas(page_num=1, page_size=15),
+                               pagenation=pagenation,
+                               hot_users=hot_users,
+                               hot_topics=hot_topics)
+    return render_template('wait-reply.html')
 
 
 @app.route('/people/<name>')
