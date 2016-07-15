@@ -103,7 +103,7 @@ def wait_reply_page(page_num):
                                pagenation=pagenation,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    return render_template('wait-reply.html')
+    return render_template('wait_reply.html')
 
 
 @app.route('/dynamic')
@@ -244,7 +244,7 @@ def wait_reply():
                                pagenation=pagenation,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    return render_template('wait-reply.html')
+    return render_template('wait_reply.html')
 
 
 @app.route('/people/<name>')
