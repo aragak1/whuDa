@@ -77,7 +77,10 @@ def hot_page(page_num):
                                pagenation=pagenation,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    return render_template('index.html')
+    return render_template('hot_questions.html',
+                           datas=get_hot_datas(page_num=page_num, page_size=15),
+                           hot_users=hot_users,
+                           hot_topics=hot_topics)
 
 
 @app.route('/dynamic')
@@ -166,7 +169,10 @@ def hot():
                                pagenation=pagenation,
                                hot_topics=hot_topics,
                                hot_users=hot_users)
-    return render_template('index.html')
+    return render_template('hot_questions.html',
+                           datas=get_hot_datas(page_num=1, page_size=15),
+                           hot_users=db_users.Users().get_top5_users(),
+                           hot_topics=db_topics.Topics().get_top5_topics())
 
 
 @app.route('/wait-reply')
