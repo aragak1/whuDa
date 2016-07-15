@@ -2,6 +2,7 @@
 from whuDa import db
 from time import time
 from hashlib import md5
+from sqlalchemy import desc
 salt = '3JJLohSJXbJUXYxp'
 
 
@@ -67,6 +68,9 @@ class Users(db.Model):
     def get_user(self, username):
         return db.session.query(Users).filter(Users.username == username).first()
 
+    # 通过uid获取一个user
+    def get_user_by_id(self, uid):
+        return db.session.query(Users).filter_by(uid=uid).first()
 
     # 用户问题数加一
     def add_question_count(self, username):
@@ -78,13 +82,36 @@ class Users(db.Model):
             return True
         return False
 
-
-    # 用户问题数加一
+    # 用户回答数加一
     def add_answer_count(self, username):
-        user = db.session.query(Users).filter(Users.username == username).first()
+        user = db.session.query(Users).filter_by(username=username).first()
         if user:
-            db.session.query(Users).filter(Users.username == username).update({
+            db.session.query(Users).filter_by(username=username).update({
                 Users.answer_count: Users.answer_count + 1})
             db.session.commit()
             return True
         return False
+
+    # 根据用户名获取uid
+    def get_uid_by_username(self, username):
+        return db.session.query(Users.uid).filter(Users.username == username).first().uid
+
+    # 根据uid获取用户名
+    def get_username_by_uid(self, uid):
+        print 'uid: %d, type(uid): %s' %(uid, type(uid))
+        user = Users.query.filter_by(uid=uid).first()
+        return user.username
+
+    # 获取前五个热门用户的数据(avatar_url, username, question_count, answer_count)
+    def get_top5_users(self):
+        datas = []
+        users = db.session.query(Users).order_by(desc(Users.answer_count + Users.question_count + Users.view_count)).limit(5)
+        for user in users:
+            temp_dict = {
+                'username': user.username,
+                'avatar_url': user.avatar_url,
+                'question_count': user.question_count,
+                'answer_count': user.answer_count
+            }
+            datas.append(temp_dict)
+        return datas

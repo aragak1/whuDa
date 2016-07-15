@@ -5,23 +5,25 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
     <meta name="renderer" content="webkit" />
-    <title>问题的具体标题 - WhuDa网络问答社区</title>
+    <title>{{ question.title }} - WhuDa网络问答社区</title>
     <meta name="keywords" content="" />
     <meta name="description" content=""/>
     <base href="/" /><!--[if IE]></base><![endif]-->
-    <link href="#" rel="shortcut icon" type="image/x-icon" />
+    <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/static/editor/css/wangEditor.min.css" rel="stylesheet" type="text/css" >
 
     <script src="/static/js/jquery.2.js" type="text/javascript"></script>
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
     <script src="/static/js/compatibility.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
+    <script src="/static/js/global.js" type="text/javascript"></script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
     <![endif]-->
@@ -43,15 +45,15 @@
         <div class="aw-search-box  hidden-xs hidden-sm">
             <form class="navbar-search" action="/search" id="global_search_form" method="post">
                 <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query" />
-                <span title="搜索" id="global_search_btns" onClick="$('#global_search_form').submit();"><i class="icon icon-search"></i></span>
+                <span title="搜索" id="global_search_btns" onClick=""><i class="icon icon-search"></i></span>
                 <div class="aw-dropdown">
                     <div class="mod-body">
                         <p class="title">输入关键字进行搜索</p>
                         <ul class="aw-dropdown-list collapse"></ul>
-                        <p class="search"><span>搜索:</span><a onClick="$('#global_search_form').submit();"></a></p>
+                        <p class="search"><span>搜索:</span><a onClick=""></a></p>
                     </div>
                     <div class="mod-footer">
-                        <a href="javascript:;" onClick="$('#header_publish').click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+                        <a href="/publish" class="pull-right btn btn-mini btn-success publish">发起问题</a>
                     </div>
                 </div>
             </form>
@@ -94,33 +96,30 @@
                 </ul>
             </nav>
         </div>
-        <!-- end 导航 -->
         <!-- 用户栏 -->
         <div class="aw-user-nav">
             <!-- 登陆&注册栏 -->
-            <a href="http://wenda.wecenter.com/people/terry0314" class="aw-user-nav-dropdown">
-                <img alt="terry0314" src="http://wenda.wecenter.com/static/common/avatar-mid-img.png" />
+            <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                <img alt="{{ user.username }}" src="/{{ user.avatar_url }}" />
 
             </a>
             <div class="aw-dropdown dropdown-list pull-right">
                 <ul class="aw-dropdown-list">
-                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">0</span></a></li>
-                    <li class="hidden-xs"><a href="/setting/"><i class="icon icon-setting"></i> 设置</a></li>
+                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">
+                        {{ user.message_unread }}
+                    </span></a></li>
+                    <li class="hidden-xs"><a href="/setting"><i class="icon icon-setting"></i> 设置</a></li>
                     <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
                 </ul>
             </div>
         </div>
         <!-- 发起 -->
         <div class="aw-publish-btn">
-
-            <a id="header_publish" class="btn-primary" href="/publish" onclick=";"><i class="icon icon-ask"></i>发起</a>
+            <a id="header_publish" class="btn-primary" href="/publish"><i class="icon icon-ask"></i>发起</a>
             <div class="dropdown-list pull-right">
                 <ul>
                     <li>
-                        <form method="post" action="/publish">
-                            <a onclick="$(this).parents('form').submit();">问题</a>
-                        </form>
-
+                            <a href="/publish">问题</a>
                     </li>
                 </ul>
             </div>
@@ -133,33 +132,33 @@
         <div class="row">
             <div class="aw-content-wrap clearfix">
                 <div class="col-sm-12 col-md-9 aw-main-content">
-                    <!-- 话题推荐bar -->
-                    <!-- 话题推荐bar -->
                     <!-- 话题bar -->
                     <div class="aw-mod aw-topic-bar" id="question_topic_editor">
                         <div class="tag-bar clearfix">
                             <span class="topic-tag">
-								<a href="/topic/1" class="text">所属话题</a>
+                                {% for topic in topics %}
+								    <a href="/topic/{{ topic.topic_id }}" class="text">{{ topic.name }}</a>
+                                {% endfor %}
 							</span>
                         </div>
                     </div>
 
                     <div class="aw-mod aw-question-detail aw-item">
                         <div class="mod-head">
-                            <h1>问题的标题，比如老白为什么这么漂亮。</h1>
+                            <h1>{{ question.title }}</h1>
                             <div class="operate clearfix">
                                 <a href="javascript:;" onclick=";" class="follow btn btn-normal btn-success pull-left ">
                                     <span>关注</span>
                                     <em>|</em>
-                                    <b>1</b>
+                                    <b>{{ question_focus_cnt}}</b>
                                 </a>
                             </div>
                         </div>
                         <div class="mod-body">
                             <div class="content markitup-box">
-                                问题的具体描述，比如老白为什么这么漂亮，可以有图片。
-                                问题的具体描述，比如老白为什么这么漂亮，可以有图片。
-                                问题的具体描述，比如老白为什么这么漂亮，可以有图片。
+                                {% autoescape false %}
+                                {{ question.content }}
+                                {% endautoescape %}
                             </div>
                         </div>
                         <div class="mod-footer">
@@ -167,7 +166,7 @@
                                 <span class="text-color-999">21 小时前</span>
                                 <!-- 这里邀请点了以后下面站内邀请的display none 变成block -->
                                 <a class="text-color-999 aw-invite-replay"><i class="icon icon-invite"></i>邀请 </a>
-                                <a class="text-color-999" href="/publish/2"><i class="icon icon-edit"></i>编辑</a>
+                                <a class="text-color-999" href="/publish/{{ question.question_id }}"><i class="icon icon-edit"></i>编辑</a>
                                 <div class="pull-right more-operate">
                                     <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon icon-share"></i>分享</a>
@@ -203,201 +202,7 @@
                                         <div class="main">
                                             <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>
                                             <a class="aw-user-name" href="/people/laobai">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="49" href="http://wenda.wecenter.com/people/AWSupport"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/00/49_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="AWSupport" data-id="49" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="49" href="http://wenda.wecenter.com/people/AWSupport">AWSupport<i class="icon-v i-ve" title="企业认证"></i></a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 13 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="9991" href="http://wenda.wecenter.com/people/jat"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/99/91_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="jat" data-id="9991" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="9991" href="http://wenda.wecenter.com/people/jat">jat<i class="icon-v i-ve" title="企业认证"></i></a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 4 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="10240" href="http://wenda.wecenter.com/people/ada_li_li"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/01/02/40_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="ada_li_li" data-id="10240" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="10240" href="http://wenda.wecenter.com/people/ada_li_li">ada_li_li</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 3 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="12630" href="http://wenda.wecenter.com/people/lianghh"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/01/26/30_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="lianghh" data-id="12630" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="12630" href="http://wenda.wecenter.com/people/lianghh">lianghh</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 2 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="13564" href="http://wenda.wecenter.com/people/znyj365"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/01/35/64_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="苏逸融" data-id="13564" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="13564" href="http://wenda.wecenter.com/people/znyj365">苏逸融</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 3 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="17427" href="http://wenda.wecenter.com/people/whh"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/01/74/27_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="WHH" data-id="17427" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="17427" href="http://wenda.wecenter.com/people/whh">WHH</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 3 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="3389" href="http://wenda.wecenter.com/people/%E8%8E%AB%E9%97%AE"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/33/89_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="莫问" data-id="3389" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="3389" href="http://wenda.wecenter.com/people/%E8%8E%AB%E9%97%AE">莫问</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="11480" href="http://wenda.wecenter.com/people/daweies"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/01/14/80_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="daweies" data-id="11480" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="11480" href="http://wenda.wecenter.com/people/daweies">daweies</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="17058" href="http://wenda.wecenter.com/people/51ask"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/01/70/58_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="Liv" data-id="17058" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="17058" href="http://wenda.wecenter.com/people/51ask">Liv</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="559" href="http://wenda.wecenter.com/people/sihaiyunyou"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/05/59_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="帅驴" data-id="559" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="559" href="http://wenda.wecenter.com/people/sihaiyunyou">帅驴</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="20083" href="http://wenda.wecenter.com/people/%E6%A2%A6%E5%B9%BB%E4%B9%8B%E7%99%BD%E5%A4%9C"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/02/00/83_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="梦幻之白夜" data-id="20083" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="20083" href="http://wenda.wecenter.com/people/%E6%A2%A6%E5%B9%BB%E4%B9%8B%E7%99%BD%E5%A4%9C">梦幻之白夜</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="21724" href="http://wenda.wecenter.com/people/alibaba"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/02/17/24_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="alibaba" data-id="21724" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="21724" href="http://wenda.wecenter.com/people/alibaba">alibaba</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="541" href="http://wenda.wecenter.com/people/imzhouyang"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/05/41_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="imzhouyang" data-id="541" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="541" href="http://wenda.wecenter.com/people/imzhouyang">imzhouyang</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="5820" href="http://wenda.wecenter.com/people/Syouth"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/58/20_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="Syouth" data-id="5820" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="5820" href="http://wenda.wecenter.com/people/Syouth">Syouth</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 1 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="1508" href="http://wenda.wecenter.com/people/samele"><img class="img" alt="" src="http://wenda.wecenter.com/uploads/avatar/000/00/15/08_avatar_mid.jpg" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="samele" data-id="1508" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="1508" href="http://wenda.wecenter.com/people/samele">samele</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 0 个赞同												</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="aw-user-img pull-left" data-id="5847" href="http://wenda.wecenter.com/people/shawge"><img class="img" alt="" src="http://wenda.wecenter.com/static/common/avatar-mid-img.png" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" data-value="shawge" data-id="5847" onclick="AWS.User.invite_user($(this),$(this).parents('li').find('img').attr('src'));">邀请</a>
-
-                                            <a class="aw-user-name" data-id="5847" href="http://wenda.wecenter.com/people/shawge">shawge</a>
-
-                                            <p>
-
-                                                在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 0 个赞同												</p>
+                                            <p>在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -429,24 +234,44 @@
                             </ul>
                         </div>
                         <div class="mod-body aw-feed-list">
-                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
+                            {% for x in answers_and_users %}
+                                <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
                                 <div class="mod-head">
+                                    {% if x.is_anonymous %}
                                     <a class="anchor" name="answer_1"></a>
                                     <!-- 用户头像 -->
-                                    <a class="aw-user-img aw-border-radius-5" href="/people/laobai"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                    <a class="aw-user-img aw-border-radius-5"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
                                     <div class="title">
                                         <p>
-                                            <a class="aw-user-name" href="/people/xiaoming">小明明</a>
-                                            - <span class="text-color-999">自我介绍。</span>																																			</p>
+                                            <a class="aw-user-name">匿名用户</a>																																		</p>
                                         <p class="text-color-999 aw-agree-by collapse">
                                             赞同来自:
                                         </p>
                                     </div>
+                                    {% else %}
+                                        <a class="anchor" name="answer_1"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="/people/{{ x.uid }}"><img src="/{{ x.avatar_url }}" alt="" /></a>
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="/people/{{ x.uid }}">{{ x.username }}</a>
+                                            {% if x.introduction %}
+                                                - <span class="text-color-999">
+                                                {{ x.introduction }}
+                                            {% endif %}
+                                            </span>																																			</p>
+                                        <p class="text-color-999 aw-agree-by collapse">
+                                            赞同来自:
+                                        </p>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <div class="mod-body clearfix">
                                     <!-- 回答内容 -->
                                     <div class="markitup-box">
-                                        这是回答的具体内容，可以有图片。<br />
+                                        {% autoescape false %}
+                                        {{ x.content }}<br />
+                                        {% endautoescape %}
                                     </div>
                                 </div>
                                 <div class="mod-footer">
@@ -476,6 +301,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
                         <div class="mod-footer">
                             <div class="aw-load-more-content collapse" id="load_uninterested_answers">
@@ -495,13 +321,13 @@
                             <input type="hidden" name="question_id" />
                             <input type="hidden" name="attach_access_key" />
                             <div class="mod-head">
-                                <a href="/people" class="aw-user-name"><img alt="terry0314" src="/static/img/avatar/avatar-max-img.png" /></a>
+                                <a class="aw-user-name"><img alt="{{ user.username }}" src="/{{ user.avatar_url }}" /></a>
                                 <p>
                                     <label class="pull-right">
-                                        <input type="checkbox" value="1" name="anonymous" />匿名回复</label>
+                                        <input type="checkbox" id="is_anonymous"/>匿名回复</label>
                                     <label class="pull-right">
-                                        <input type="checkbox" checked="checked" value="1" name="auto_focus" />关注问题</label>
-                                    terry0314
+                                        <input type="checkbox" checked="checked" id="auto_focus" />关注问题</label>
+                                    {{ user.username }}
                                 </p>
                             </div>
                             <div class="mod-body">
@@ -512,7 +338,8 @@
                                         </div>
                                     </div>
                                     <div class="mod-body clearfix">
-                                        <a href="javascript:;" onclick=");" class="btn btn-normal btn-success pull-right btn-reply">回复</a>
+                                        <input type="hidden" id="question_id" value="{{ question.question_id }}">
+                                        <a onclick="publish_comment();" class="btn btn-normal btn-success pull-right btn-reply">回复</a>
                                         <span class="pull-right text-color-999" id="answer_content_message">&nbsp;</span>
                                         <div class="aw-upload-box">
                                             <a class="btn btn-default">上传附件</a>
@@ -535,13 +362,22 @@
                         </div>
                         <div class="mod-body">
                             <dl>
+                                {% if question.is_anonymous %}
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people"><img alt="风见雨下" src="/static/img/avatar/avatar-max-img.png" /></a>
+                                    <img alt="匿名用户" src="/static/img/avatar/avatar.png" />
                                 </dt>
-                                <dd class="pull-left">
-                                    <a class="aw-user-name" href="/people/1">提问人的名字</a>
+                                <dd class="pull-left"><br />匿名用户
                                     <p></p>
                                 </dd>
+                                {% else %}
+                                    <dt class="pull-left aw-border-radius-5">
+                                        <a href="/people/{{ questioner.uid }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
+                                    </dt>
+                                    <dd class="pull-left">
+                                        <a class="aw-user-name" href="/people/{{ questioner.uid }}"><br />{{ questioner.username }}</a>
+                                        <p></p>
+                                    </dd>
+                                {% endif %}
                             </dl>
                         </div>
                     </div>
@@ -599,8 +435,8 @@
                         <div class="mod-body">
                             <ul>
                                 <li>最新活动: <span class="aw-text-color-blue">17 小时前</span></li>
-                                <li>浏览: <span class="aw-text-color-blue">68</span></li>
-                                <li>关注: <span class="aw-text-color-blue">1</span> 人</li>
+                                <li>浏览: <span class="aw-text-color-blue">{{ question.view_count }}</span></li>
+                                <li>关注: <span class="aw-text-color-blue">{{ question_focus_cnt }}</span> 人</li>
 
                                 <li class="aw-border-radius-5" id="focus_users"></li>
                             </ul>
@@ -620,6 +456,12 @@
 
 <a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
 <script type="text/javascript" src="/static/js/bughd.min.js" crossOrigin="anonymous"></script>
-
+<!-- 文本编辑器 -->
+<script type="text/javascript" src="/static/editor/js/lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/static/editor/js/wangEditor.min.js"></script>
+<script type="text/javascript">
+    var editor = new wangEditor('wmd-input');
+    editor.create();
+</script>
 </body>
 </html>
