@@ -103,21 +103,25 @@ def hot_page(page_num):
 
 @app.route('/wait-reply/page/<int:page_num>')
 def wait_reply_page(page_num):
+    hot_topics = db_topics.Topics().get_top5_topics()
+    hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='wait-reply/page')
     if is_login():
-        hot_topics = db_topics.Topics().get_top5_topics()
-        hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
-        pagination = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='wait-reply/page')
         return render_template('login/login-wait_reply.html',
                                user=user,
                                datas=get_wait_reply_datas(page_num=page_num, page_size=15),
                                pagination=pagination,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    return render_template('wait_reply.html')
+    return render_template('wait_reply.html',
+                           datas=get_wait_reply_datas(page_num=page_num, page_size=15),
+                           pagination=pagination,
+                           hot_users=hot_users,
+                           hot_topics=hot_topics)
 
 
 @app.route('/dynamic')
@@ -187,21 +191,25 @@ def hot():
 
 @app.route('/wait-reply')
 def wait_reply():
+    hot_topics = db_topics.Topics().get_top5_topics()
+    hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
+                           page_size=15,
+                           current_page=1,
+                           url='wait-reply/page')
     if is_login():
-        hot_topics = db_topics.Topics().get_top5_topics()
-        hot_users = db_users.Users().get_top5_users()
         user = db_users.Users().get_user(session['username'])
-        pagination = page_html(total_count=db_questions.Questions().get_wait_reply_questions_count(),
-                               page_size=15,
-                               current_page=1,
-                               url='wait-reply/page')
         return render_template('login/login-wait_reply.html',
                                user=user,
                                datas=get_wait_reply_datas(page_num=1, page_size=15),
                                pagination=pagination,
                                hot_users=hot_users,
                                hot_topics=hot_topics)
-    return render_template('wait_reply.html')
+    return render_template('wait_reply.html',
+                           datas=get_wait_reply_datas(page_num=1, page_size=15),
+                           pagination=pagination,
+                           hot_users=hot_users,
+                           hot_topics=hot_topics)
 
 
 @app.route('/people/<name>')

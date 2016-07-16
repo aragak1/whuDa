@@ -47,4 +47,10 @@ class Topic_question(db.Model):
                 count += 1
         return count
 
+    # 返回一个话题下的所有问题id
+    def get_question_id_by_topic_id(self, topic_id):
+        result = []
+        for item in Topic_question.query.filter_by(topic_id=topic_id).all():
+            result.append(item.question_id)
+        return result
 

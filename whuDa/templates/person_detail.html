@@ -107,23 +107,23 @@
                     <!-- 用户数据内容 -->
                     <div class="aw-mod aw-user-detail-box">
                         <div class="mod-head">
-                            <img src="/static/img/avatar/avatar-max-img.png" alt="老白 " />
+                            <img src="/{{ user.avatar_url }}" alt="{{ user.username }} " />
                             <span class="pull-right operate"></span>
-                            <h1>老白  </h1>
-                            <p class="text-color-999">老白。com</p>
+                            <h1>{{ user.username }}  </h1>
+                            <p class="text-color-999">{{ user.website }}</p>
                             <p class="aw-user-flag"></p>
                         </div>
                         <div class="mod-body">
                             <div class="meta">
-                                <span><i class="icon icon-agree"></i> 赞同 : <em class="aw-text-color-orange">55</em></span>
+                                <span><i class="icon icon-agree"></i> 赞同 : <em class="aw-text-color-orange">{{ user.agree_count }}</em></span>
                             </div>
 
                         </div>
                         <div class="mod-footer">
                             <ul class="nav nav-tabs aw-nav-tabs">
                                 <li class="active"><a href="#overview" id="page_overview" data-toggle="tab">概述</a></li>
-                                <li><a href="#questions" id="page_questions" data-toggle="tab">发问<span class="badge">999</span></a></li>
-                                <li><a href="#answers" id="page_answers" data-toggle="tab">回复<span class="badge">999</span></a></li>
+                                <li><a href="#questions" id="page_questions" data-toggle="tab">发问<span class="badge">{{ user.question_count }}</span></a></li>
+                                <li><a href="#answers" id="page_answers" data-toggle="tab">回复<span class="badge">{{ user.answer_count }}</span></a></li>
                                 <li><a href="#focus" id="page_focus" data-toggle="tab">关注</a></li>
                                 <li><a href="#actions" id="page_actions" data-toggle="tab">动态</a></li>
                             </ul>
@@ -141,60 +141,17 @@
                                     </div>
                                     <div class="mod-body">
                                         <div class="aw-profile-answer-list">
+                                            {% for answer_data in answer_datas %}
                                             <div class="aw-item">
                                                 <div class="mod-head">
-                                                    <h4><a href="/question_detail/">话题URL咋还是中文呢？官网也是这样，不能英文或拼音吗</a></h4>
+                                                    <h4><a href="/question/{{ answer_data.question_id }}"></a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>0</span>
-                                                    <p class="aw-hide-txt">我站已经实现，欢迎参观</p>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>{{ answer_data.agree_count }}</span>
+                                                    <p class="aw-hide-txt">{{ answer_data.content }}</p>
                                                 </div>
                                             </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">wencenter团队是不是把tipask给收购了~</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>0</span>
-                                                    <p class="aw-hide-txt">tipask本身就是模仿的一个开发团队，其前期代码写的不够好，最近才更新了代码，用的是laravel框架，对PHP环境要求更高，估计很多用户的网站系统环境目前不能很好的支持它</p>
-                                                </div>
-                                            </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">3.19最新模板下载后台登录不显示验证码</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>0</span>
-                                                    <p class="aw-hide-txt">是的，出现这种情况一般是用户的环境原因造成的。所以每个用户在安装的时候一定要看自己的PHP等环境是否符合WC的安装。另外记得缓存文件夹给予读写权限</p>
-                                                </div>
-                                            </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">怎样快捷的吧WE程序里的文字“问题”改为“话题”</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>0</span>
-                                                    <p class="aw-hide-txt">我已经实现
-
-                                                        [attach]14682[/attach]
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">老白3.2.0啥时候出？会添加专栏和打赏功能吗？</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>0</span>
-                                                    <p class="aw-hide-txt">汗，你这是照着我站来啊？官方提供的是程序，自己想要的功能二开或者去雇人二开……
-
-                                                        [attach]14648[/attach]
-
-                                                        [attach]14647[/attach]
-
-                                                        [attach]14649[/attach]</p>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -207,51 +164,17 @@
                                     </div>
                                     <div class="mod-body">
                                         <div class="aw-profile-publish-list">
+                                            {% for question_data in question_datas %}
                                             <div class="aw-item">
                                                 <div class="mod-head">
-                                                    <h4><a href="/question_detail/">虽是鸡肋功能，但也得实现——伊人集打赏功能思路</a></h4>
+                                                    <h4><a href="/question/{{ question_data.question_id }}">{{ question_data.question_title }}</a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>4</span>
-                                                    <p class="aw-hide-txt">523 次浏览 &nbsp;• 5 个关注 &nbsp; • 2016-05-25</p>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>{{ question_data.reply_count }}</span>
+                                                    <p class="aw-hide-txt">{{ question_data.view_count }} 次浏览 &nbsp;• {{ question_data.focus_count }} 个关注 &nbsp; • {{ question_data.publish_time }}</p>
                                                 </div>
                                             </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">发现一个3.1.8版本的模板</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>5</span>
-                                                    <p class="aw-hide-txt">800 次浏览 &nbsp;• 6 个关注 &nbsp; • 2016-05-20</p>
-                                                </div>
-                                            </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">问题详情页调用活动内容的细节调整方法</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>2</span>
-                                                    <p class="aw-hide-txt">311 次浏览 &nbsp;• 6 个关注 &nbsp; • 2016-04-25</p>
-                                                </div>
-                                            </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">来赞助一下？你可以的</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>5</span>
-                                                    <p class="aw-hide-txt">419 次浏览 &nbsp;• 6 个关注 &nbsp; • 2016-04-24</p>
-                                                </div>
-                                            </div>
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question_detail/">分类前台台效果图，实现问题及文章分类单独显示</a></h4>
-                                                </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>6</span>
-                                                    <p class="aw-hide-txt">605 次浏览 &nbsp;• 8 个关注 &nbsp; • 2016-04-18</p>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -264,41 +187,15 @@
                                     </div>
                                     <div class="mod-body">
                                         <ul>
+                                            {% for latest_activity_data in latest_activity_datas %}
                                             <li>
                                                 <p>
-                                                    <span class="pull-right text-color-999">3 天前</span>
-                                                    <em class="pull-left"><a href="/person_detail/" class="aw-user-name" data-id="16757">老白 </a> 回答了问题,</em>
-                                                    <a class="aw-hide-txt" href="/question_detail/">话题URL咋还是中文呢？官网也是这样，不能英文或拼音吗</a>
+                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}</span>
+                                                    <em class="pull-left"><a href="/people/{{ user.uid }}" class="aw-user-name" data-id="16757">{{ user.username }} </a> 回答了问题,</em>
+                                                    <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.question_title }}</a>
                                                 </p>
                                             </li>
-                                            <li>
-                                                <p>
-                                                    <span class="pull-right text-color-999">6 天前</span>
-                                                    <em class="pull-left"><a href="/person_detail/" class="aw-user-name" data-id="16757">老白 </a> 回答了问题,</em>
-                                                    <a class="aw-hide-txt" href="/question_detail/">wencenter团队是不是把tipask给收购了~</a>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    <span class="pull-right text-color-999">6 天前</span>
-                                                    <em class="pull-left"><a href="/person_detail/" class="aw-user-name" data-id="16757">老白 </a> 回答了问题,</em>
-                                                    <a class="aw-hide-txt" href="/question_detail/">3.19最新模板下载后台登录不显示验证码</a>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    <span class="pull-right text-color-999">2016-06-23</span>
-                                                    <em class="pull-left"><a href="/person_detail/" class="aw-user-name" data-id="16757">老白 </a> 回答了问题,</em>
-                                                    <a class="aw-hide-txt" href="/question_detail/">怎样快捷的吧WE程序里的文字“问题”改为“话题”</a>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>
-                                                    <span class="pull-right text-color-999">2016-06-16</span>
-                                                    <em class="pull-left"><a href="/person_detail/" class="aw-user-name" data-id="16757">老白 </a> 回答了问题,</em>
-                                                    <a class="aw-hide-txt" href="/question_detail/">老白3.2.0啥时候出？会添加专栏和打赏功能吗？</a>
-                                                </p>
-                                            </li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
@@ -432,10 +329,11 @@
                 <div class="col-sm-12 col-md-3 aw-side-bar">
                     <div class="aw-mod people-following">
                         <div class="mod-body">
-                            关注 <em class="aw-text-color-blue">2</em> 话题<div class="aw-topic-bar">
+                            关注 <em class="aw-text-color-blue">{{ focus_topic_count }}</em> 话题<div class="aw-topic-bar">
                             <div class="tag-bar clearfix">
-                            <span class="topic-tag"><a href="/topic_detail/" class="text" data-id="3490">水印</a></span>
-                            <span class="topic-tag"><a href="/topic_detail/" class="text" data-id="3493">闲聊</a></span>
+                            {% for focus_topic_data in  focus_topic_datas %}
+                            <span class="topic-tag"><a href="/topic/{{ focus_topic_data.name }}" class="text" data-id="{{ focus_topic_data.topic_id }}">{{ focus_topic_data.name }}</a></span>
+                            {% endfor %}
                             </div>
                         </div>
                         </div>
@@ -447,23 +345,15 @@
                         </div>
                         <div class="mod-body">
                             <ul>
-                                <li><a href="/question_detail/">知乎进入中年期 困惑依然 问答网站盈利是个谜 </a></li>
-                                <li><a href="/question/">3.0 后台预览</a></li>
-                                <li><a href="/question/">1.1 版模板基本处理完成, 已经进入 JS 重构阶段, 发个截图</a></li>
-                                <li><a href="/question/">威望不能在后台给么？</a></li>
-                                <li><a href="/question/">老白自定义二次开发后（包括前台和后台），老白升级之后还可以二次开发的网站也可以升级吗</a></li>
-                                <li><a href="/question/">登录后台时，输入用户名和密码，点击确定，不是跳转到后台首页，而是跳转到前台首页，这是什么问题啊？</a></li>
-                                <li><a href="/question/">【二次开发教程】三、友情链接开发，后台处理页面，附插件下载。</a></li>
-                                <li><a href="/question/">如何更改/?/admin后台地址</a></li>
-                                <li><a href="/question/">最新版BUG一枚:后台设置“只允许通过邀请注册成为会员“为否之后，改不回来</a></li>
-                                <li><a href="/question/">[20160318]邮件群发--&gt;任务管理，管理员发布任务，无结果</a></li>
-                                <li><a href="/question/">老白是独立的前后台吗？不用安装dz, 就可以直接使用吗</a></li>
+                                {% for focus_question_data in focus_question_datas %}
+                                <li><a href="/question/{{ focus_question_data.question_id }}">{{ focus_question_data.title }}</a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
                     <div class="aw-mod">
                         <div class="mod-body">
-                            <span class="aw-text-color-666">页访问量 : 2712 次访问</span>
+                            <span class="aw-text-color-666">页访问量 : {{ user.view_count }} 次访问</span>
                         </div>
                     </div>
                 </div>
