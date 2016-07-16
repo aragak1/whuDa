@@ -47,7 +47,7 @@ def get_topic_by_name(name):
     return json.dumps(data, ensure_ascii=False)
 
 
-@app.route('/api/topic/<int:topic_id>/page/<int:page_num>', methods=['POST', 'GET'])
+@app.route('/api/topic/<int:topic_id>/page/<int:page_num>.json', methods=['POST', 'GET'])
 def get_topic_detail_questions_by_page(topic_id, page_num):
     questions = db_questions.Questions().get_questions_by_topic_id_and_page(topic_id=topic_id, page_num=page_num, page_size=15)
     datas = []

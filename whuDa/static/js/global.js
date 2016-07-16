@@ -182,5 +182,15 @@ function publish_comment() {
 }
 
 function c_all_more() {
-    alert(current_c_all_more_page);
+    var next_page = current_c_all_more_page;
+    var topic_id = topic_detail_page_topic_id
+    var post_url = '/api/topic/' + topic_id + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#c_all_more').children('span').text('没有更多了');
+        }
+        else {
+            
+        }
+    })
 }

@@ -19,6 +19,7 @@
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
     <script>
         var current_c_all_more_page = 1;
+        var topic_detail_page_topic_id = {{ topic.topic_id }};
     </script>
 
     <script src="/static/js/jquery.2.js?" type="text/javascript"></script>
@@ -190,7 +191,7 @@
                                                         <a href="/question/{{ data.question_id }}" class="pull-right text-color-999">回复</a>
                                                         <p>
                                                             <a href="/people{{ data.user_url }}" class="aw-user-name">{{ data.dynamic_str }}</a>
-                                                            <span class="text-color-999">发起了问题 • {{ data.question_focus_count }} 人关注 • {{ data.question_answer_count }} 个回复 • {{ data.question_view_count }} 次浏览 • 2016-01-07 20:46	</span>
+                                                            <span class="text-color-999"> • {{ data.question_focus_count }} 人关注 • {{ data.question_answer_count }} 个回复 • {{ data.question_view_count }} 次浏览 • 2016-01-07 20:46	</span>
                                                         </p>
 
                                                     </div>
