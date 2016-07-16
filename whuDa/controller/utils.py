@@ -140,6 +140,33 @@ def get_wait_reply_datas(page_num, page_size):
         datas.append(data)
     return datas
 
+# unix时间戳转日期
+def timestamp_datetime(unix_time):
+    format = '%Y-%m-%d %H:%M:%S'
+    return time.strftime(format, time.localtime(unix_time))
+
+# 获取某个话题下面需要渲染的问题数据
+def get_topic_detail_question_datas(page_num, page_size, topic_id):
+    datas = []
+    questions = db_questions.Questions().get_questions_by_topic_id_and_page(topic_id=topic_id,
+                                                                            page_num=page_num,
+                                                                            page_size=page_size)
+    for question in questions:
+        data = {
+            'question_id': question.question_id,
+            'title': question.title,
+            'username': db_users.Users().get_user_by_id(question.questioner_uid).username,
+            'is_anonymous': question.is_anonymous,
+            'question_focus_count': db_question_focus.Question_focus().get_question_foucs_count(question.question_id),
+            'question_answer_count': db_answers.Answers().get_answer_count(question.question_id),
+            'question_view_count': db_questions.Questions().get_question_view_count(question.question_id),
+            'publish_time': timestamp_datetime(question.publish_time),
+            'user_url': get_user_url(question.question_id),
+            'dynamic_str': get_dynamic_str(question.question_id)
+        }
+        datas.append(data)
+    return datas
+
 
 # 生成分页html
 def page_html(total_count, page_size, current_page, url):

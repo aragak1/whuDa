@@ -1,5 +1,6 @@
+# _*_ coding: utf8 _*_
 from whuDa import app
-from utils import is_login, page_html
+from utils import is_login, page_html,  get_topic_detail_question_datas
 from flask import render_template, session
 import whuDa.model.users as db_users
 import whuDa.model.topics as db_topics
@@ -144,12 +145,15 @@ def topic_recent_month_page(page_num):
     return render_template('recent_month_topics.html')
 
 
+# 话题的详细页面
 @app.route('/topic/<int:topic_id>')
 def topic_detail(topic_id):
     topic = db_topics.Topics().get_topic_by_id(topic_id)
+    first_page_datas = get_topic_detail_question_datas(page_num=1, page_size=15, topic_id=topic_id)
     if is_login():
         user = db_users.Users().get_user(session['username'])
         return render_template('login/login-topic_detail.html',
                                user=user,
-                               topic=topic)
+                               topic=topic,
+                               datas=first_page_datas)
     return render_template('topic_detail.html')
