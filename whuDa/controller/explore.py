@@ -212,9 +212,15 @@ def wait_reply():
                            hot_topics=hot_topics)
 
 
+# 需要一个user，一个people，5条回复，5条提问，5个动态，关注话题
+# question的reply_count手动计算
+# question的focus_count手动计算
+# 动态的所有数据都要手动计算
+# 关注的话题涉及topic_focus和topics的连接查询
 @app.route('/people/<name>')
 def people(name):
     if is_login():
+        user = db_users.Users().get_user(session['username'])
         return render_template('login/login-person_detail.html')
     return render_template('person_detail.html')
 

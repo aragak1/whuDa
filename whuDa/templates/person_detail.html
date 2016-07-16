@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
     <meta name="renderer" content="webkit" />
-    <title>老白  的个人主页 - WhuDa 符合大学生行为习惯的网络问答社区</title>
+    <title>{{ people.username }}  的个人主页 - WhuDa 符合大学生行为习惯的网络问答社区</title>
     <meta name="keywords" content=" " />
     <meta name="description" content=" " />
     <base href="/" /><!--[if IE]></base><![endif]-->
@@ -107,23 +107,23 @@
                     <!-- 用户数据内容 -->
                     <div class="aw-mod aw-user-detail-box">
                         <div class="mod-head">
-                            <img src="/{{ user.avatar_url }}" alt="{{ user.username }} " />
+                            <img src="/{{ people.avatar_url }}" alt="{{ people.username }} " />
                             <span class="pull-right operate"></span>
-                            <h1>{{ user.username }}  </h1>
-                            <p class="text-color-999">{{ user.website }}</p>
+                            <h1>{{ people.username }}  </h1>
+                            <p class="text-color-999">{{ people.website }}</p>
                             <p class="aw-user-flag"></p>
                         </div>
                         <div class="mod-body">
                             <div class="meta">
-                                <span><i class="icon icon-agree"></i> 赞同 : <em class="aw-text-color-orange">{{ user.agree_count }}</em></span>
+                                <span><i class="icon icon-agree"></i> 赞同 : <em class="aw-text-color-orange">{{ people.agree_count }}</em></span>
                             </div>
 
                         </div>
                         <div class="mod-footer">
                             <ul class="nav nav-tabs aw-nav-tabs">
                                 <li class="active"><a href="#overview" id="page_overview" data-toggle="tab">概述</a></li>
-                                <li><a href="#questions" id="page_questions" data-toggle="tab">发问<span class="badge">{{ user.question_count }}</span></a></li>
-                                <li><a href="#answers" id="page_answers" data-toggle="tab">回复<span class="badge">{{ user.answer_count }}</span></a></li>
+                                <li><a href="#questions" id="page_questions" data-toggle="tab">发问<span class="badge">{{ people.question_count }}</span></a></li>
+                                <li><a href="#answers" id="page_answers" data-toggle="tab">回复<span class="badge">{{ people.answer_count }}</span></a></li>
                                 <li><a href="#focus" id="page_focus" data-toggle="tab">关注</a></li>
                                 <li><a href="#actions" id="page_actions" data-toggle="tab">动态</a></li>
                             </ul>
@@ -191,7 +191,7 @@
                                             <li>
                                                 <p>
                                                     <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}</span>
-                                                    <em class="pull-left"><a href="/people/{{ user.uid }}" class="aw-user-name" data-id="16757">{{ user.username }} </a> 回答了问题,</em>
+                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,</em>
                                                     <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.question_title }}</a>
                                                 </p>
                                             </li>
@@ -329,10 +329,10 @@
                 <div class="col-sm-12 col-md-3 aw-side-bar">
                     <div class="aw-mod people-following">
                         <div class="mod-body">
-                            关注 <em class="aw-text-color-blue">{{ focus_topic_count }}</em> 话题<div class="aw-topic-bar">
+                            关注 <em class="aw-text-color-blue">{{ people.topic_focus_count }}</em> 话题<div class="aw-topic-bar">
                             <div class="tag-bar clearfix">
                             {% for focus_topic_data in  focus_topic_datas %}
-                            <span class="topic-tag"><a href="/topic/{{ focus_topic_data.name }}" class="text" data-id="{{ focus_topic_data.topic_id }}">{{ focus_topic_data.name }}</a></span>
+                            <span class="topic-tag"><a href="/topic/{{ focus_topic_data.topic_id }}" class="text">{{ focus_topic_data.name }}</a></span>
                             {% endfor %}
                             </div>
                         </div>
@@ -353,7 +353,7 @@
                     </div>
                     <div class="aw-mod">
                         <div class="mod-body">
-                            <span class="aw-text-color-666">页访问量 : {{ user.view_count }} 次访问</span>
+                            <span class="aw-text-color-666">页访问量 : {{ people.view_count }} 次访问</span>
                         </div>
                     </div>
                 </div>
