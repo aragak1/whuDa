@@ -60,6 +60,7 @@ def get_dynamic_str(question_id):
             return '匿名用户 回答了问题'
         return db_users.Users().get_username_by_uid(db_answers.Answers().get_last_answer_uid(question_id)) + ' 回答了问题'
 
+
 def get_user_url(question_id):
     # 判断是否有人回答
     if not db_answers.Answers().get_answer_count(question_id):
