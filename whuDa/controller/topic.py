@@ -126,8 +126,12 @@ def topic_recent_month_page(page_num):
     return render_template('recent_month_topics.html')
 
 
-@app.route('/topic/<topic_name>')
-def topic_detail(topic_name):
+@app.route('/topic/<int:topic_id>')
+def topic_detail(topic_id):
+    topic = db_topics.Topics().get_topic_by_id(topic_id)
     if is_login():
-        return render_template('login/login-topic_detail.html')
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/login-topic_detail.html',
+                               user=user,
+                               topic=topic)
     return render_template('topic_detail.html')

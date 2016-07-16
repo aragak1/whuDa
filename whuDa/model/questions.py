@@ -3,7 +3,7 @@ from whuDa import db
 from time import time
 from sqlalchemy import desc, exists, not_
 import whuDa.model.answers as db_answers
-
+import whuDa.model.topic_question as db_topic_question
 
 '''
     question_id int(11) unsigned not null auto_increment comment '问题ID',
@@ -111,3 +111,25 @@ class Questions(db.Model):
             if db_answers.Answers().question_is_answered(question.question_id):
                 result.append(question)
         return result
+
+    # 返回一个话题下所有的问题，按照发布时间排序
+    def get_questions_by_topic_id(self, topic_id, desc_sort=True):
+        questions = []
+        for question_id in db_topic_question.Topic_question().get_question_id_by_topic_id(topic_id):
+            questions.append(self.get_question_by_id(question_id))
+        if not desc_sort:
+            questions.sort(cmp=lambda a, b: int(a['publish_time'] - b['publish_time']))
+        questions.sort(cmp=lambda a, b: int(b['publish_time'] - a['publish_time']))
+        return questions
+
+    # 按照分页获取一个话题下的问题
+    def get_questions_by_topic_id_and_page(self, topic_id, page_num, page_size, desc_sort=True):
+        questions = self.get_questions_by_topic_id(topic_id, desc_sort)
+        total_count = len(questions)
+        start_index = (page_num-1)*page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return questions[start_index:end_index]
+            return questions[start_index:]
+        return []

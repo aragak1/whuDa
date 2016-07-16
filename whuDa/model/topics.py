@@ -15,7 +15,7 @@ class Topics(db.Model):
 
     # 获取所有
     def get_all_topics(self):
-        return db.session.query(Topics).all()
+        return Topics.query.all()
 
     # 根据关键字匹配
     def get_by_keyword(self, keyword):
@@ -119,4 +119,6 @@ class Topics(db.Model):
     # 根据id获取话题
     def get_topic_by_id(self, topic_id):
         return Topics.query.filter_by(topic_id=topic_id).first()
+
+
 
