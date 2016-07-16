@@ -141,14 +141,14 @@
                                     </div>
                                     <div class="mod-body">
                                         <div class="aw-profile-answer-list">
-                                            {% for answer_data in answer_datas %}
+                                            {% for i in range(1, 6) %}
                                             <div class="aw-item">
                                                 <div class="mod-head">
-                                                    <h4><a href="/question/{{ answer_data.question_id }}"></a></h4>
+                                                    <h4><a href="/question/{{ answer_datas[i].question_id }}"></a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>{{ answer_data.agree_count }}</span>
-                                                    <p class="aw-hide-txt">{{ answer_data.content }}</p>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>{{ answer_datas[i].agree_count }}</span>
+                                                    <p class="aw-hide-txt">{{ answer_datas[i].content }}</p>
                                                 </div>
                                             </div>
                                             {% endfor %}
@@ -164,14 +164,14 @@
                                     </div>
                                     <div class="mod-body">
                                         <div class="aw-profile-publish-list">
-                                            {% for question_data in question_datas %}
+                                            {% for i in range(1, 6) %}
                                             <div class="aw-item">
                                                 <div class="mod-head">
-                                                    <h4><a href="/question/{{ question_data.question_id }}">{{ question_data.question_title }}</a></h4>
+                                                    <h4><a href="/question/{{ question_datas[i].question_id }}">{{ question_datas[i].question_title }}</a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>{{ question_data.reply_count }}</span>
-                                                    <p class="aw-hide-txt">{{ question_data.view_count }} 次浏览 &nbsp;• {{ question_data.focus_count }} 个关注 &nbsp; • {{ question_data.publish_time }}</p>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>{{ question_datas[i].reply_count }}</span>
+                                                    <p class="aw-hide-txt">{{ question_datas[i].view_count }} 次浏览 &nbsp;• {{ question_datas[i].focus_count }} 个关注 &nbsp; • {{ question_datas[i].publish_time }}</p>
                                                 </div>
                                             </div>
                                             {% endfor %}
@@ -187,12 +187,12 @@
                                     </div>
                                     <div class="mod-body">
                                         <ul>
-                                            {% for latest_activity_data in latest_activity_datas %}
+                                            {% for i in range(1, 6) %}
                                             <li>
                                                 <p>
-                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}</span>
+                                                    <span class="pull-right text-color-999">{{ latest_activity_datas[i].last_time }}</span>
                                                     <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,</em>
-                                                    <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.question_title }}</a>
+                                                    <a class="aw-hide-txt" href="/question/{{ latest_activity_datas[i].question_id }}">{{ latest_activity_datas[i].question_title }}</a>
                                                 </p>
                                             </li>
                                             {% endfor %}
@@ -345,8 +345,8 @@
                         </div>
                         <div class="mod-body">
                             <ul>
-                                {% for focus_question_data in focus_question_datas %}
-                                <li><a href="/question/{{ focus_question_data.question_id }}">{{ focus_question_data.title }}</a></li>
+                                {% for i in range(1, 6) %}
+                                <li><a href="/question/{{ focus_question_datas[i].question_id }}">{{ focus_question_datas[i].title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
