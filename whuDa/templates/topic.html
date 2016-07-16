@@ -97,395 +97,34 @@
                     <!-- 我关注的话题 -->
                     <div class="aw-mod aw-topic-list">
                         <div class="mod-body clearfix">
+                            {% for data in datas %}
                             <div class="aw-item">
                                 <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/bug">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
+                                <a class="img aw-border-radius-5" href="/topic/{{ data.topic_id }}">
+                                    <img src="/{{ data.topic_url }}" alt="{{ data.topic_name }}" />
                                 </a>
 
                                 <p class="clearfix">
                                     <!-- 话题内容 -->
                                     <span class="topic-tag">
-                                        <a class="text" href="/topic/bug" data-id="5">bug</a>
+                                        <a class="text" href="/topic/{{ data.topic_id }}">{{ data.topic_name }}</a>
                                     </span>
 
                                 </p>
                                 <p class="text-color-999">
-                                    <span>1654 个讨论</span>
-                                    <span>433 个关注</span>
+                                    <span>{{ data.topic_question_count }} 个问题</span>
+                                    <span>{{ data.topic_focus }} 个关注</span>
                                 </p>
-                                <p class="text-color-999">7 天新增 5 个讨论, 30 天新增 16 个讨论 </p>
+                                <p class="text-color-999">7 天新增 {{ data.last_week_question_count }} 个问题, 30 天新增 {{ data.last_month_question_count }} 个问题 </p>
                             </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/WhuDa">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/WhuDa">WhuDa</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>868 个讨论</span>
-                                    <span>341 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 6 个讨论, 30 天新增 18 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E5%BB%BA%E8%AE%AE">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E5%BB%BA%E8%AE%AE">建议</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>619 个讨论</span>
-                                    <span>199 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 1 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E5%BE%AE%E4%BF%A1">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E5%BE%AE%E4%BF%A1">微信</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>527 个讨论</span>
-                                    <span>187 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 2 个讨论, 30 天新增 7 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/template">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/template">模板</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>415 个讨论</span>
-                                    <span>143 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 4 个讨论, 30 天新增 13 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/editor">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/editor">编辑器</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>402 个讨论</span>
-                                    <span>93 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 3 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91">二次开发</a>
-                                    </span>
-                                </p>
-                                <p class="text-color-999">
-                                    <span>395 个讨论</span>
-                                    <span>90 个关注</span>
-                                </p>
-                                <p class="text-color-999"> 7 天新增 2 个讨论, 30 天新增 3 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E8%AF%9D%E9%A2%98">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E8%AF%9D%E9%A2%98">话题</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>336 个讨论</span>
-                                    <span>64 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 3 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/bug%E5%8F%8D%E9%A6%88">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/bug%E5%8F%8D%E9%A6%88">bug反馈</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>298 个讨论</span>
-                                    <span>26 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 3 个讨论, 30 天新增 8 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E9%97%AE%E9%A2%98">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E9%97%AE%E9%A2%98">问题</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>291 个讨论</span>
-                                    <span>13 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 2 个讨论, 30 天新增 3 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E4%BC%AA%E9%9D%99%E6%80%81">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E4%BC%AA%E9%9D%99%E6%80%81">伪静态</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>275 个讨论</span>
-                                    <span>23 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 2 个讨论, 30 天新增 4 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/User_Experience">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/User_Experience">用户体验</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>264 个讨论</span>
-                                    <span>175 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 2 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E6%89%8B%E6%9C%BA%E7%89%88">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E6%89%8B%E6%9C%BA%E7%89%88">手机版</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>255 个讨论</span>
-                                    <span>50 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 3 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E5%8D%87%E7%BA%A7">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E5%8D%87%E7%BA%A7">升级</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>242 个讨论</span>
-                                    <span>45 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 2 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%B9%B3%E5%8F%B0" d="1671">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/static/img/topic-mid-img.png">微信公众平台</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>235 个讨论</span>
-                                    <span>90 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 2 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E5%8A%9F%E8%83%BD">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E5%8A%9F%E8%83%BD">功能</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>226 个讨论</span>
-                                    <span>89 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 1 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/anwsion">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/anwsion">anwsion</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>204 个讨论</span>
-                                    <span>213 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 0 个讨论, 30 天新增 0 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/3.0">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/3.0">3.0</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>199 个讨论</span>
-                                    <span>26 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 1 个讨论, 30 天新增 2 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E6%8F%92%E4%BB%B6">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E6%8F%92%E4%BB%B6">插件</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>178 个讨论</span>
-                                    <span>43 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 2 个讨论, 30 天新增 4 个讨论</p>
-                            </div>
-                            <div class="aw-item">
-                                <!-- 话题图片 -->
-                                <a class="img aw-border-radius-5" href="/topic/%E8%BF%90%E8%90%A5">
-                                    <img src="/static/img/topic-mid-img.png" alt="" />
-                                </a>
-
-                                <p class="clearfix">
-                                    <!-- 话题内容 -->
-                                    <span class="topic-tag">
-                                        <a class="text" href="/topic/%E8%BF%90%E8%90%A5">运营</a>
-                                    </span>
-
-                                </p>
-                                <p class="text-color-999">
-                                    <span>172 个讨论</span>
-                                    <span>51 个关注</span>
-                                </p>
-                                <p class="text-color-999">7 天新增 2 个讨论, 30 天新增 3 个讨论</p>
-                            </div>
+                            {% endfor %}
                         </div>
                         <div class="mod-footer clearfix">
                             <div class="page-control">
                                 <ul class="pagination pull-right">
-                                    <li class="active"><a href="javascript:;">1</a></li>
-                                    <li><a href="/topic/page-2">2</a></li>
-                                    <li><a href="/topic/page-3">3</a></li>
-                                    <li><a href="/topic/page-4">4</a></li>
-                                    <li><a href="/topic/page-2">&gt;</a></li>
-                                    <li><a href="/topic/page-119">&gt;&gt;</a></li>
+                                    {% autoescape false %}
+                                    {{ pagination }}
+                                    {% endautoescape %}
                                 </ul>
                             </div>
                         </div>
@@ -502,16 +141,16 @@
                             <dl>
                                 <dt class="pull-left">
                                     <!-- 话题图片 -->
-                                    <a class="img aw-border-radius-5" href="/topic/WhuDa">
-                                        <img src="/static/img/topic-mid-img.png" alt="WhuDa" />
+                                    <a class="img aw-border-radius-5" href="/topic/{{ today_topic.topic_id }}">
+                                        <img src="/{{ today_topic.topic_url }}" alt="{{ today_topic.name }}" />
                                     </a>
 
                                 </dt>
-                                <dd class="pull-left">WhuDa</dd>
+                                <dd class="pull-left">{{ today_topic.name }}</dd>
                             </dl>
                             <!-- 话题描述 -->
                             <p>
-                                <span>WhuDa是一个类似知乎以问答为基础的完全开源的社交网络建站程序，基于 Python+MYSQL 应用架构，它集合了问答，digg，wiki 等多个程序的优点，帮助用户轻松搭建专业的知识库和在线问答社区。</span>...<a href="/topic/WhuDa">进入话题 »</a></p>
+                                <span>{{ today_topic.introducation }}</span>...<a href="/topic/{{ today_topic.topic_id }}">进入话题 »</a></p>
                         </div>
                     </div>
                     <!-- 新增话题 -->
