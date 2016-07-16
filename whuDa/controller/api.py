@@ -62,7 +62,8 @@ def get_topic_detail_questions_by_page(topic_id, page_num):
             'question_view_count': db_questions.Questions().get_question_view_count(question.question_id),
             'publish_time': timestamp_datetime(question.publish_time),
             'user_url': get_user_url(question.question_id),
-            'dynamic_str': get_dynamic_str(question.question_id)
+            'dynamic_str': get_dynamic_str(question.question_id),
+            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url
         }
         datas.append(data)
     return json.dumps(datas, ensure_ascii=False)

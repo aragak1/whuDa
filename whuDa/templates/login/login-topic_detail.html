@@ -180,7 +180,7 @@
                                                 {% for data in datas %}
                                                 <div class="aw-item">
                                                 {% if data.is_anonymous %}
-                                                    <a class="aw-user-name hidden-xs" href=""><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>
+                                                    <a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>
                                                 {% else %}
                                                     <a class="aw-user-name hidden-xs" href="/people{{ data.user_url }}"><img src="{{ data.avatar_url}}" /></a>
                                                 {% endif %}
@@ -191,7 +191,7 @@
                                                         <a href="/question/{{ data.question_id }}" class="pull-right text-color-999">回复</a>
                                                         <p>
                                                             <a href="/people{{ data.user_url }}" class="aw-user-name">{{ data.dynamic_str }}</a>
-                                                            <span class="text-color-999"> • {{ data.question_focus_count }} 人关注 • {{ data.question_answer_count }} 个回复 • {{ data.question_view_count }} 次浏览 • 2016-01-07 20:46	</span>
+                                                            <span class="text-color-999"> • {{ data.question_focus_count }} 人关注 • {{ data.question_answer_count }} 个回复 • {{ data.question_view_count }} 次浏览 • {{ data.publish_time }}</span>
                                                         </p>
 
                                                     </div>

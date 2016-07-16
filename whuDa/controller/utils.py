@@ -179,8 +179,7 @@ def get_topic_detail_question_datas(page_num, page_size, topic_id):
             'publish_time': timestamp_datetime(question.publish_time),
             'user_url': get_user_url(question.question_id),
             'dynamic_str': get_dynamic_str(question.question_id),
-            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url,
-            'is_anonymous_answer': ''
+            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url
         }
         datas.append(data)
     return datas
