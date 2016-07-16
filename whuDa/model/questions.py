@@ -3,7 +3,6 @@ from whuDa import db
 from time import time
 from sqlalchemy import desc, exists, not_
 import whuDa.model.answers as db_answers
-import whuDa.model.topic_question as db_topic_question
 
 '''
     question_id int(11) unsigned not null auto_increment comment '问题ID',
@@ -114,6 +113,7 @@ class Questions(db.Model):
 
     # 返回一个话题下所有的问题，按照发布时间排序
     def get_questions_by_topic_id(self, topic_id, desc_sort=True):
+        import whuDa.model.topic_question as db_topic_question
         questions = []
         for question_id in db_topic_question.Topic_question().get_question_id_by_topic_id(topic_id):
             questions.append(self.get_question_by_id(question_id))
