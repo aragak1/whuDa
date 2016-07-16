@@ -9,6 +9,7 @@ import whuDa.model.topics as db_topics
 import whuDa.model.users as db_users
 from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_date
 from whuDa import app
+from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas, get_user_latest_activity_datas
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -230,10 +231,55 @@ def wait_reply():
                            hot_topics=hot_topics)
 
 
+# 需要一个user，一个people，5条回复，5条提问，5个动态，关注话题，关注的问题
+# question的reply_count手动计算
+# question的focus_count手动计算
+# 动态的所有数据都要手动计算
+# 关注的话题涉及topic_focus和topics的连接查询
 @app.route('/people/<name>')
 def people(name):
+    people = db_users.Users().get_user(username=name)
+    temp_answer_datas = get_user_answer_datas(name)
+    temp_question_datas = get_user_question_datas(name)
+    temp_focus_topic_datas = db_topic_focus.Topic_focus().get_user_focus_topics(db_users.Users().get_uid_by_username(name))
+    temp_focus_question_datas = get_user_focus_question_datas(name)
+    temp_latest_activity_datas = get_user_latest_activity_datas(username=name)
+    if len(temp_answer_datas) > 5:
+        answer_datas = temp_answer_datas[0:5]
+    else:
+        answer_datas = temp_answer_datas
+    if len(temp_question_datas) > 5:
+        question_datas = temp_question_datas[0:5]
+    else:
+        question_datas = temp_question_datas
+    if len(temp_focus_topic_datas) > 5:
+        focus_topic_datas = temp_focus_topic_datas[0:5]
+    else:
+        focus_topic_datas = temp_focus_topic_datas
+    if len(temp_focus_question_datas) > 5:
+        focus_question_datas = temp_focus_question_datas[0:5]
+    else:
+        focus_question_datas = temp_focus_question_datas
+    if len(temp_latest_activity_datas) > 5:
+        latest_activity_datas = temp_latest_activity_datas[0:5]
+    else:
+        latest_activity_datas = temp_latest_activity_datas
     if is_login():
-        return render_template('login/login-person_detail.html')
-    return render_template('person_detail.html')
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/login-person_detail.html',
+                               user=user,
+                               people=people,
+                               answer_datas=answer_datas,
+                               question_datas=question_datas,
+                               latest_activity_datas=latest_activity_datas,
+                               focus_topic_datas=focus_topic_datas,
+                               focus_question_datas=focus_question_datas)
+    return render_template('person_detail.html',
+                           people=people,
+                           answer_datas=answer_datas,
+                           question_datas=question_datas,
+                           latest_activity_datas=latest_activity_datas,
+                           focus_topic_datas=focus_topic_datas,
+                           focus_question_datas=focus_question_datas)
 
 

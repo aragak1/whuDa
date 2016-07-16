@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
+import whuDa.model.users as db_users
 
 
 class Topic_focus(db.Model):

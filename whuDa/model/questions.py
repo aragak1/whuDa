@@ -2,7 +2,8 @@
 from whuDa import db
 from time import time
 from sqlalchemy import desc, exists, not_
-import whuDa.model.answers as db_answers
+import whuDa.model.users as db_users
+import whuDa.model.question_focus as db_question_focus
 
 '''
     question_id int(11) unsigned not null auto_increment comment '问题ID',
@@ -82,10 +83,12 @@ class Questions(db.Model):
 
     # 获取等待回复的问题的数量
     def get_wait_reply_questions_count(self):
+        import whuDa.model.answers as db_answers
         return db.session.query(Questions).filter(not_(exists().where(db_answers.Answers.question_id == Questions.question_id))).count()
 
     # 获取等待回复问题，按照分页获取
     def get_wait_reply_questions_by_page(self, page_num, page_size):
+        import whuDa.model.answers as db_answers
         return db.session.query(Questions).filter(not_(exists().where(db_answers.Answers.question_id == Questions.question_id))).limit(page_size).offset((page_num-1)*page_size)
 
     # 判断问题提是否其是七天内新增的
@@ -104,6 +107,7 @@ class Questions(db.Model):
 
     # 返回等待回复的问题
     def get_wait_reply_questions(self):
+        import whuDa.model.answers as db_answers
         result = []
         questions = Questions.query.order_by(desc(Questions.publish_time)).all()
         for question in questions:
@@ -133,3 +137,27 @@ class Questions(db.Model):
                 return questions[start_index:end_index]
             return questions[start_index:]
         return []
+
+    # 获取一个用户提出的所有问题
+    def get_user_questions(self, username):
+        return db.session.query(Questions).filter(Questions.questioner_uid == db_users.Users().
+                                                  get_uid_by_username(username=username)).all()
+
+    # 获取一个问题的回复数
+    def get_question_reply_count(self, question_id):
+        import whuDa.model.answers as db_answers
+        return db.session.query(db_answers.Answers).filter(db_answers.Answers.question_id == question_id).count()
+
+    # 获取一个问题的关注数
+    def get_question_focus_count(self, question_id):
+        return db.session.query(db_question_focus.Question_focus).\
+            filter(db_question_focus.Question_focus.question_id == question_id).count()
+
+    # 获取一个用户提出的问题，并且按照时间由新到旧排序
+    def get_questions_order_by_time(self, username):
+        return db.session.query(Questions).filter(Questions.questioner_uid == db_users.Users().get_uid_by_username(username)).\
+            order_by(desc(Questions.publish_time)).all()
+
+    # 根据问题id获取问题的title
+    def get_question_title_by_question_id(self, question_id):
+        return db.session.query(Questions.title).filter_by(question_id=question_id)
