@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
-
+import whuDa.model.users as db_users
 class Question_focus(db.Model):
     __tablename__ = 'question_focus'
 
@@ -26,3 +26,8 @@ class Question_focus(db.Model):
     # 判断用户是否已经关注该问题
     def question_focused(self, question_id, uid):
         return db.session.query(Question_focus).filter(Question_focus.uid == uid, Question_focus.question_id == question_id).first()
+
+    # 获取一个用户关注的所有问题
+    def get_user_focus_questions(self, username):
+        import whuDa.model.questions as db_questions
+        return db.session.query(Question_focus).filter(Question_focus.uid == db_users.Users().get_uid_by_username(username))

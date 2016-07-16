@@ -189,3 +189,117 @@ def page_html(total_count, page_size, current_page, url):
     return result
 
 
+# 获取一个用户的回答和回答对应的问题，用于用户主页的回复部分的渲染
+def get_user_answer_datas(username):
+    datas = []
+    answers = db_answers.Answers().get_user_answers_with_question(username=username)
+    for answer in answers:
+        data = {
+            'question_id': answer.question_id,
+            'title': db_questions.Questions().get_question_title_by_question_id(answer.question_id),
+            'agree_count': answer.agree_count,
+            'content': answer.content
+        }
+        datas.append(data)
+    return datas
+
+
+# 获取一个用户的提出的问题，用户用户主页的提问部分的渲染
+def get_user_question_datas(username):
+    datas = []
+    questions = db_questions.Questions().get_user_questions(username=username)
+    for question in questions:
+        data = {
+            'question_id': question.question_id,
+            'title': question.title,
+            'reply_count': db_questions.Questions().get_question_reply_count(question.question_id),
+            'view_count': question.view_count,
+            'focus_count': db_questions.Questions().get_question_focus_count(question_id=question.question_id),
+            'publish_time': question.publish_time
+        }
+        datas.append(data)
+    return datas
+
+
+# 获取一个用户的回复的由新到旧排序的数据
+def get_user_answers_order_by_time(username):
+    datas = []
+    answers = db_answers.Answers().get_user_answers_order_by_time(username=username)
+    for answer in answers:
+        data = {
+            'last_time': answer.answer_time,
+            'question_id': answer.question_id,
+            'title': db_questions.Questions().get_question_title_by_question_id(answer.question_id)
+        }
+        datas.append(data)
+    return datas
+
+
+# 获取一个用户的提问的由新到旧排序的数据
+def get_user_questions_order_by_time(username):
+    datas = []
+    questions = db_questions.Questions().get_questions_order_by_time(username=username)
+    for question in questions:
+        data = {
+            'last_time': question.publish_time,
+            'question_id': question.question_id,
+            'title': question.title
+        }
+        datas.append(data)
+    return datas
+
+
+# 获取一个用户所关注的问题的数据
+def get_user_focus_question_datas(username):
+    datas = []
+    focus_questions = db_question_focus.Question_focus().get_user_focus_questions(username)
+    for focus_question in focus_questions:
+        data = {
+            'question_id': focus_question.question_id,
+            'title': db_questions.Questions().get_question_title_by_question_id(focus_question.question_id)
+        }
+        datas.append(data)
+    return datas
+
+
+# 获取一个用户的最新动态的数据（回复和提问的综合)
+def get_user_latest_activity_datas(username):
+    datas = []
+    latest_answer_datas = get_user_answers_order_by_time(username)
+    latest_question_datas = get_user_questions_order_by_time(username)
+    len1 = len(latest_answer_datas)
+    len2 = len(latest_question_datas)
+    x = 0
+    j = 0
+    for i in range(1, len1 + len2 + 1):
+        if x <= len1 - 1 and j <= len2 - 1:
+            if latest_answer_datas[x]['last_time'] > latest_question_datas[j]['last_time']:
+                is_question = 0
+                question_id = latest_answer_datas[x]['question_id']
+                title = db_questions.Questions().get_question_title_by_question_id(question_id)
+                x += 1
+            else:
+                is_question = 1
+                question_id = latest_question_datas[j]['question_id']
+                title = latest_question_datas[j]['title']
+                j += 1
+        elif x > len1 - 1 and j <= len2 - 1:
+            is_question = 1
+            question_id = latest_question_datas[j]['question_id']
+            title = latest_question_datas[j]['title']
+            j += 1
+        elif x <= len1 - 1 and j >= len2 - 1:
+            is_question = 0
+            question_id = latest_answer_datas[x]['question_id']
+            title = db_questions.Questions().get_question_title_by_question_id(question_id)
+            x += 1
+        else:
+            pass
+        data = {
+            'is_question': is_question,
+            'question_id': question_id,
+            'title': title
+        }
+        datas.append(data)
+    return datas
+

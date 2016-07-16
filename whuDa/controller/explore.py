@@ -1,13 +1,13 @@
 # _*_ coding:utf8 _*_
 import sys
-
 from flask import render_template, redirect, session
-
 import whuDa.model.questions as db_questions
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topics as db_topics
 import whuDa.model.users as db_users
-from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas
+import whuDa.model.question_focus as db_question_focus
+from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_user_answer_datas
+from utils import get_user_question_datas, get_user_latest_activity_datas, get_user_focus_question_datas
 from whuDa import app
 
 reload(sys)
@@ -219,11 +219,49 @@ def wait_reply():
 # 关注的话题涉及topic_focus和topics的连接查询
 @app.route('/people/<name>')
 def people(name):
+    people = db_users.Users().get_user(username=name)
+    temp_answer_datas = get_user_answer_datas(name)
+    temp_question_datas = get_user_question_datas(name)
+    temp_focus_topic_datas = db_topic_focus.Topic_focus().get_user_focus_topics(db_users.Users().get_uid_by_username(name))
+    temp_focus_question_datas = get_user_focus_question_datas(name)
+    temp_latest_activity_datas = get_user_latest_activity_datas(username=name)
+    if len(temp_answer_datas) > 5:
+        answer_datas = temp_answer_datas[0:5]
+    else:
+        answer_datas = temp_answer_datas
+    if len(temp_question_datas) > 5:
+        question_datas = temp_question_datas[0:5]
+    else:
+        question_datas = temp_question_datas
+    if len(temp_focus_topic_datas) > 5:
+        focus_topic_datas = temp_focus_topic_datas[0:5]
+    else:
+        focus_topic_datas = temp_focus_topic_datas
+    if len(temp_focus_question_datas) > 5:
+        focus_question_datas = temp_focus_question_datas[0:5]
+    else:
+        focus_question_datas = temp_focus_question_datas
+    if len(temp_latest_activity_datas) > 5:
+        latest_activity_datas = temp_latest_activity_datas[0:5]
+    else:
+        latest_activity_datas = temp_latest_activity_datas
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        people = db_users.Users().get_user(username=name)
-        return render_template('login/login-person_detail.html')
-    return render_template('person_detail.html')
+        return render_template('login/login-person_detail.html',
+                               user=user,
+                               people=people,
+                               answer_datas=answer_datas,
+                               question_datas=question_datas,
+                               latest_activity_datas=latest_activity_datas,
+                               focus_topic_datas=focus_topic_datas,
+                               focus_question_datas=focus_question_datas)
+    return render_template('person_detail.html',
+                           people=people,
+                           answer_datas=answer_datas,
+                           question_datas=question_datas,
+                           latest_activity_datas=latest_activity_datas,
+                           focus_topic_datas=focus_topic_datas,
+                           focus_question_datas=focus_question_datas)
 
 
 @app.route('/setting/security')

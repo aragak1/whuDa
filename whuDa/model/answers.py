@@ -2,6 +2,8 @@
 from whuDa import db
 from time import time
 from sqlalchemy import desc
+import whuDa.model.questions as db_questions
+import whuDa.model.users as db_users
 
 
 class Answers(db.Model):
@@ -56,4 +58,13 @@ class Answers(db.Model):
         if Answers.query.filter_by(question_id=question_id).count():
             return True
         return False
+
+    # 获取一个用户的所有回答和回答对应的问题
+    def get_user_answers_with_question(self, username):
+        return db.session.query(Answers).filter(Answers.answer_uid == db_users.Users().get_uid_by_username(username))
+
+    # 获取一个用户的所有回复并且按照时间由新到旧排序
+    def get_user_answers_order_by_time(self, username):
+        return db.session.query(Answers).filter(Answers.answer_uid == db_users.Users().get_uid_by_username(username)).\
+            order_by(desc(Answers.answer_time)).all()
 
