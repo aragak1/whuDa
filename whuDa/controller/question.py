@@ -83,32 +83,35 @@ def publish_question():
 
 @app.route('/question/<int:id>')
 def question(id):
+    db_questions.Questions().add_question_view_count(id)
+    user = db_users
+    question = db_questions.Questions().get_question_by_id(id)
+    questioner = db_users.Users().get_user_by_id(uid=question.questioner_uid)
+    question_focus_cnt = db_question_focus.Question_focus().get_question_foucs_count(id)
+    answers = db_answers.Answers().get_all_answer(id)
+    answer_users = []
+
+    for answer in answers:
+        answer_users.append(db_users.Users().get_user_by_id(answer.answer_uid))
+    # 合并answers和answer_users
+    answers_and_users = []
+
+    for i in range(len(answers)):
+        answer_and_user = {
+            'uid': answers[i].answer_uid,
+            'content': answers[i].content,
+            'username': answer_users[i].username,
+            'avatar_url': answer_users[i].avatar_url,
+            'introduction': answer_users[i].introduction}
+        answers_and_users.append(answer_and_user)
+    topic_ids = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
+    topics = []
+    for topic_id in topic_ids:
+        temp_dict = {'topic_id': topic_id, 'name': db_topics.Topics().get_topic_name_by_id(topic_id)}
+        topics.append(temp_dict)
     if is_login():
-        db_questions.Questions().add_question_view_count(id)
         user = db_users.Users().get_user(session['username'])
-        question = db_questions.Questions().get_question_by_id(id)
-        questioner = db_users.Users().get_user_by_id(uid=question.questioner_uid)
-        question_focus_cnt = db_question_focus.Question_focus().get_question_foucs_count(id)
-        answers = db_answers.Answers().get_all_answer(id)
-        answer_users = []
-        for answer in answers:
-            answer_users.append(db_users.Users().get_user_by_id(answer.answer_uid))
-        # 合并answers和answer_users
-        answers_and_users = []
-        for i in range(len(answers)):
-            answer_and_user = {
-                'uid': answers[i].answer_uid,
-                'content': answers[i].content,
-                'username': answer_users[i].username,
-                'avatar_url': answer_users[i].avatar_url,
-                'introduction': answer_users[i].introduction}
-            answers_and_users.append(answer_and_user)
         if question:
-            topic_ids = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
-            topics = []
-            for topic_id in topic_ids:
-                temp_dict = {'topic_id': topic_id, 'name': db_topics.Topics().get_topic_name_by_id(topic_id)}
-                topics.append(temp_dict)
             return render_template('login/login-question_detail.html',
                                    question=question,
                                    topics=topics,
@@ -117,7 +120,13 @@ def question(id):
                                    questioner=questioner,
                                    answers_and_users=answers_and_users)
         return '没有这个问题'
-    return render_template('question_detail.html')
+    return render_template('question_detail.html',
+                           question=question,
+                           topics=topics,
+                           user=user,
+                           question_focus_cnt=question_focus_cnt,
+                           questioner=questioner,
+                           answers_and_users=answers_and_users)
 
 
 @app.route('/question/answer', methods=['POST'])

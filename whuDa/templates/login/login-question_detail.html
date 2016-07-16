@@ -163,7 +163,7 @@
                         </div>
                         <div class="mod-footer">
                             <div class="meta">
-                                <span class="text-color-999">21 小时前</span>
+                                <span class="text-color-999">{{ question.publish_time }}</span>
                                 <!-- 这里邀请点了以后下面站内邀请的display none 变成block -->
                                 <a class="text-color-999 aw-invite-replay"><i class="icon icon-invite"></i>邀请 </a>
                                 <a class="text-color-999" href="/publish/{{ question.question_id }}"><i class="icon icon-edit"></i>编辑</a>
@@ -277,7 +277,7 @@
                                 <div class="mod-footer">
                                     <!-- 社交操作 -->
                                     <div class="meta clearfix">
-                                        <span class="text-color-999 pull-right">17 小时前</span>
+                                        <span class="text-color-999 pull-right">10 小时前</span>
                                         <!-- 投票栏 -->
 											<span class="operate">
 												<a class="agree" onclick=";"><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i><b class="count">0</b></a>
