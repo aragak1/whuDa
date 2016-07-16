@@ -7,6 +7,7 @@ import whuDa.model.questions as db_questions
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topics as db_topics
 import whuDa.model.users as db_users
+import whuDa.model.notification as db_notification
 from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas
 from whuDa import app
 
@@ -130,13 +131,24 @@ def dynamic():
         return render_template('login/login-dynamic.html')
     return redirect('/')
 
-
 @app.route('/notifications')
-def notifications():
+def show_notifications():
     if is_login():
-        return render_template('login/notifications.html')
+        user=db_users.Users().get_user(session['username'])
+        uid=db_users.Users().get_uid_by_username(session['username'])
+        notifications=db_notification.Notification().get_notification_by_ruid(uid)
+        unread=0
+        for notification in notifications:
+            if notification.is_read==0:
+                unread += 1
+        return render_template('login/notifications.html',
+                               unread=unread,
+                               notifications=notifications)
     return redirect('/')
-
+@app.route('/notifications/<int:notification_id>')
+def afert_read_show_nootifications(notification_id):
+    db_notification.Notification().have_read(notification_id)
+    return show_notifications()
 
 @app.route('/message')
 def message():
