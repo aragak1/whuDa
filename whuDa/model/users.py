@@ -115,4 +115,12 @@ class Users(db.Model):
             datas.append(temp_dict)
         return datas
 
+    # 获取一个user的年月日的dict
+    def get_birthday_dict(self, uid):
+        from whuDa.controller.utils import get_date
+        birthday =  Users.query.filter_by(uid=uid).first().birthday
+        if not birthday:
+            return get_date(0)
+        return get_date(Users.query.filter_by(uid=uid).first().birthday)
+
 

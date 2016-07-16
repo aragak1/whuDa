@@ -1,13 +1,13 @@
 # _*_ coding:utf8 _*_
 import sys
-
+from time import time
 from flask import render_template, redirect, session
-
+import whuDa.model.department as db_department
 import whuDa.model.questions as db_questions
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topics as db_topics
 import whuDa.model.users as db_users
-from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas
+from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_date
 from whuDa import app
 
 reload(sys)
@@ -67,7 +67,7 @@ def discover(page_num):
         return render_template('login/login-discover.html',
                                user=user,
                                datas=get_discover_datas(page_num=page_num, page_size=15),
-                               pagenation=pagination,
+                               pagination=pagination,
                                hot_topics=hot_topics,
                                hot_users=hot_users,
                                focus_topics=focus_topics)
@@ -162,7 +162,25 @@ def about():
 @app.route('/setting')
 def setting():
     if is_login():
-        return render_template('login/user_setting.html')
+        dates = {
+            'year': [y for y in range(1900, 1+get_date(time())['year'])],
+            'month': [m for m in range(1, 13)],
+            'day': [d for d in range(1, 32)]}
+        birthday = db_users.Users().get_birthday_dict(db_users.Users().get_uid_by_username(session['username']))
+        departments = db_department.Department().get_all_department()
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/user_setting.html',
+                               user=user,
+                               departments=departments,
+                               dates=dates,
+                               birthday=birthday)
+    return redirect('/')
+
+
+@app.route('/setting/security')
+def change_pass():
+    if is_login():
+        return render_template('login/change_pass.html')
     return redirect('/')
 
 
@@ -219,8 +237,3 @@ def people(name):
     return render_template('person_detail.html')
 
 
-@app.route('/setting/security')
-def change_pass():
-    if is_login():
-        return render_template('login/change_pass.html')
-    return redirect('/')

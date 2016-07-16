@@ -161,6 +161,19 @@ def timestamp_datetime(unix_time):
     return strftime(format, localtime(unix_time))
 
 
+# 获取年月日的dict
+def get_date(unix_time):
+    date = {
+        'year': int(strftime('%Y', localtime(unix_time))),
+        'month': int(strftime('%m', localtime(unix_time))),
+        'day': int(strftime('%d', localtime(unix_time))),
+        'hour': int(strftime('%H', localtime(unix_time))),
+        'minute': int(strftime('%M', localtime(unix_time))),
+        'secnod': int(strftime('%S', localtime(unix_time)))
+    }
+    return date
+
+
 # 获取某个话题下面需要渲染的问题数据
 def get_topic_detail_question_datas(page_num, page_size, topic_id):
     datas = []
