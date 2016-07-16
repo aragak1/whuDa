@@ -1,3 +1,4 @@
+# _*_ coding: utf8 _*_
 from whuDa import app
 from utils import is_login, page_html,  get_topic_detail_question_datas
 from flask import render_template, session
