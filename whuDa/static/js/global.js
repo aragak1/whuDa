@@ -180,3 +180,32 @@ function publish_comment() {
         }
     })
 }
+
+function c_all_more() {
+    var next_page = current_c_all_more_page + 1;
+    var topic_id = topic_detail_page_topic_id
+    var post_url = '/api/topic/' + topic_id + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#c_all_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item">'
+                if (obj[i].is_anonymous == 1) {
+                    list_html += '<a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>'
+                }
+                else {
+                    list_html += '<a class="aw-user-name hidden-xs" href="/people'+ obj[i].user_url +'"><img src="'+ obj[i].avatar_url + '" /></a>'
+                }
+                list_html += '<div class="aw-question-content"><h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4>'
+                list_html += '<a href="/question/'+ obj[i].question_id +'" class="pull-right text-color-999">回复</a><p>'
+                list_html += '<a href="/people'+ obj[i].user_url +'" class="aw-user-name">'+ obj[i].dynamic_str +'</a>'
+                list_html += '<span class="text-color-999"> • '+ obj[i].question_focus_count +' 人关注 • '+ obj[i].question_answer_count +' 个回复 • '+ obj[i].question_view_count +' 次浏览 • '+ obj[i].publish_time +'</span>'
+                list_html += '</p></div></div>'
+                $('#c_all_list').append(list_html);
+            }
+        }
+    })
+}

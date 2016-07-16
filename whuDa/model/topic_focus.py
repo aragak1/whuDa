@@ -33,3 +33,10 @@ class Topic_focus(db.Model):
             }
             datas.append(data)
         return datas
+
+    # 获取关注某个话题的用户
+    def get_focus_uid(self, topic_id):
+        uids = []
+        for i in Topic_focus.query.filter_by(topic_id=topic_id).all():
+            uids.append(i.uid)
+        return uids

@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from flask import session
 from re import match
-from time import time
+from time import time, strftime, localtime
 from math import ceil
 import whuDa.model.questions as db_questions
 import whuDa.model.users as db_users
@@ -75,6 +75,20 @@ def get_user_url(question_id):
         return '/' + db_users.Users().get_username_by_uid(db_answers.Answers().get_last_answer_uid(question_id))
 
 
+def get_avatar_url(question_id):
+    # 判断是否有人回答
+    if not db_answers.Answers().get_answer_count(question_id):
+        # 是否匿名
+        if db_questions.Questions().get_question_by_id(question_id).is_anonymous:
+            return '/static/img/avatar/avatar.png'
+        return '/' + db_users.Users().get_user_by_id(db_questions.Questions().get_questioner_uid(question_id)).avatar_url
+    else:
+        # 获取最新的回答
+        if db_answers.Answers().get_last_answer(question_id).is_anonymous:
+            return '/static/img/avatar/avatar.png'
+        return '/' + db_users.Users().get_user_by_id(db_answers.Answers().get_last_answer_uid(question_id)).avatar_url
+
+
 # 获取发现页面需要渲染的数据
 def get_discover_datas(page_num, page_size):
     questions = db_questions.Questions().get_questions_by_page(page_num=page_num, page_size=page_size)
@@ -89,7 +103,7 @@ def get_discover_datas(page_num, page_size):
             'question_answer_count': db_answers.Answers().get_answer_count(question.question_id),
             'question_view_count': db_questions.Questions().get_question_view_count(question.question_id),
             'past_time': get_past_time(question.publish_time),
-            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url,
+            'avatar_url': get_avatar_url(question.question_id),
             'dynamic_str': get_dynamic_str(question.question_id),
             'user_url': get_user_url(question.question_id)
         }
@@ -140,10 +154,25 @@ def get_wait_reply_datas(page_num, page_size):
         datas.append(data)
     return datas
 
+
 # unix时间戳转日期
 def timestamp_datetime(unix_time):
     format = '%Y-%m-%d %H:%M:%S'
-    return time.strftime(format, time.localtime(unix_time))
+    return strftime(format, localtime(unix_time))
+
+
+# 获取年月日的dict
+def get_date(unix_time):
+    date = {
+        'year': int(strftime('%Y', localtime(unix_time))),
+        'month': int(strftime('%m', localtime(unix_time))),
+        'day': int(strftime('%d', localtime(unix_time))),
+        'hour': int(strftime('%H', localtime(unix_time))),
+        'minute': int(strftime('%M', localtime(unix_time))),
+        'secnod': int(strftime('%S', localtime(unix_time)))
+    }
+    return date
+
 
 # 获取某个话题下面需要渲染的问题数据
 def get_topic_detail_question_datas(page_num, page_size, topic_id):
@@ -162,7 +191,8 @@ def get_topic_detail_question_datas(page_num, page_size, topic_id):
             'question_view_count': db_questions.Questions().get_question_view_count(question.question_id),
             'publish_time': timestamp_datetime(question.publish_time),
             'user_url': get_user_url(question.question_id),
-            'dynamic_str': get_dynamic_str(question.question_id)
+            'dynamic_str': get_dynamic_str(question.question_id),
+            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url
         }
         datas.append(data)
     return datas

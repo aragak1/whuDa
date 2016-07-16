@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +9,14 @@
     <meta name="keywords" content=" "/>
     <meta name="description" content=" "/>
     <base href="/" /><!--[if IE]></base><![endif]-->
+    <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/icon.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/common.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/link.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="static/css/user-setting.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/user-setting.css" rel="stylesheet" type="text/css" />
 
 
     <script src="/static/js/jquery.2.js" type="text/javascript"></script>
@@ -102,8 +102,8 @@
         <!-- 用户栏 -->
         <div class="aw-user-nav">
             <!-- 登陆&注册栏 -->
-            <a href="/people/t" class="aw-user-nav-dropdown">
-                <img alt="t" src="/static/img/avatar/avatar-max-img.png" />
+            <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                <img alt="t" src="/{{ user.avatar_url }}" />
 
             </a>
             <div class="aw-dropdown dropdown-list pull-right">
@@ -140,7 +140,7 @@
                     <div class="tabbable">
                         <ul class="nav nav-tabs aw-nav-tabs active">
                             <li><a href="/setting/security">安全设置</a></li>
-                            <li class="active"><a href="/setting/profile">基本资料</a></li>
+                            <li class="active"><a href="/setting">基本资料</a></li>
 
                             <h2><i class="icon icon-setting"></i> 用户设置</h2>
                         </ul>
@@ -154,71 +154,83 @@
                                     <div class="mod-head">
                                         <h3>基本信息</h3>
                                     </div>
-                                    <form id="setting_form" method="post" action="/setting">
                                         <div class="mod-body">
                                             <dl>
-                                                <dt>账号:</dt>
-                                                <dd>terry0125@foxmail.com</dd>
+                                                <dt>用户名:</dt>
+                                                <dd>{{ user.username }}</dd>
                                             </dl>
                                             <dl>
-                                                <dt>真实姓名:</dt>
-                                                <dd>terry0314</dd>
+                                                <dt>邮箱:</dt>
+                                                <dd>{{ user.email }}</dd>
                                             </dl>
                                             <dl>
                                                 <dt>性别:</dt>
                                                 <dd>
                                                     <label>
-                                                        <input name="sex" id="sex" value="1" type="radio" checked="checked" />男</label>
+                                                        <input name="sex" id="sex" value="1" type="radio" {% if user.sex == 1 %} checked="checked" {% endif %}/>男</label>
                                                     <label>
-                                                        <input name="sex" id="sex" value="2" type="radio" />女</label>
+                                                        <input name="sex" id="sex" value="2" type="radio" {% if user.sex == 0 %} checked="checked" {% endif %}/>女</label>
                                                     <label>
-                                                        <input name="sex" id="sex" value="3" type="radio" />保密</label>
+                                                        <input name="sex" id="sex" value="3" type="radio" {% if user.sex == 2 %} checked="checked" {% endif %}/>保密</label>
                                                 </dd>
                                             </dl>
                                             <dl>
                                                 <dt>生日:</dt>
                                                 <dd>
                                                     <select name="birthday_y">
-                                                        <option value=""></option>
-                                                        <option value="2016">2016</option>
+                                                    {% autoescape false %}
+                                                        {% for year in dates.year %}
+                                                        <option value="{{ year }}"
+                                                                {% if birthday %}
+                                                                    {% if birthday.year == year %}
+                                                                        selected
+                                                                    {% endif %}
+                                                                {% endif %}>
+                                                            {{ year }}
+                                                        </option>
+                                                        {% endfor %}
+                                                    {% endautoescape %}
                                                     </select>年
                                                     <select name="birthday_m">
-                                                        <option value="1"  selected>1</option>
+                                                    {% autoescape false %}
+                                                        {% for month in dates.month %}
+                                                            <option value="{{ month }}"
+                                                                    {% if birthday %}{% if birthday.month == month %}
+                                                                        selected
+                                                                    {% endif %}{% endif %}
+                                                            > {{ month }}</option>
+                                                        {% endfor %}
+                                                    {% endautoescape %}
                                                     </select>月
                                                     <select name="birthday_d">
-                                                        <option value="1" selected>1</option>
+                                                    {% autoescape false %}
+                                                        {% for day in dates.day %}
+                                                        <option value="{{ day }}"
+                                                                {% if birthday %}
+                                                                    {% if birthday.day == day %}
+                                                                        selected
+                                                                    {% endif %}
+                                                                {% endif %}>
+                                                            {{ day }}
+                                                        </option>
+                                                        {% endfor %}
+                                                    {% endautoescape %}
                                                     </select>日
-                                                </dd>
-                                            </dl>
-                                            <dl>
-                                                <dt><label>现居:</label></dt>
-                                                <dd>
-                                                    <select name="province" class="select_area"></select> <select name="city" class="select_area"></select>
-                                                </dd>
-                                            </dl>
-                                            <dl>
-                                                <dt><label>职业:</label></dt>
-                                                <dd>
-                                                    <select name="job_id">
-                                                        <option value="0">--</option>
-                                                        <option value="1">站长</option><option value="2">产品经理</option><option value="3">视觉设计师</option><option value="4">程序员</option><option value="5">前端工程师</option><option value="6">风险投资者</option><option value="7">职业经理人</option><option value="8">运营人员</option><option value="9">人力资源</option><option value="10">运维人员</option><option value="11">创业者</option><option value="12">媒体</option><option value="13">天使</option><option value="14">学生</option><option value="17">其他</option>						</select>
                                                 </dd>
                                             </dl>
                                             <dl>
                                                 <dt><label>介绍:</label></dt>
                                                 <dd class="introduce"><input class="form-control" name="signature" maxlength="128" type="text" value="" /></dd>
                                             </dl>
-                                            <dl class="form-horizontal">
+                                            <dl>
                                                 <dt><label>个性网址:</label></dt>
-                                                <dd>
-                                                    <script type="text/javascript">document.write(G_BASE_URL);</script>/people/ <input type="text" class="form-control" value="terry0314" maxlength="32" name="url_token" style="display:inline;width:30%;margin-bottom:0;" />
-                                                    <p class="text-color-999">可输入 4~20 位的英文或数字, 30 天内只能修改一次</p>
-                                                </dd>
+                                                <dd class="introduce"><input class="form-control" name="user_url" maxlength="128" type="text" value="{% if user.website %}{{ user.website }}{% endif %}" /></dd>
                                             </dl>
+
                                             <!-- 上传头像 -->
                                             <div class="side-bar">
                                                 <dl>
-                                                    <dt class="pull-left"><img class="aw-border-radius-5" src="/static/img/avatar/avatar-max-img.png" alt="" id="avatar_src" /></dt>
+                                                    <dt class="pull-left"><img class="aw-border-radius-5" src="/{{ user.avatar_url }}" alt="" id="avatar_src" /></dt>
                                                     <dd class="pull-left">
                                                         <h5>头像设置</h5>
                                                         <p>支持 jpg、gif、png 等格式的图片</p>
@@ -240,19 +252,15 @@
                                         <ul>
                                             <li>
                                                 <label for="input-qq">QQ:</label>
-                                                <input class="form-control" type="text" id="input-qq" name="qq" value="0" />
+                                                <input class="form-control" type="text" id="input-qq" name="qq" value="{% if user.qq %}{{ user.qq }}{% endif %}" />
                                             </li>
                                             <li>
                                                 <label for="input-mobile">手机号码:</label>
-                                                <input class="form-control" type="text" id="input-mobile" name="mobile" value="" />
-                                            </li>
-                                            <li>
-                                                <label for="input-common-email">常用邮箱:</label>
-                                                <input class="form-control" type="text" id="input-common-email" name="common_email" value="" />
+                                                <input class="form-control" type="text" id="input-mobile" name="mobile" value="{% if user.phone %}{{ user.phone }}{% endif %}" />
                                             </li>
                                             <li>
                                                 <label for="input-homepage">网站:</label>
-                                                <input class="form-control" type="text" id="input-homepage" name="homepage" value="" />
+                                                <input class="form-control" type="text" id="input-homepage" name="homepage" value="{% if user.website %}{{ user.website }}{% endif %}" />
                                             </li>
                                         </ul>
                                     </div>
@@ -270,28 +278,40 @@
                                             <thead>
                                             <tr>
                                                 <th>所在院系</th>
-                                                <th width="20%">入学年份</th>
-                                                <th width="20%">操作</th>
+                                                <th width="50%">入学年份</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <input type="text" class="departments form-control" placeholder="如:工程学院计算机系...">
+                                                    <select style="width:150px">
+                                                        {% for department in departments %}
+                                                            <option value="{{ department.department_id }}"
+                                                                    {% if user.department_id == department.department_id %}
+                                                                    check="checked"
+                                                                    {% endif %}>{{ department.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <select class="year">
-                                                        <option value=""></option>
-                                                        <option value="2016">2016</option>
+                                                        <option value="2016" checked="checked">2016</option>
                                                         <option value="2015">2015</option>
                                                         <option value="2014">2014</option>
                                                         <option value="2013">2013</option>
                                                         <option value="2008">2008</option>
                                                         <option value="2007">2007</option>
-                                                        <option value="2006">2006</option>
+                                                        <option value="2005">2005</option>
+                                                        <option value="2004">2004</option>
+                                                        <option value="2002">2003</option>
+                                                        <option value="2001">2001</option>
+                                                        <option value="2000">2000</option>
+                                                        <option value="1999">1999</option>
+                                                        <option value="1998">1998</option>
+                                                        <option value="1997">1997</option>
+                                                        <option value="1996">1996</option>
                                                     </select>年
                                                 </td>
-                                                <td><a class="add-educate">添加</a></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -300,12 +320,9 @@
                                 <!-- end 教育经历 -->
                             </div>
                             <div class="mod-footer clearfix">
-                                <a href="javascript:;" class="btn btn-large btn-success pull-right" onclick=";">保存</a>
+                                <a class="btn btn-large btn-success pull-right" onclick=";">保存</a>
                             </div>
                         </div>
-
-                        <script type="text/javascript" src="/static/js/setting.js"></script>
-
                     </div>
                 </div>
             </div>

@@ -122,8 +122,8 @@ class Questions(db.Model):
         for question_id in db_topic_question.Topic_question().get_question_id_by_topic_id(topic_id):
             questions.append(self.get_question_by_id(question_id))
         if not desc_sort:
-            questions.sort(cmp=lambda a, b: int(a['publish_time'] - b['publish_time']))
-        questions.sort(cmp=lambda a, b: int(b['publish_time'] - a['publish_time']))
+            questions.sort(cmp=lambda a, b: int(a.publish_time - b.publish_time))
+        questions.sort(cmp=lambda a, b: int(b.publish_time - a.publish_time))
         return questions
 
     # 按照分页获取一个话题下的问题

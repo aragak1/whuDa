@@ -70,7 +70,7 @@ class Users(db.Model):
 
     # 通过uid获取一个user
     def get_user_by_id(self, uid):
-        return db.session.query(Users).filter_by(uid=uid).first()
+        return Users.query.filter_by(uid=uid).first()
 
     # 用户问题数加一
     def add_question_count(self, username):
@@ -114,4 +114,13 @@ class Users(db.Model):
             }
             datas.append(temp_dict)
         return datas
+
+    # 获取一个user的年月日的dict
+    def get_birthday_dict(self, uid):
+        from whuDa.controller.utils import get_date
+        birthday =  Users.query.filter_by(uid=uid).first().birthday
+        if not birthday:
+            return get_date(0)
+        return get_date(Users.query.filter_by(uid=uid).first().birthday)
+
 
