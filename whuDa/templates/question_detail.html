@@ -233,13 +233,22 @@
                         </div>
                         <div class="mod-body">
                             <dl>
+                                {% if question.is_anonymous %}
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people/laobai"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
+                                    <img alt="匿名用户" src="/static/img/avatar/avatar.png" />
                                 </dt>
-                                <dd class="pull-left">
-                                    <a class="aw-user-name" href="/people/laobai">老白well</a>
+                                <dd class="pull-left"><br />匿名用户
                                     <p></p>
                                 </dd>
+                                {% else %}
+                                    <dt class="pull-left aw-border-radius-5">
+                                        <a href="/people/{{ questioner.uid }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
+                                    </dt>
+                                    <dd class="pull-left">
+                                        <a class="aw-user-name" href="/people/{{ questioner.uid }}"><br />{{ questioner.username }}</a>
+                                        <p></p>
+                                    </dd>
+                                {% endif %}
                             </dl>
                         </div>
                     </div>
