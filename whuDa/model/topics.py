@@ -3,6 +3,7 @@ from whuDa import db
 from sqlalchemy import desc
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topic_question as db_topic_question
+import whuDa.model.users as db_users
 
 
 class Topics(db.Model):
@@ -119,6 +120,19 @@ class Topics(db.Model):
     # 根据id获取话题
     def get_topic_by_id(self, topic_id):
         return Topics.query.filter_by(topic_id=topic_id).first()
+
+    # 获取话题的关注用户（最多18个）
+    def get_focus_users(self, topic_id):
+        datas = []
+        uids = db_topic_focus.Topic_focus().get_focus_uid(topic_id)
+        if len(uids) > 18:
+            uids = uids[:18]
+        for uid in uids:
+            user = db_users.Users().get_user_by_id(uid)
+            data = {'username': user.username,
+                    'avatar_url': user.avatar_url}
+            datas.append(data)
+        return datas
 
 
 

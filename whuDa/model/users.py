@@ -70,7 +70,7 @@ class Users(db.Model):
 
     # 通过uid获取一个user
     def get_user_by_id(self, uid):
-        return db.session.query(Users).filter_by(uid=uid).first()
+        return Users.query.filter_by(uid=uid).first()
 
     # 用户问题数加一
     def add_question_count(self, username):
@@ -114,4 +114,5 @@ class Users(db.Model):
             }
             datas.append(temp_dict)
         return datas
+
 

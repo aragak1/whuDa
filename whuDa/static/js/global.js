@@ -180,3 +180,7 @@ function publish_comment() {
         }
     })
 }
+
+function c_all_more() {
+    alert(current_c_all_more_page);
+}
