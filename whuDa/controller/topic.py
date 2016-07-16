@@ -9,22 +9,26 @@ import whuDa.model.topic_recommend as db_topic_recommend
 
 @app.route('/topic')
 def topic():
+    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15)
+    today_topic = db_topics.Topics().get_topic_by_id(
+        db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
+    pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                           page_size=15,
+                           current_page=1,
+                           url='topic/page')
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15)
-        today_topic = db_topics.Topics().get_topic_by_id(
-            db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
-        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                               page_size=15,
-                               current_page=1,
-                               url='topic/page')
+
         return render_template('login/login-topic.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                today_topic=today_topic)
-    return render_template('topic.html')
+    return render_template('topic.html',
+                           datas=datas,
+                           pagination=pagination,
+                           today_topic=today_topic)
 
 
 @app.route('/topic/page/<int:page_num>')
@@ -49,75 +53,89 @@ def get_page_topic(page_num):
 
 @app.route('/topic-recent-week')
 def topic_recent_week():
+    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15, last_week=True)
+    pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                           page_size=15,
+                           current_page=1,
+                           url='topic/page')
+    today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15, last_week=True)
-        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                               page_size=15,
-                               current_page=1,
-                               url='topic/page')
-        today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
         return render_template('login/login-recent_week_topics.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic-recent-week/page',
                                today_topic=today_topic)
-    return render_template('recent_week_topics.html')
+    return render_template('recent_week_topics.html',
+                           datas=datas,
+                           pagination=pagination,
+                           url='topic-recent-week/page',
+                           today_topic=today_topic)
 
 
 @app.route('/topic-recent-week/page/<int:page_num>')
 def topic_recent_week_page(page_num):
+    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15, last_week=True)
+    pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='topic-recent-week/page')
+    today_topic = db_topics.Topics().get_topic_by_id(
+        db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
+
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15, last_week=True)
-        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='topic-recent-week/page')
-        today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
         return render_template('login/login-recent_week_topics.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic/page',
                                today_topic=today_topic)
-    return render_template('login/login-recent_week_topics.html')
+    return render_template('login/login-recent_week_topics.html',
+                           datas=datas,
+                           pagination=pagination,
+                           url='topic/page',
+                           today_topic=today_topic)
 
 
 @app.route('/topic-recent-month')
 def topic_recent_month():
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
+    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15, last_month=True)
+    pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                           page_size=15,
+                           current_page=1,
+                           url='topic/page')
+    today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15, last_month=True)
-        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                               page_size=15,
-                               current_page=1,
-                               url='topic/page')
-        today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
         return render_template('login/login-recent_month_topics.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic-recent-month/page',
                                today_topic=today_topic)
-    return render_template('recent_month_topics.html')
+    return render_template('recent_month_topics.html',
+                           datas=datas,
+                           pagination=pagination,
+                           url='topic-recent-month/page',
+                           today_topic=today_topic)
 
 
 @app.route('/topic-recent-month/page/<int:page_num>')
 def topic_recent_month_page(page_num):
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
+    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15, last_month=True)
+    pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='topic/page')
+    today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15, last_month=True)
-        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='topic/page')
-        today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
         return render_template('login/login-recent_month_topics.html',
                                user=user,
                                datas=datas,
