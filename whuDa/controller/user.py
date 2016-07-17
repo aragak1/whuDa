@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template, request, session, redirect, url_for
-from utils import check_mail, check_username, is_login
+from utils import check_mail, check_username, is_login, resize_pic
 import whuDa.model.users as db_users
 import sys, os
 
@@ -80,6 +80,7 @@ def upload_avatar():
             avatar_filename = session['username'] + '.' + avatar.filename.rsplit('.', 1)[1]
             avatar.save(os.path.join(upload_folder, filename))
             # 存图片之后进行缩放处理
+            resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 100, 100)
             db_users.Users().update_avatar_url(session['username'], 'static/img/avatar/' + avatar_filename)
         return 'success'
     return 'error'

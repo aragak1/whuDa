@@ -3,12 +3,11 @@ from flask import session
 from re import match
 from time import time, strftime, localtime
 from math import ceil
+from PIL import Image
 import whuDa.model.questions as db_questions
 import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
-import whuDa.model.topics as db_topics
-import whuDa.model.topic_focus as db_topic_foucs
 import sys
 
 reload(sys)
@@ -338,3 +337,9 @@ def get_user_latest_activity_datas(username):
         datas.append(data)
     return datas
 
+
+# 把图片缩放到指定大小
+def resize_pic(pic_path, save_path, width, height):
+    im = Image.open(pic_path)
+    nim = im.resize((width, height), Image.BILINEAR)
+    nim.save(save_path)
