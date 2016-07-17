@@ -89,7 +89,17 @@ def get_user_question_by_page(uid, page_num):
 
 @app.route('/api/user_answer/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
 def get_user_answer_by_page(uid, page_num):
-    return
+    answers = db_answers.Answers().get_answers_by_uid_and_page(uid=uid, page_num=page_num, page_size=15)
+    datas = []
+    for answer in answers:
+        data = {
+            'question_id': answer.question_id,
+            'title': db_questions.Questions().get_question_title_by_question_id(answer.question_id),
+            'agree_count': answer.agree_count,
+            'content': answer.content
+        }
+        datas.append(data)
+    return json.dumps(datas, ensure_ascii=False)
 
 
 @app.route('/api/user_focus_question/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
