@@ -29,7 +29,7 @@ class Topic_focus(db.Model):
         for topic_id in topic_ids:
             data = {
                 'topic_id': topic_id,
-                'topic_name': db_topics.Topics().get_topic_name_by_id(topic_id)
+                'name': db_topics.Topics().get_topic_name_by_id(topic_id)
             }
             datas.append(data)
         return datas

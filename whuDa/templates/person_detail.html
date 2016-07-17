@@ -110,7 +110,11 @@
                             <img src="/{{ people.avatar_url }}" alt="{{ people.username }} " />
                             <span class="pull-right operate"></span>
                             <h1>{{ people.username }}  </h1>
+                            {% if people.website %}
                             <p class="text-color-999">{{ people.website }}</p>
+                            {% else %}
+                            <p class="text-color-999"></p>
+                            {% endif %}
                             <p class="aw-user-flag"></p>
                         </div>
                         <div class="mod-body">
@@ -144,11 +148,13 @@
                                             {% for answer_data in answer_datas %}
                                             <div class="aw-item">
                                                 <div class="mod-head">
-                                                    <h4><a href="/question/{{ answer_data.question_id }}">{{ answer_datas.title }}</a></h4>
+                                                    <h4><a href="/question/{{ answer_data.question_id }}">{{ answer_data.title }}</a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>{{ answer_data.agree_count }}</span>
-                                                    <p class="aw-hide-txt">{{ answer_data.content }}</p>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>  {{ answer_data.agree_count }}</span>
+                                                    {% autoescape false %}
+                                                    <p style="max-width: 610px">{{ answer_data.content }}</p>
+                                                    {% endautoescape %}
                                                 </div>
                                             </div>
                                             {% endfor %}
@@ -170,8 +176,8 @@
                                                     <h4><a href="/question/{{ question_data.question_id }}">{{ question_data.title }}</a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>{{ question_data.reply_count }}</span>
-                                                    <p class="aw-hide-txt">{{ question_data.view_count }} 次浏览 &nbsp;• {{ question_data.focus_count }} 个关注 &nbsp; • {{ question_data.publish_time }}</p>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>  {{ question_data.reply_count }}</span>
+                                                    <p class="aw-hide-txt">{{ question_data.view_count }} 次浏览 &nbsp;• {{ question_data.focus_count }} 个关注 &nbsp; • {{ question_data.publish_time }}前</p>
                                                 </div>
                                             </div>
                                             {% endfor %}
@@ -191,12 +197,12 @@
                                             <li>
                                                 <p>
                                                     {% if latest_activity_data.is_question %}
-                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}</span>
-                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 提出了问题,</em>
+                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}前</span>
+                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 提出了问题,&nbsp;</em>
                                                     <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.title }}</a>
                                                     {% else %}
-                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}</span>
-                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,</em>
+                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}前</span>
+                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,&nbsp;</em>
                                                     <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.title }}</a>
                                                     {% endif %}
                                                 </p>
@@ -240,37 +246,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="articles">
-                                <div class="aw-mod">
-                                    <div class="mod-head">
-                                        <h3>文章</h3>
-                                    </div>
-                                    <div class="mod-body">
-                                        <div class="aw-profile-publish-list" id="contents_user_actions_articles"></div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 加载更多内容 -->
-                                        <a class="aw-load-more-content" id="bp_user_actions_articles_more">
-                                            <span>更多</span>
-                                        </a>
-                                        <!-- end 加载更多内容 -->
-                                    </div>
-                                </div>
-                            </div>
                             <div class="tab-pane" id="focus">
                                 <!-- 自定义切换 -->
                                 <div class="aw-mod">
                                     <div class="aw-tabs text-center">
                                         <ul>
-                                            <li><a>关注的问题</a></li>
-                                            <li><a>关注的话题</a></li>
+                                            <li class="active"><a href="#contents_user_focus_questions" id="" data-toggle="tab">关注的问题<span class="badge">{{ question_focus_count }}</span></a></li>
+                                            <li><a href="#contents_user_focus_topics" id="" data-toggle="tab">关注的话题<span class="badge">{{ people.topic_focus_count }}</span></a></li>
                                         </ul>
                                     </div>
                                     <div class="mod-body">
                                         <div class="aw-tab-content">
                                             <div class="aw-mod aw-user-center-follow-mod">
                                                 <div class="mod-body">
-                                                    <ul id="contents_user_follows" class="clearfix"></ul>
+                                                    <ul id="contents_user_focus_questions" class="clearfix"></ul>
                                                 </div>
                                                 <div class="mod-footer">
                                                     <!-- 加载更多内容 -->
@@ -282,19 +271,7 @@
                                             </div>
                                             <div class="aw-mod aw-user-center-follow-mod collapse">
                                                 <div class="mod-body">
-                                                    <ul class="clearfix" id="contents_user_fans"></ul>
-                                                </div>
-                                                <div class="mod-footer">
-                                                    <!-- 加载更多内容 -->
-                                                    <a class="aw-load-more-content" id="bp_user_fans_more">
-                                                        <span>更多</span>
-                                                    </a>
-                                                    <!-- end 加载更多内容 -->
-                                                </div>
-                                            </div>
-                                            <div class="aw-mod aw-user-center-follow-mod collapse">
-                                                <div class="mod-body">
-                                                    <ul id="contents_user_topics" class="clearfix"></ul>
+                                                    <ul id="contents_user_focus_topics" class="clearfix"></ul>
                                                 </div>
                                                 <div class="mod-footer">
                                                     <!-- 加载更多内容 -->

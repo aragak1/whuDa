@@ -245,7 +245,7 @@ def get_user_question_datas(username):
             'reply_count': db_questions.Questions().get_question_reply_count(question.question_id),
             'view_count': question.view_count,
             'focus_count': db_questions.Questions().get_question_focus_count(question_id=question.question_id),
-            'publish_time': question.publish_time
+            'publish_time': get_past_time(question.publish_time)
         }
         datas.append(data)
     return datas
@@ -307,28 +307,33 @@ def get_user_latest_activity_datas(username):
                 is_question = 0
                 question_id = latest_answer_datas[x]['question_id']
                 title = db_questions.Questions().get_question_title_by_question_id(question_id)
+                last_time = get_past_time(latest_answer_datas[x]['last_time'])
                 x += 1
             else:
                 is_question = 1
                 question_id = latest_question_datas[j]['question_id']
                 title = latest_question_datas[j]['title']
+                last_time = get_past_time(latest_question_datas[j]['last_time'])
                 j += 1
         elif x > len1 - 1 and j <= len2 - 1:
             is_question = 1
             question_id = latest_question_datas[j]['question_id']
             title = latest_question_datas[j]['title']
+            last_time = get_past_time(latest_question_datas[j]['last_time'])
             j += 1
         elif x <= len1 - 1 and j >= len2 - 1:
             is_question = 0
             question_id = latest_answer_datas[x]['question_id']
             title = db_questions.Questions().get_question_title_by_question_id(question_id)
+            last_time = get_past_time(latest_answer_datas[x]['last_time'])
             x += 1
         else:
             pass
         data = {
             'is_question': is_question,
             'question_id': question_id,
-            'title': title
+            'title': title,
+            'last_time': last_time
         }
         datas.append(data)
     return datas

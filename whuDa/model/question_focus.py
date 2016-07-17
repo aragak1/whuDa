@@ -31,3 +31,7 @@ class Question_focus(db.Model):
     def get_user_focus_questions(self, username):
         import whuDa.model.questions as db_questions
         return db.session.query(Question_focus).filter(Question_focus.uid == db_users.Users().get_uid_by_username(username))
+
+    # 获取用户关注的问题的数量
+    def get_user_focus_question_count(self, username):
+        return db.session.query(Question_focus).filter(Question_focus.uid == db_users.Users().get_uid_by_username(username)).count()
