@@ -24,6 +24,7 @@
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
     <script src="/static/js/compatibility.js" type="text/javascript"></script>
+    <script src="/static/js/global.js" type="text/javascript"></script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
     <![endif]-->
@@ -234,7 +235,10 @@
                                                     <dd class="pull-left">
                                                         <h5>头像设置</h5>
                                                         <p>支持 jpg、gif、png 等格式的图片</p>
-                                                        <a class="btn btn-mini btn-success" id="avatar_uploader" href="javascript:;">上传头像</a> <span id="avatar_uploading_status" class="collapse"><i class="aw-loading"></i> 文件上传中...</span>
+                                                        <a class="btn btn-mini btn-success" id="avatar_uploader">
+                                                            <form method="post" enctype="multipart/form-data" id="upload-form" action="/user/avatar/upload">
+                                                                <input type="file" class="file-input" id="upload_file" name="file" multiple="multiple" />
+                                                            </form>上传头像</a>
                                                     </dd>
                                                 </dl>
                                             </div>

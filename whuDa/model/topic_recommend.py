@@ -33,7 +33,7 @@ class Topic_recommend(db.Model):
                 new_topic_id = randint(1, db_topics.Topics().get_max_topic_id())
 
             # 修改为新的topic
-            Topic_recommend.query.filter_by(new_topic_id=current_topic_id).\
+            Topic_recommend.query.filter_by(topic_id=current_topic_id).\
                 update({Topic_recommend.topic_id: new_topic_id, Topic_recommend.recommend_time: time()})
             db.session.commit()
         return True

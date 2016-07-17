@@ -123,4 +123,10 @@ class Users(db.Model):
             return get_date(0)
         return get_date(Users.query.filter_by(uid=uid).first().birthday)
 
+    # 更新用户头像url
+    def update_avatar_url(self, username, avatar_url):
+        user = Users.query.filter_by(username=username).update({Users.avatar_url: avatar_url})
+        db.session.commit()
+        return True
+
 

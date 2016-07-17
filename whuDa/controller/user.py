@@ -1,9 +1,9 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
-from flask import render_template, request, session, escape, redirect
-from utils import check_mail, check_username
+from flask import render_template, request, session, redirect, url_for
+from utils import check_mail, check_username, is_login
 import whuDa.model.users as db_users
-import sys
+import sys, os
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -47,7 +47,6 @@ def login():
     else:
         username = request.form.get('username')
         password = request.form.get('password')
-        login_type = ''
         if check_mail(username):
             login_type = 'email'
         else:
@@ -64,7 +63,23 @@ def login():
             return 'false'
 
 
-@app.route('/logout', methods=['GET'])
+@app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect('/')
+
+
+@app.route('/user/avatar/upload', methods=['POST'])
+def upload_avatar():
+    if is_login():
+        upload_folder = 'whuDa/static/img/avatar'
+        allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
+        avatar = request.files['file']
+        if avatar and '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
+            filename = session['username'] + '-max.' + avatar.filename.rsplit('.', 1)[1]
+            avatar_filename = session['username'] + '.' + avatar.filename.rsplit('.', 1)[1]
+            avatar.save(os.path.join(upload_folder, filename))
+            # 存图片之后进行缩放处理
+            db_users.Users().update_avatar_url(session['username'], 'static/img/avatar/' + avatar_filename)
+        return 'success'
+    return 'error'

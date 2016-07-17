@@ -43,6 +43,47 @@ $(document).ready(function () {
             '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
             topic_name + '" name="topics[]"></span>');
     });
+
+    //绑定了`submit`事件。
+   $('#upload-form').on('submit',(function(e) {
+   	e.preventDefault();
+   	//序列化表单
+      var serializeData = $(this).serialize();
+
+      // var formData = new FormData(this);
+      $(this).ajaxSubmit({
+           type:'POST',
+           url: '/user/avatar/upload',
+           dataType: 'json',
+           data: serializeData,
+           // data: formData,
+
+           //attention!!!
+           contentType: false,
+           cache: false,
+           processData:false,
+
+           beforeSubmit: function() {
+           		;
+           },
+           uploadProgress: function (event, position, total, percentComplete){
+               ;
+           },
+           success:function(){
+                alert('success');
+           },
+           error:function(data){
+               alert('上传图片出错');
+           }
+       });
+   }));
+
+//绑定文件选择事件，一选择了图片，就让`form`提交。
+
+   $("#upload_file").on("change", function() {
+       alert('选择')
+       $(this).parent().submit();
+});
 });
 
 /*
@@ -209,3 +250,4 @@ function c_all_more() {
         }
     })
 }
+
