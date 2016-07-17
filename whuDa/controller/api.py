@@ -7,6 +7,7 @@ import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
 import json
+from utils import get_past_time
 
 
 # 根据关键字返回匹配的话题
@@ -71,7 +72,19 @@ def get_topic_detail_questions_by_page(topic_id, page_num):
 
 @app.route('/api/user_question/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
 def get_user_question_by_page(uid, page_num):
-    return
+    questions = db_questions.Questions().get_questions_by_username_and_page(uid=uid, page_num=page_num, page_size=15)
+    datas = []
+    for question in questions:
+        data = {
+            'question_id': question.question_id,
+            'title': question.title,
+            'reply_count': db_questions.Questions().get_question_reply_count(question.question_id),
+            'view_count': question.view_count,
+            'focus_count': db_questions.Questions().get_question_focus_count(question_id=question.question_id),
+            'publish_time': get_past_time(question.publish_time)
+        }
+        datas.append(data)
+    return json.dumps(datas, ensure_ascii=False)
 
 
 @app.route('/api/user_answer/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])

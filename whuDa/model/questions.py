@@ -141,7 +141,7 @@ class Questions(db.Model):
     # 获取一个用户提出的所有问题
     def get_user_questions(self, username):
         return db.session.query(Questions).filter(Questions.questioner_uid == db_users.Users().
-                                                  get_uid_by_username(username=username)).all()
+                                                  get_uid_by_username(username=username)).order_by(desc(Questions.publish_time)).all()
 
     # 获取一个问题的回复数
     def get_question_reply_count(self, question_id):
@@ -161,3 +161,20 @@ class Questions(db.Model):
     # 根据问题id获取问题的title
     def get_question_title_by_question_id(self, question_id):
         return db.session.query(Questions).filter_by(question_id=question_id).first().title
+
+    def get_questions_order_by_time_by_uid(self, uid):
+        return db.session.query(Questions).filter(
+            Questions.questioner_uid == uid). \
+            order_by(desc(Questions.publish_time)).all()
+
+    # 按照分页获取一个用户提出的问题
+    def get_questions_by_username_and_page(self, uid, page_num, page_size):
+        questions = self.get_questions_order_by_time_by_uid(uid)
+        total_count = len(questions)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return questions[start_index:end_index]
+            return questions[start_index:]
+        return []
