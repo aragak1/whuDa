@@ -54,36 +54,27 @@ $(document).ready(function () {
       $(this).ajaxSubmit({
            type:'POST',
            url: '/user/avatar/upload',
-           dataType: 'json',
            data: serializeData,
-           // data: formData,
-
-           //attention!!!
            contentType: false,
            cache: false,
            processData:false,
 
-           beforeSubmit: function() {
-           		;
-           },
-           uploadProgress: function (event, position, total, percentComplete){
-               ;
-           },
-           success:function(){
-                alert('success');
+           success:function(data){
+                if (data='success'){
+                    alert('上传成功！');
+                    location.reload();
+                }
            },
            error:function(data){
-               alert('上传图片出错');
+               alert('上传失败！');
            }
        });
    }));
 
-//绑定文件选择事件，一选择了图片，就让`form`提交。
-
-   $("#upload_file").on("change", function() {
-       alert('选择')
+    //绑定文件选择事件，一选择了图片，就让`form`提交。
+    $("#upload_file").on("change", function() {
        $(this).parent().submit();
-});
+    });
 });
 
 /*

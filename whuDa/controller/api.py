@@ -75,20 +75,20 @@ def get_user_question_by_page(uid, page_num):
 
 
 @app.route('/api/user_answer/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
-def get_user_question_by_page(uid, page_num):
+def get_user_answer_by_page(uid, page_num):
     return
 
 
 @app.route('/api/user_focus_question/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
-def get_user_question_by_page(uid, page_num):
+def get_user_focus_question_by_page(uid, page_num):
     return
 
 
 @app.route('/api/user_focus_topic/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
-def get_user_question_by_page(uid, page_num):
+def get_user_focus_topic_by_page(uid, page_num):
     return
 
 
 @app.route('/api/user_latest_activity/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
-def get_user_question_by_page(uid, page_num):
+def get_user_latest_activity_by_page(uid, page_num):
     return
