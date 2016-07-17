@@ -11,6 +11,7 @@ import whuDa.model.question_focus as db_question_focus
 from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_date
 from whuDa import app
 from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas, get_user_latest_activity_datas
+from utils import get_user_focus_questions_list_datas
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -247,6 +248,7 @@ def people(name):
     temp_latest_activity_datas = get_user_latest_activity_datas(username=name)
     temp_question_list_datas = temp_question_datas
     temp_answer_list_datas = temp_answer_datas
+    focus_question_list_datas = get_user_focus_questions_list_datas(people.uid)
     if len(temp_answer_datas) > 5:
         answer_datas = temp_answer_datas[0:5]
     else:
@@ -287,7 +289,8 @@ def people(name):
                                focus_question_datas=focus_question_datas,
                                question_focus_count=db_question_focus.Question_focus().get_user_focus_question_count(name),
                                question_list_datas=question_list_datas,
-                               answer_list_datas=answer_list_datas)
+                               answer_list_datas=answer_list_datas,
+                               focus_question_list_datas=focus_question_list_datas)
     return render_template('person_detail.html',
                            people=people,
                            answer_datas=answer_datas,
@@ -297,6 +300,7 @@ def people(name):
                            focus_question_datas=focus_question_datas,
                            question_focus_count=db_question_focus.Question_focus().get_user_focus_question_count(name),
                            question_list_datas=question_list_datas,
-                           answer_list_datas=answer_list_datas)
+                           answer_list_datas=answer_list_datas,
+                           focus_question_list_datas=focus_question_list_datas)
 
 

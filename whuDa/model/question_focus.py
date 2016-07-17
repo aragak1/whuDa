@@ -32,6 +32,21 @@ class Question_focus(db.Model):
         import whuDa.model.questions as db_questions
         return db.session.query(Question_focus).filter(Question_focus.uid == db_users.Users().get_uid_by_username(username))
 
+    def get_user_focus_questions_by_uid(self, uid):
+        return db.session.query(Question_focus).filter(
+            Question_focus.uid == uid).all()
+
     # 获取用户关注的问题的数量
     def get_user_focus_question_count(self, username):
         return db.session.query(Question_focus).filter(Question_focus.uid == db_users.Users().get_uid_by_username(username)).count()
+
+    def get_focus_questions_by_uid_and_page(self, uid, page_num, page_size):
+        focus_questions = self.get_user_focus_questions_by_uid(uid)
+        total_count = len(focus_questions)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return focus_questions[start_index:end_index]
+            return focus_questions[start_index:]
+        return []
