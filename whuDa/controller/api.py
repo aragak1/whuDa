@@ -67,3 +67,28 @@ def get_topic_detail_questions_by_page(topic_id, page_num):
         }
         datas.append(data)
     return json.dumps(datas, ensure_ascii=False)
+
+
+@app.route('/api/user_question/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
+def get_user_question_by_page(uid, page_num):
+    return
+
+
+@app.route('/api/user_answer/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
+def get_user_question_by_page(uid, page_num):
+    return
+
+
+@app.route('/api/user_focus_question/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
+def get_user_question_by_page(uid, page_num):
+    return
+
+
+@app.route('/api/user_focus_topic/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
+def get_user_question_by_page(uid, page_num):
+    return
+
+
+@app.route('/api/user_latest_activity/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
+def get_user_question_by_page(uid, page_num):
+    return
