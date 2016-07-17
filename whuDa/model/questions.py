@@ -160,4 +160,4 @@ class Questions(db.Model):
 
     # 根据问题id获取问题的title
     def get_question_title_by_question_id(self, question_id):
-        return db.session.query(Questions.title).filter_by(question_id=question_id)
+        return db.session.query(Questions).filter_by(question_id=question_id).first().title
