@@ -256,7 +256,21 @@
                                         <h3>回复</h3>
                                     </div>
                                     <div class="mod-body">
-                                        <div class="aw-profile-answer-list" id="contents_user_actions_answers"></div>
+                                        <div class="aw-profile-answer-list" id="user_answer_more_list">
+                                            {% for answer_list_data in answer_list_datas %}
+                                            <div class="aw-item">
+                                                <div class="mod-head">
+                                                    <h4><a href="/question/{{ answer_list_data.question_id }}">{{ answer_list_data.title }}</a></h4>
+                                                </div>
+                                                <div class="mod-body">
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>&nbsp;{{ answer_list_data.agree_count }}</span>
+                                                    {% autoescape false %}
+                                                    <p style="max-width: 610px">{{ answer_list_data.content }}</p>
+                                                    {% endautoescape %}
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                     <div class="mod-footer">
                                         <a class="aw-load-more-content" id="user_answer_more" auto-load="false" onclick="user_answer_more()">

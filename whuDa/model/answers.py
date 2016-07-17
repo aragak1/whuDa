@@ -69,3 +69,18 @@ class Answers(db.Model):
         return db.session.query(Answers).filter(Answers.answer_uid == db_users.Users().get_uid_by_username(username)).\
             order_by(desc(Answers.answer_time)).all()
 
+    def get_answers_order_by_time_by_uid(self, uid):
+        return db.session.query(Answers).filter(Answers.answer_uid == uid). \
+            order_by(desc(Answers.answer_time)).all()
+
+    def get_answers_by_uid_and_page(self, uid, page_num, page_size):
+        answers = self.get_answers_order_by_time_by_uid(uid)
+        total_count = len(answers)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return answers[start_index:end_index]
+            return answers[start_index:]
+        return []
+
