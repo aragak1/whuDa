@@ -20,11 +20,12 @@
 
 
     <script>
-        var current_ask_more_page = 1;
+        var current_question_more_page = 1;
         var current_answer_more_page = 1;
         var current_focus_question_more_page = 1;
         var current_focus_topic_more_page = 1;
         var current_latest_activity_more_page = 1;
+        var people_id = {{ people.uid }};
     </script>
 
 
@@ -32,6 +33,7 @@
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
+    <script src="/static/js/global.js" type="text/javascript"></script>
     <script type="text/javascript" src="/static/js/compatibility.js"></script>
     <!--[if lte IE 8]>
         <script type="text/javascript" src="/static/js/respond.js"></script>
@@ -227,14 +229,24 @@
                                         <h3>发问</h3>
                                     </div>
                                     <div class="mod-body">
-                                        <div class="aw-profile-publish-list" id="contents_user_actions_questions"></div>
+                                        <div class="aw-profile-publish-list" id="user_question_more_list">
+                                            {% for question_list_data in question_list_datas %}
+                                            <div class="aw-item">
+                                                <div class="mod-head">
+                                                    <h4><a href="/question/{{ question_list_data.question_id }}">{{ question_list_data.title }}</a></h4>
+                                                </div>
+                                                <div class="mod-body">
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;{{ question_list_data.reply_count }}</span>
+                                                    <p class="aw-hide-txt">{{ question_list_data.view_count }} 次浏览 &nbsp;• {{ question_list_data.focus_count }} 个关注 &nbsp; • {{ question_list_data.publish_time }}前</p>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                     <div class="mod-footer">
-                                        <!-- 加载更多内容 -->
-                                        <a class="aw-load-more-content" id="bp_user_actions_questions_more">
+                                        <a class="aw-load-more-content" id="user_question_more" auto-load="false" onclick="user_question_more()">
                                             <span>更多</span>
                                         </a>
-                                        <!-- end 加载更多内容 -->
                                     </div>
                                 </div>
                             </div>
@@ -247,11 +259,9 @@
                                         <div class="aw-profile-answer-list" id="contents_user_actions_answers"></div>
                                     </div>
                                     <div class="mod-footer">
-                                        <!-- 加载更多内容 -->
-                                        <a class="aw-load-more-content" id="bp_user_actions_answers_more">
+                                        <a class="aw-load-more-content" id="user_answer_more" auto-load="false" onclick="user_answer_more()">
                                             <span>更多</span>
                                         </a>
-                                        <!-- end 加载更多内容 -->
                                     </div>
                                 </div>
                             </div>
@@ -271,11 +281,9 @@
                                                     <ul id="contents_user_focus_questions" class="clearfix"></ul>
                                                 </div>
                                                 <div class="mod-footer">
-                                                    <!-- 加载更多内容 -->
-                                                    <a class="aw-load-more-content" id="bp_user_follows_more">
+                                                    <a class="aw-load-more-content" id="user_focus_question_more" auto-load="false" onclick="user_focus_question_more()">
                                                         <span>更多</span>
                                                     </a>
-                                                    <!-- end 加载更多内容 -->
                                                 </div>
                                             </div>
                                             <div class="aw-mod aw-user-center-follow-mod collapse">
@@ -283,11 +291,9 @@
                                                     <ul id="contents_user_focus_topics" class="clearfix"></ul>
                                                 </div>
                                                 <div class="mod-footer">
-                                                    <!-- 加载更多内容 -->
-                                                    <a class="aw-load-more-content" id="bp_user_topics_more">
+                                                    <a class="aw-load-more-content" id="user_focus_topic_more" auto-load="false" onclick="user_focus_topic_more()">
                                                         <span>更多</span>
                                                     </a>
-                                                    <!-- end 加载更多内容 -->
                                                 </div>
                                             </div>
                                         </div>
@@ -304,11 +310,9 @@
                                         <div id="contents_user_actions"></div>
                                     </div>
                                     <div class="mod-footer">
-                                        <!-- 加载更多内容 -->
-                                        <a class="aw-load-more-content" id="bp_user_actions_more">
+                                        <a class="aw-load-more-content" id="user_latest_activity_more" auto-load="false" onclick="user_latest_activity_more()">
                                             <span>更多</span>
                                         </a>
-                                        <!-- end 加载更多内容 -->
                                     </div>
                                 </div>
                             </div>

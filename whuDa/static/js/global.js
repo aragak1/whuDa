@@ -252,7 +252,26 @@ function c_all_more() {
 }
 
 function user_question_more() {
-    
+    var next_page = current_question_more_page + 1;
+    var uid = people_id
+    var post_url = '/api/user_question/' + uid + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#user_question_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item"><div class="mod-head">'
+                list_html += '<h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4></div>'
+                list_html += '<div class="mod-body">'
+                list_html += '<span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;'+ obj[i].reply_count +'</span>'
+                list_html += '<p class="aw-hide-txt">'+ obj[i].view_count +' 次浏览 &nbsp;• '+ obj[i].focus_count +' 个关注 &nbsp; • '+ obj[i].publish_time +'前</p>'
+                list_html += '</div></div>'
+                $('#user_question_more_list').append(list_html);
+            }
+        }
+    })
 }
 
 function user_answer_more() {
