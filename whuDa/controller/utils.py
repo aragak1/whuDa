@@ -343,3 +343,27 @@ def resize_pic(pic_path, save_path, width, height):
     im = Image.open(pic_path)
     nim = im.resize((width, height), Image.BILINEAR)
     nim.save(save_path)
+
+
+def get_user_focus_questions_list_datas(uid):
+    focus_questions = db_question_focus.Question_focus().get_focus_questions_by_uid_and_page(uid=uid, page_num=1,
+                                                                                             page_size=15)
+    datas = []
+    for focus_question in focus_questions:
+        data = {
+            'question_id': focus_question.question_id,
+            'title': db_questions.Questions().get_question_title_by_question_id(focus_question.question_id),
+            'username': db_users.Users().get_user_by_id(focus_question.uid).username,
+            'is_anonymous': db_questions.Questions().get_question_by_id(focus_question.question_id).is_anonymous,
+            'question_focus_count': db_question_focus.Question_focus().get_question_foucs_count(focus_question.question_id),
+            'question_answer_count': db_answers.Answers().get_answer_count(focus_question.question_id),
+            'question_view_count': db_questions.Questions().get_question_view_count(focus_question.question_id),
+            'publish_time': timestamp_datetime(
+                db_questions.Questions().get_question_by_id(focus_question.question_id).publish_time),
+            'user_url': get_user_url(focus_question.question_id),
+            'dynamic_str': get_dynamic_str(focus_question.question_id),
+            'avatar_url': db_users.Users().get_user_by_id(
+                db_questions.Questions().get_question_by_id(focus_question.question_id).questioner_uid).avatar_url
+        }
+        datas.append(data)
+    return datas
