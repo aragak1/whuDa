@@ -177,7 +177,7 @@
                                                     <h4><a href="/question/{{ answer_data.question_id }}">{{ answer_data.title }}</a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>  {{ answer_data.agree_count }}</span>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>&nbsp;{{ answer_data.agree_count }}</span>
                                                     {% autoescape false %}
                                                     <p style="max-width: 610px">{{ answer_data.content }}</p>
                                                     {% endautoescape %}
@@ -202,7 +202,7 @@
                                                     <h4><a href="/question/{{ question_data.question_id }}">{{ question_data.title }}</a></h4>
                                                 </div>
                                                 <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>  {{ question_data.reply_count }}</span>
+                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;{{ question_data.reply_count }}</span>
                                                     <p class="aw-hide-txt">{{ question_data.view_count }} 次浏览 &nbsp;• {{ question_data.focus_count }} 个关注 &nbsp; • {{ question_data.publish_time }}前</p>
                                                 </div>
                                             </div>
@@ -277,8 +277,8 @@
                                 <div class="aw-mod">
                                     <div class="aw-tabs text-center">
                                         <ul>
-                                            <li class="active"><a href="#contents_user_focus_questions" id="" data-toggle="tab">关注的问题<span class="badge">{{ question_focus_count }}</span></a></li>
-                                            <li><a href="#contents_user_focus_topics" id="" data-toggle="tab">关注的话题<span class="badge">{{ people.topic_focus_count }}</span></a></li>
+                                            <li class="active"><a href="#contents_user_focus_questions" id="page_focus_questions" data-toggle="tab">关注的问题<span class="badge">{{ question_focus_count }}</span></a></li>
+                                            <li><a href="#contents_user_focus_topics" id="page_focus_topics" data-toggle="tab">关注的话题<span class="badge">{{ people.topic_focus_count }}</span></a></li>
                                         </ul>
                                     </div>
                                     <div class="mod-body">
@@ -349,7 +349,7 @@
                     </div>
                     <div class="aw-mod aw-text-align-justify">
                         <div class="mod-head">
-                            <a href="/topic/" class="pull-right">更多 &gt;</a>
+                            <a class="pull-right" class="pull-right aw-more-content" href="javascript:;" onclick="$('#page_focus').click();$('#page_focus_questions').click();">更多 &gt;</a>
                             <h3>关注问题</h3>
                         </div>
                         <div class="mod-body">
