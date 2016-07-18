@@ -11,7 +11,7 @@
     <meta name="description" content=" "/>
     <base href="/" /><!--[if IE]></base><![endif]-->
 
-    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="static/css/icon.css" rel="stylesheet" type="text/css" />
     <link href="static/css/common.css" rel="stylesheet" type="text/css" />
     <link href="static/css/link.css" rel="stylesheet" type="text/css" />
@@ -39,7 +39,7 @@
     <div class="container">
         <!-- logo -->
         <div class="aw-logo hidden-xs">
-            <a href="http://wenda.wecenter.com"></a>
+            <a href="/"></a>
         </div>
         <!-- end logo -->
         <!-- 搜索框 -->
@@ -102,13 +102,13 @@
         <!-- 用户栏 -->
         <div class="aw-user-nav">
             <!-- 登陆&注册栏 -->
-            <a href="/people/t" class="aw-user-nav-dropdown">
-                <img alt="t" src="/static/img/avatar/avatar-max-img.png" />
+            <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                <img alt="{{ user.username }}" src="/{{ user.avatar_url }}" />
 
             </a>
             <div class="aw-dropdown dropdown-list pull-right">
                 <ul class="aw-dropdown-list">
-                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">0</span></a></li>
+                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">{{ user.message_unread }}</span></a></li>
                     <li class="hidden-xs"><a href="/setting/profile"><i class="icon icon-setting"></i> 设置</a></li>
                     <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
                 </ul>

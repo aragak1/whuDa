@@ -114,3 +114,12 @@ def update_user_profile():
                                              website=website)
         return 'success'
     return 'error'
+
+
+@app.route('/setting/security')
+def change_pass():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/change_pass.html',
+                               user=user)
+    return redirect('/')

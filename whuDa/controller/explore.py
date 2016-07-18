@@ -180,13 +180,6 @@ def setting():
     return redirect('/')
 
 
-@app.route('/setting/security')
-def change_pass():
-    if is_login():
-        return render_template('login/change_pass.html')
-    return redirect('/')
-
-
 @app.route('/hot')
 def hot():
     hot_topics = db_topics.Topics().get_top5_topics()
