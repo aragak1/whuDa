@@ -249,6 +249,7 @@ def people(name):
     temp_question_list_datas = temp_question_datas
     temp_answer_list_datas = temp_answer_datas
     focus_question_list_datas = get_user_focus_questions_list_datas(people.uid)
+    temp_latest_activity_list_datas = temp_latest_activity_datas
     if len(temp_answer_datas) > 5:
         answer_datas = temp_answer_datas[0:5]
     else:
@@ -277,6 +278,10 @@ def people(name):
         answer_list_datas = temp_answer_list_datas[0:15]
     else:
         answer_list_datas = temp_answer_list_datas
+    if len(temp_latest_activity_list_datas) > 15:
+        latest_activity_list_datas = temp_latest_activity_list_datas[0:15]
+    else:
+        latest_activity_list_datas = temp_latest_activity_list_datas
     if is_login():
         user = db_users.Users().get_user(session['username'])
         return render_template('login/login-person_detail.html',
@@ -290,7 +295,8 @@ def people(name):
                                question_focus_count=db_question_focus.Question_focus().get_user_focus_question_count(name),
                                question_list_datas=question_list_datas,
                                answer_list_datas=answer_list_datas,
-                               focus_question_list_datas=focus_question_list_datas)
+                               focus_question_list_datas=focus_question_list_datas,
+                               latest_activity_list_datas=latest_activity_list_datas)
     return render_template('person_detail.html',
                            people=people,
                            answer_datas=answer_datas,
@@ -301,6 +307,7 @@ def people(name):
                            question_focus_count=db_question_focus.Question_focus().get_user_focus_question_count(name),
                            question_list_datas=question_list_datas,
                            answer_list_datas=answer_list_datas,
-                           focus_question_list_datas=focus_question_list_datas)
+                           focus_question_list_datas=focus_question_list_datas,
+                           latest_activity_list_datas=latest_activity_list_datas)
 
 
