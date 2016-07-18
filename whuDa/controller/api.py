@@ -6,6 +6,8 @@ import whuDa.model.questions as db_questions
 import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
+import whuDa.model.topic_focus as db_topic_focus
+import whuDa.model.topic_question as db_topic_question
 import json
 from utils import get_past_time
 
@@ -123,11 +125,6 @@ def get_user_focus_question_by_page(uid, page_num):
         }
         datas.append(data)
     return json.dumps(datas, ensure_ascii=False)
-
-
-@app.route('/api/user_focus_topic/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
-def get_user_focus_topic_by_page(uid, page_num):
-    return
 
 
 @app.route('/api/user_latest_activity/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])

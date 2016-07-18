@@ -317,10 +317,6 @@ function user_focus_question_more() {
     })
 }
 
-function user_focus_topic_more() {
-    
-}
-
 function user_latest_activity_more() {
     
 }
