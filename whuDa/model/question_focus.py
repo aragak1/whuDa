@@ -16,7 +16,6 @@ class Question_focus(db.Model):
             return False
         db.session.add(row)
         db.session.commit()
-
         return True
 
     # 获取问题被关注的数量
@@ -29,7 +28,6 @@ class Question_focus(db.Model):
 
     # 获取一个用户关注的所有问题
     def get_user_focus_questions(self, username):
-        import whuDa.model.questions as db_questions
         return db.session.query(Question_focus).filter(Question_focus.uid == db_users.Users().get_uid_by_username(username))
 
     def get_user_focus_questions_by_uid(self, uid):
@@ -50,3 +48,10 @@ class Question_focus(db.Model):
                 return focus_questions[start_index:end_index]
             return focus_questions[start_index:]
         return []
+
+    # 获取用户关注的所有问题id
+    def get_user_focus_question_ids(self, uid):
+        question_ids = []
+        for item in Question_focus.query.filter_by(uid=uid).all():
+            question_ids.append(item.question_id)
+        return question_ids

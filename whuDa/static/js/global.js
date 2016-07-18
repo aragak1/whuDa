@@ -219,6 +219,7 @@ function publish_comment() {
 
 function c_all_more() {
     var next_page = current_c_all_more_page + 1;
+    current_c_all_more_page++;
     var topic_id = topic_detail_page_topic_id
     var post_url = '/api/topic/' + topic_id + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
