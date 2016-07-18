@@ -314,7 +314,6 @@ function user_focus_question_more() {
                     list_html += '<a class="aw-user-name hidden-xs" href="/people'+ obj[i].user_url +'"><img src="'+ obj[i].avatar_url + '" /></a>'
                 }
                 list_html += '<div class="aw-question-content"><h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4>'
-                list_html += '<a href="/question/'+ obj[i].question_id +'" class="pull-right text-color-999">回复</a><p>'
                 list_html += '<a href="/people'+ obj[i].user_url +'" class="aw-user-name">'+ obj[i].dynamic_str +'</a>'
                 list_html += '<span class="text-color-999"> • '+ obj[i].question_focus_count +' 人关注 • '+ obj[i].question_answer_count +' 个回复 • '+ obj[i].question_view_count +' 次浏览 • '+ obj[i].publish_time +'</span>'
                 list_html += '</p></div></div>'
