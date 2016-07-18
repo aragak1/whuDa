@@ -335,6 +335,7 @@ def get_user_latest_activity_datas(username):
         else:
             pass
         data = {
+            'username': username,
             'is_question': is_question,
             'question_id': question_id,
             'title': title,

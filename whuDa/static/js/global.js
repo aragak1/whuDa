@@ -248,6 +248,7 @@ function c_all_more() {
 
 function user_question_more() {
     var next_page = current_question_more_page + 1;
+    current_question_more_page++
     var uid = people_id
     var post_url = '/api/user_question/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
@@ -271,6 +272,7 @@ function user_question_more() {
 
 function user_answer_more() {
     var next_page = current_answer_more_page + 1;
+    current_answer_more_page++
     var uid = people_id
     var post_url = '/api/user_answer/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
@@ -294,6 +296,7 @@ function user_answer_more() {
 
 function user_focus_question_more() {
     var next_page = current_focus_question_more_page + 1;
+    current_focus_question_more_page++
     var uid = people_id
     var post_url = '/api/user_focus_question/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
@@ -323,6 +326,7 @@ function user_focus_question_more() {
 
 function user_latest_activity_more() {
     var next_page = current_latest_activity_more_page + 1;
+    current_latest_activity_more_page++
     var uid = people_id
     var post_url = '/api/user_latest_activity/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
