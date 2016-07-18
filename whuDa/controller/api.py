@@ -131,5 +131,4 @@ def get_user_focus_question_by_page(uid, page_num):
 def get_user_latest_activity_by_page(uid, page_num):
     from utils import get_user_latest_activity_datas_by_page
     latest_activity_datas = get_user_latest_activity_datas_by_page(username=db_users.Users().get_username_by_uid(uid), page_num=page_num, page_size=15)
-    print latest_activity_datas
     return json.dumps(latest_activity_datas, ensure_ascii=False)
