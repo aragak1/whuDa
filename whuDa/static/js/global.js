@@ -325,3 +325,19 @@ function user_latest_activity_more() {
     
 }
 
+function switch_tab(flag) {
+    if (flag == 1)
+    {
+        var a = document.getElementById("user_focus_question_more_list")
+        a.style.display = 'block'
+        var b = document.getElementById("user_focus_question_more")
+        b.style.display = 'none'
+    }
+    else {
+        var a = document.getElementById("user_focus_question_more_list")
+        a.style.display = 'none'
+        var b = document.getElementById("user_focus_question_more")
+        b.style.display = 'block'
+    }
+}
+
