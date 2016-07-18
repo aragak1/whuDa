@@ -19,11 +19,11 @@
     <link href="static/css/style.css" rel="stylesheet" type="text/css" />
     <link href="static/css/user.css" rel="stylesheet" type="text/css" />
 
-
     <script src="/static/js/jquery.2.js" type="text/javascript"></script>
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
+    <script src="/static/js/notification.js" type="text/javascript"></script>
     <script type="text/javascript" src="/static/js/compatibility.js"></script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
@@ -144,20 +144,52 @@
                             <h2>
 								<span class="pull-right hidden-xs">
 									<a class="text-color-999" href="/setting"><i class="icon icon-setting"></i> 通知设置</a>
-									<a onclick=";" class="btn btn-mini btn-success">全部已读</a>
+                                    {% if unread==0 %}
+                                    <a onclick=";" class="btn btn-mini btn-success">全部通知已读</a>
+                                    {% else %}
+                                    <a onclick=";" class="btn btn-mini btn-success">有{{unread}}条未读通知</a>
+                                    {% endif %}
 								</span>
                                 通知
                             </h2>
                         </div>
                         <div class="mod-body">
                             <div class="aw-notifications-list">
-                                <ul id="notifications_list"><p style="padding: 15px 0" align="center">没有内容</p></ul>
+                                <ul id="notifications_list">
+                                    {% for notification in notifications %}
+                                    {% if notification['is_read']==0 %}
+                                    <li class="active">
+                                    {% else%}
+                                    <li>
+                                    {% endif %}
+
+                                        <p class="moreContent">
+                                            <a href="question/{{ notification['question_id'] }}">{{ notification['question_title'] }}</a>
+                                            {{ notification['content'][2:] }}
+                                            <a href="user/{{ notification['sender_uid'] }}">{{ notification['sender_name'] }}</a>
+                                            <span class="icon-tips"></span>
+                                        </p>
+                                        <p class="text-color-999">
+                                            4秒前
+                                            <a class="read pull-right has_read" onclick="has_read($(this),{{ notification['notification_id'] }})">{% if notification['is_read']==0 %}标记为已读{% else%}标记为未读{% endif %}</a>
+                                            <a class="read pull-right delete" onclick="remove_notification($(this),{{ notification['notification_id'] }})">删除</a>
+                                        </p>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+
                             </div>
                         </div>
                         <div class="mod-footer">
-                            <a class="aw-load-more-content disabled" id="notifications_more" data-page="0">
+                            {% if more==0 %}
+                            <a class="aw-load-more-content disabled" data-page="0">
                                 <span>没有更多了</span>
                             </a>
+                            {% else %}
+                            <a href="/notifications/{{ page }}" class="aw-load-more-content" id="notifications_more">
+                                <span>更多</span>
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

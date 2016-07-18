@@ -1,12 +1,13 @@
 # _*_ coding:utf8 _*_
 import sys
 from time import time
-from flask import render_template, redirect, session
+from flask import render_template, redirect, session, request
 import whuDa.model.department as db_department
 import whuDa.model.questions as db_questions
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topics as db_topics
 import whuDa.model.users as db_users
+import whuDa.model.notification as db_notification
 import whuDa.model.question_focus as db_question_focus
 from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_date
 from whuDa import app
@@ -133,20 +134,86 @@ def dynamic():
         return render_template('login/login-dynamic.html')
     return redirect('/')
 
-
-@app.route('/notifications')
-def notifications():
-    if is_login():
-        return render_template('login/notifications.html')
+@app.route('/notifications', methods=['GET', 'POST'])
+def show_notifications():
+    if request.method == 'GET' and is_login():
+        uid=db_users.Users().get_uid_by_username(session['username'])
+        temp_notifications=db_notification.Notification().get_notification_by_ruid(uid)
+        unread=0
+        notifications=[]
+        more=0
+        page=1
+        for notification in temp_notifications:
+            if notification.is_read==0:
+                unread += 1
+            sender=db_users.Users().get_user_by_id(notification.sender_uid)
+            question=db_questions.Questions().get_question_by_id(int(notification.content[0:1]))
+            sender_notification_question={
+                'notification_id':notification.notification_id,
+                'sender_uid':sender.uid,
+                'sender_name':sender.username,
+                'content':notification.content,
+                'question_id':question.question_id,
+                'question_title':question.title,
+                'is_read':notification.is_read}
+            notifications.append(sender_notification_question)
+        if len(notifications)>5:
+            notifications=notifications[0:5]
+            more=1
+        return render_template('login/notifications.html',
+                               unread=unread,
+                               notifications=notifications,
+                               more=more,
+                               page=page)
+    elif request.method == 'POST':
+        option=request.form.get('option')
+        if option=='has_read':
+            id=request.form.get('notification_id')
+            return db_notification.Notification().has_read(id)
+        elif option=='delete':
+            id=request.form.get('notification_id')
+            return db_notification.Notification().delete(id)
     return redirect('/')
 
+@app.route('/notifications/<int:page_num>')
+def show_notifications_page(page_num):
+    if is_login():
+        uid=db_users.Users().get_uid_by_username(session['username'])
+        temp_notifications=db_notification.Notification().get_notification_by_ruid(uid)
+        unread=0
+        notifications=[]
+        for notification in temp_notifications:
+            if notification.is_read==0:
+                unread += 1
+            sender=db_users.Users().get_user_by_id(notification.sender_uid)
+            question=db_questions.Questions().get_question_by_id(int(notification.content[0:1]))
+            sender_notification_question={
+                'notification_id':notification.notification_id,
+                'sender_uid':sender.uid,
+                'sender_name':sender.username,
+                'content':notification.content,
+                'question_id':question.question_id,
+                'question_title':question.title,
+                'is_read':notification.is_read}
+            notifications.append(sender_notification_question)
+        if len(notifications) > 5 * (page_num + 1):
+            notifications = notifications[0:5 * (page_num + 1)]
+            more = 1
+        else :
+            more=0
+        page_num=page_num+1
+        return render_template('login/notifications.html',
+                               unread=unread,
+                               notifications=notifications,
+                               more=more,
+                               page=page_num)
+    return redirect('/')
 
 @app.route('/message')
 def message():
     if is_login():
         return render_template('login/message.html')
     return redirect('/')
-
 
 @app.route('/help')
 def help():

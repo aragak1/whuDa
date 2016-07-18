@@ -35,6 +35,7 @@ $(document).ready(function () {
     //     $('#edit_topic_title_div').children('ul.aw-dropdown-list').hide();
     // });
 
+
     // 添加topic tags
     $(document).on('click', '.question', function () {
         var topic_name = $(this).text();
@@ -77,6 +78,13 @@ $(document).ready(function () {
     });
 });
 
+
+
+
+});
+$("p").click(function () {
+        $(this).slideUp();
+    });
 /*
  * 自定义函数*/
 function register() {
