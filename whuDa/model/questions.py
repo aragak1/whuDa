@@ -199,17 +199,6 @@ class Questions(db.Model):
         questions = []
         for question_id in question_ids:
             question = self.get_question_by_id(question_id)
-            row = {
-                'question_id': question.question_id,
-                'questioner_uid': question.questioner_uid,
-                'title': question.title,
-                'content': question.content,
-                'publish_time': question.publish_time,
-                'update_time': question.update_time,
-                'is_anonymous': question.is_anonymous,
-                'view_count': question.view_count,
-                'is_lock': question.is_lock
-            }
-            questions.append(row)
+            questions.append(question)
         return questions
 
