@@ -7,7 +7,7 @@ import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
 import json
-from utils import get_past_time
+from utils import get_past_time, get_dynamic_datas_by_page
 
 
 # 根据关键字返回匹配的话题
@@ -132,6 +132,6 @@ def get_user_latest_activity_by_page(uid, page_num):
     return json.dumps(latest_activity_datas, ensure_ascii=False)
 
 
-@app.route('/api/dynamic/page/<int:page_num>', methods=['GET', 'POST'])
-def get_dynamic_datas_by_page(page_num):
-    pass
+@app.route('/api/dynamic/<int:uid>/page/<int:page_num>.json', methods=['GET', 'POST'])
+def get_dynamic_datas_by_page_api(page_num, uid):
+    return json.dumps(get_dynamic_datas_by_page(page_num=page_num, page_size=10, uid=uid), ensure_ascii=False)

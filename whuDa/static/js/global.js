@@ -46,41 +46,41 @@ $(document).ready(function () {
     });
 
     //绑定了`submit`事件。
-   $('#upload-form').on('submit',(function(e) {
-   	e.preventDefault();
-   	//序列化表单
-      var serializeData = $(this).serialize();
+    $('#upload-form').on('submit',(function(e) {
+        e.preventDefault();
+        //序列化表单
+        var serializeData = $(this).serialize();
 
-      // var formData = new FormData(this);
-      $(this).ajaxSubmit({
-           type:'POST',
-           url: '/user/avatar/upload',
-           data: serializeData,
-           contentType: false,
-           cache: false,
-           processData:false,
+        // var formData = new FormData(this);
+        $(this).ajaxSubmit({
+            type:'POST',
+            url: '/user/avatar/upload',
+            data: serializeData,
+            contentType: false,
+            cache: false,
+            processData:false,
 
-           success:function(data){
+            success:function(data){
                 if (data='success'){
                     alert('上传成功！');
                     location.reload();
                 }
-           },
-           error:function(data){
-               alert('上传失败！');
-           }
-       });
-   }));
+            },
+            error:function(data){
+                alert('上传失败！');
+            }
+        });
+    }));
 
     //绑定文件选择事件，一选择了图片，就让`form`提交。
     $("#upload_file").on("change", function() {
-       $(this).parent().submit();
+        $(this).parent().submit();
     });
 });
 
 $("p").click(function () {
-        $(this).slideUp();
-    });
+    $(this).slideUp();
+});
 /*
  * 自定义函数*/
 function register() {
@@ -250,6 +250,48 @@ function c_all_more() {
 function c_more_dynamic(){
     var next_page = current_dynamic_page + 1
     current_dynamic_page++
+    var uid = user_uid
+    var post_url = '/api/dynamic/'+ uid + '/page/' + next_page + '.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#bp_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item"><div class="mod-head">'
+                if (obj[i].is_anonymous == 1) {
+                    list_html += '<a class="aw-user-img aw-border-radius-5" href="/people'+ obj[i].user_url +'"><img src="/static/img/avatar/avatar.png"></a>'
+                    list_html += '<p class="text-color-999">'
+                    list_html += '<a href="/people'+ obj[i].user_url + '" class="aw-user-name">'+ obj[i].dynamic_str +'</a> • '+ obj[i].publish_time +' •'
+                }
+                else {
+                    list_html += '<a class="aw-user-img aw-border-radius-5" href="/people' + obj[i].user_url  + '"><img src="/' + obj[i].avatar_url + '"></a>'
+                    list_html += '<p class="text-color-999">'
+                    list_html += '<a href="/people'+ obj[i].user_url +'" class="aw-user-name">'+ obj[i].dynamic_str +'</a> • '+ obj[i].publish_time +' •'
+                }
+                list_html += '<a href="/question/'+ obj[i].question_id +'" class="text-color-999">'+ obj[i].question_answer_count +' 个回复</a></p>'
+                list_html += '<h4><a href="/question/'+ obj[i].question_uid +'">'+ obj[i].title +'</a></h4></div>'
+                list_html += '<div class="mod-body clearfix"></div><div class="mod-footer"><div class="meta clearfix"><span class="operate">'
+                list_html += '<a class="agree" onclick=";">'
+                list_html += '<i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>'
+                list_html += '<b class="count">'+ obj[i].agree_count +'</b></a>'
+                list_html += '<a class="disagree " onclick=";">'
+                list_html += '<i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>'
+                list_html += '<b class="count">&nbsp;</b></a></span><span class="pull-right more-operate">'
+                list_html += '<a onclick=";" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>'
+                list_html += '<a class="text-color-999 dropdown-toggle" data-toggle="dropdown">'
+                list_html += '<i class="icon icon-share"></i>分享</a>'
+                list_html += '<div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">'
+                list_html += '<ul class="aw-dropdown-list">'
+                list_html += '<li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>'
+                list_html += '<li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>'
+                list_html += '<li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>'
+                list_html += '</ul></div></span></div></div></div>'
+                $('#main_contents').append(list_html)
+            }
+        }
+    })
 }
 
 function user_question_more() {

@@ -8,6 +8,7 @@ import whuDa.model.questions as db_questions
 import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
+import whuDa.model.answer_agree as db_answer_agree
 import sys
 
 reload(sys)
@@ -419,7 +420,8 @@ def get_dynamic_datas_by_page(page_num, page_size, uid):
             'publish_time': timestamp_datetime(question.publish_time),
             'user_url': get_user_url(question.question_id),
             'dynamic_str': get_dynamic_str(question.question_id),
-            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url
+            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url,
+            'agree_count':db_answer_agree.Anser_agree().get_question_agree_count(question.question_id)
         }
         datas.append(data)
     start_index = (page_num-1) * page_size
