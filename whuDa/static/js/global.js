@@ -128,7 +128,7 @@ function register() {
             }
         }
     )
-};
+}
 
 function login() {
     var username = $('#l_username').val()
