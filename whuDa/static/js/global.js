@@ -341,3 +341,29 @@ function switch_tab(flag) {
     }
 }
 
+function update_user_profile() {
+    var sex = $('input[name="sex"]:checked').val()
+    var birth_year = $('select[name="birthday_y"]').find("option:selected").val()
+    var birth_month = $('select[name="birthday_m"]').find("option:selected").val()
+    var birth_day = $('select[name="birthday_d"]').find("option:selected").val()
+    var introduction = $('input[name="signature"]').val()
+    var qq = $('#input-qq').val()
+    var moblie = $('#input-mobile').val()
+    var website = $('#input-homepage').val()
+    var department_id = $('#department').find('option:selected').val()
+
+    $.post('/user/profile/update', {
+        'sex':sex,
+        'birth_year': birth_year,
+        'birth_day': birth_day,
+        'birth_month': birth_month,
+        'introduction': introduction,
+        'qq': qq,
+        'mobile': moblie,
+        'website': website,
+        'department_id': department_id
+    }, function (status) {
+        alert(status)
+    })
+}
+

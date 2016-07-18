@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
-from flask import render_template, request, session, redirect, url_for
-from utils import check_mail, check_username, is_login, resize_pic
+from flask import render_template, request, session, redirect
+from utils import check_mail, check_username, is_login, resize_pic, birthday_to_unix_time
 import whuDa.model.users as db_users
 import sys, os
 
@@ -83,4 +83,24 @@ def upload_avatar():
             resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 100, 100)
             db_users.Users().update_avatar_url(session['username'], 'static/img/avatar/' + avatar_filename)
         return 'success'
+    return 'error'
+
+
+@app.route('/user/profile/update', methods=['POST'])
+def update_user_profile():
+    if is_login():
+        sex = int(request.form.get('sex'))
+        birth_year = request.form.get('birth_year')
+        birth_month = request.form.get('birth_month')
+        birth_day = request.form.get('birth_day')
+        birthday_unix_time = birthday_to_unix_time(birth_year, birth_month, birth_day)
+        introduction = request.form.get('introduction')
+        qq = str(request.form.get('qq'))
+        if not qq.isdigit() or len(qq) > 11 or len(qq) < 5:
+            return 'error_qq'
+        mobile = str(request.form.get('mobile'))
+        if not mobile.isdigit() or len(mobile) != 11:
+            return 'error_mobile'
+        website = request.form.get('website')
+        department_id = int(request.form.get('department_id'))
     return 'error'
