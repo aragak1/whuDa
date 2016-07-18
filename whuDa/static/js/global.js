@@ -389,5 +389,20 @@ function change_pass() {
     var old_password = $('#input-password-old').val()
     var new_password = $('#input-password-new').val()
     var re_new_password = $('#input-password-re-new').val()
-    alert(re_new_password)
+    $.post('/user/change/password', {
+        'old_password': old_password,
+        'new_password': new_password,
+        're_password': re_new_password
+    }, function (status) {
+        if (status == 'not_same') {
+            alert('两次输入的密码不一致');
+        }
+        else if (status == 'error_pass') {
+            alert('原密码输入不正确');
+        }
+        else if (status == 'success') {
+            alert('密码修改次成功！');
+            location.reload()
+        }
+    })
 }
