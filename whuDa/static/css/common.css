@@ -747,10 +747,10 @@ blockquote {margin: 0 40px;padding: 0 15px;font-size: 14px;color: #777;border-le
 .aw-notifications-list ul li p{margin:0;}
 .aw-notifications-list ul li p.moreContent{margin:0 0 5px;}
 .aw-notifications-list ul li .read, .aw-notifications-list ul li .more{font-size: 12px;color: #999;font-weight: normal;}
-.aw-notifications-list ul li .read{display:none;}
+.aw-notifications-list ul li .read, .delete {display:none;}
 .aw-notifications-list ul li:hover .read{display: inline-block;}
 .aw-notifications-list ul li .icon-tips{display:none;position: absolute;right: 0;top: 15px;}
-
+.aw-notifications-list ul li p.notification_id{display:none;}
 /* 邀请好友加入社区 */
 .aw-mod-invite-friend .content{width: 400px;margin:0 auto;padding:40px 0;}
 .aw-mod-invite-friend .content p{line-height:26px;margin-top:10px;text-align: right;}
