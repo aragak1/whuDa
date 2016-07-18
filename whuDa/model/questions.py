@@ -193,7 +193,7 @@ class Questions(db.Model):
         return self.get_question_ids_under_focus_topic(uid) + self.get_user_focus_question_ids(uid)
 
     # 获取用户关注的话题下所有的问题和关注的所有问题
-    def get_questions_under_focus_topics(self, uid):
+    def get_dynamic_questions(self, uid):
         # question_id去重
         question_ids = list(set(self.get_all_question_ids(uid)))
         questions = []

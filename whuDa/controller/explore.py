@@ -12,22 +12,10 @@ import whuDa.model.question_focus as db_question_focus
 from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_date
 from whuDa import app
 from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas, get_user_latest_activity_datas
-from utils import get_user_focus_questions_list_datas
+from utils import get_user_focus_questions_list_datas, get_dynamic_datas_by_page
 
 reload(sys)
 sys.setdefaultencoding('utf8')
-
-
-'''
-    渲染需要的数据:
-    判断page，根据page返回问题的list
-    问题标题，问题id （questions）
-    问题的最新回复者/发起者 (user)
-    问题关注人数 (question_focus)
-    问题回复数 (answers)
-    问题浏览次数 (questions)
-    问题发布时间 (questions)
-'''
 
 
 # 登陆前后的index页面都是发现页面
@@ -132,8 +120,10 @@ def wait_reply_page(page_num):
 def dynamic():
     if is_login():
         user = db_users.Users().get_user(session['username'])
+        datas = get_dynamic_datas_by_page(page_num=1, page_size=10, uid=user.uid)
         return render_template('login/login-dynamic.html',
-                               user=user)
+                               user=user,
+                               datas=datas)
     return redirect('/')
 
 
@@ -381,5 +371,4 @@ def people(name):
                            answer_list_datas=answer_list_datas,
                            focus_question_list_datas=focus_question_list_datas,
                            latest_activity_list_datas=latest_activity_list_datas)
-
 

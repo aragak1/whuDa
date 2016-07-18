@@ -134,5 +134,3 @@ class Topics(db.Model):
             datas.append(data)
         return datas
 
-
-
