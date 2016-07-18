@@ -78,10 +78,6 @@ $(document).ready(function () {
     });
 });
 
-
-
-
-});
 $("p").click(function () {
         $(this).slideUp();
     });
@@ -389,3 +385,9 @@ function update_user_profile() {
     })
 }
 
+function change_pass() {
+    var old_password = $('#input-password-old').val()
+    var new_password = $('#input-password-new').val()
+    var re_new_password = $('#input-password-re-new').val()
+    alert(re_new_password)
+}

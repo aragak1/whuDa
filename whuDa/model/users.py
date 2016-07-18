@@ -142,4 +142,11 @@ class Users(db.Model):
         db.session.commit()
         return True
 
+    # 判断是否为当前用户密码
+    def is_user_password(self, username, password):
+        user = Users.query.filter_by(username=username).first()
+        if md5(password + salt).hexdigest() == user.password:
+            return True
+        return False
+
 
