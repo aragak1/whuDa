@@ -344,6 +344,19 @@ def get_user_latest_activity_datas(username):
     return datas
 
 
+# 按照分页获取用户的最新用动态数据
+def get_user_latest_activity_datas_by_page(username, page_num, page_size):
+    datas = get_user_latest_activity_datas(username)
+    total_count = len(datas)
+    start_index = (page_num - 1) * page_size
+    end_index = start_index + page_size
+    if total_count > start_index:
+        if total_count > end_index:
+            return datas[start_index:end_index]
+        return datas[start_index:]
+    return []
+
+
 # 把图片缩放到指定大小
 def resize_pic(pic_path, save_path, width, height):
     im = Image.open(pic_path)
