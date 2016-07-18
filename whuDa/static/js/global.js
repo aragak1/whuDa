@@ -35,6 +35,7 @@ $(document).ready(function () {
     //     $('#edit_topic_title_div').children('ul.aw-dropdown-list').hide();
     // });
 
+
     // 添加topic tags
     $(document).on('click', '.question', function () {
         var topic_name = $(this).text();
@@ -43,8 +44,15 @@ $(document).ready(function () {
             '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
             topic_name + '" name="topics[]"></span>');
     });
-});
 
+
+
+
+
+});
+$("p").click(function () {
+        $(this).slideUp();
+    });
 /*
  * 自定义函数*/
 function register() {

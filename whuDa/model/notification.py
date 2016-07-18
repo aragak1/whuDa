@@ -21,7 +21,19 @@ class Notification(db.Model):
 	def get_notification_by_ruid(self,recipient_uid):
 		return db.session.query(Notification).filter(Notification.recipient_uid == recipient_uid)
 	#将一个通知变为已读
-	def have_read(self,notification_id):
-		db.session.query(Notification).filter(Notification.notification_id == notification_id).update({
-                Notification.is_read: 1})
-        db.session.commit()
+	def has_read(self,notification_id):
+		notification=Notification.query.filter_by(notification_id=notification_id).first()
+		print notification.is_read
+		if notification.is_read==0:
+			db.session.query(Notification).filter(Notification.notification_id == notification_id).update({Notification.is_read: 1})
+			db.session.commit()
+			return "标记为未读"
+		else:
+			db.session.query(Notification).filter(Notification.notification_id == notification_id).update({Notification.is_read: 0})
+			db.session.commit()
+			return "标记为已读"
+
+	#删除一个通知
+	def delete(self,notification_id):
+		db.session.query(Notification).filter(Notification.notification_id == notification_id).delete()
+		db.session.commit()
