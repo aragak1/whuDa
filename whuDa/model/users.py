@@ -125,7 +125,20 @@ class Users(db.Model):
 
     # 更新用户头像url
     def update_avatar_url(self, username, avatar_url):
-        user = Users.query.filter_by(username=username).update({Users.avatar_url: avatar_url})
+        Users.query.filter_by(username=username).update({Users.avatar_url: avatar_url})
+        db.session.commit()
+        return True
+
+    # 修改用户的个人信息
+    def update_user_profile(self, username, sex, birthday, department_id, introduction, qq, mobile, website):
+        user = Users.query.filter_by(username=username)
+        user.update({Users.sex: sex,
+                     Users.birthday: birthday,
+                     Users.introduction: introduction,
+                     Users.qq: qq,
+                     Users.phone: mobile,
+                     Users.department_id: department_id,
+                     Users.website: website})
         db.session.commit()
         return True
 

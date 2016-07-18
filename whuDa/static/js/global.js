@@ -359,7 +359,16 @@ function update_user_profile() {
         'website': website,
         'department_id': department_id
     }, function (status) {
-        alert(status)
+        if (status == 'error_qq') {
+            alert('错误的qq号！');
+        }
+        else if (status == 'error_mobile') {
+            alert('错误的手机号！')
+        }
+        else if (status == 'success') {
+            alert('修改成功了！')
+            location.reload()
+        }
     })
 }
 
