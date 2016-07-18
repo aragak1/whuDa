@@ -94,8 +94,8 @@
             </div>
             <!-- 用户栏 -->
             <div class="aw-user-nav">
-                <a href="/people/terry0314" class="aw-user-nav-dropdown">
-                    <img alt="terry0314" src="/static/img/avatar/avatar-max-img.png">
+                <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                    <img alt="{{ user.username }}" src="/{{ user.avatar_url }}">
 
                 </a>
                 <div class="aw-dropdown dropdown-list pull-right">
@@ -108,7 +108,7 @@
             </div>
             <!-- 发起 -->
             <div class="aw-publish-btn">
-                <a id="header_publish" class="btn-primary" href="/publish" onclick="AWS.dialog('publish', {'category_enable':'0', 'category_id':'0', 'topic_title':''}); return false;"><i class="icon icon-ask"></i>发起</a>
+                <a id="header_publish" class="btn-primary" href="/publish"><i class="icon icon-ask"></i>发起</a>
                 <div class="dropdown-list pull-right">
                     <ul>
                         <li>
