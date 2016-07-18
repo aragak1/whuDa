@@ -249,6 +249,7 @@ function c_all_more() {
 
 function user_question_more() {
     var next_page = current_question_more_page + 1;
+    current_question_more_page++
     var uid = people_id
     var post_url = '/api/user_question/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
@@ -272,6 +273,7 @@ function user_question_more() {
 
 function user_answer_more() {
     var next_page = current_answer_more_page + 1;
+    current_answer_more_page++
     var uid = people_id
     var post_url = '/api/user_answer/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
@@ -295,6 +297,7 @@ function user_answer_more() {
 
 function user_focus_question_more() {
     var next_page = current_focus_question_more_page + 1;
+    current_focus_question_more_page++
     var uid = people_id
     var post_url = '/api/user_focus_question/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
@@ -312,7 +315,6 @@ function user_focus_question_more() {
                     list_html += '<a class="aw-user-name hidden-xs" href="/people'+ obj[i].user_url +'"><img src="'+ obj[i].avatar_url + '" /></a>'
                 }
                 list_html += '<div class="aw-question-content"><h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4>'
-                list_html += '<a href="/question/'+ obj[i].question_id +'" class="pull-right text-color-999">回复</a><p>'
                 list_html += '<a href="/people'+ obj[i].user_url +'" class="aw-user-name">'+ obj[i].dynamic_str +'</a>'
                 list_html += '<span class="text-color-999"> • '+ obj[i].question_focus_count +' 人关注 • '+ obj[i].question_answer_count +' 个回复 • '+ obj[i].question_view_count +' 次浏览 • '+ obj[i].publish_time +'</span>'
                 list_html += '</p></div></div>'
@@ -324,6 +326,7 @@ function user_focus_question_more() {
 
 function user_latest_activity_more() {
     var next_page = current_latest_activity_more_page + 1;
+    current_latest_activity_more_page++
     var uid = people_id
     var post_url = '/api/user_latest_activity/' + uid + '/page/'+ next_page +'.json'
     $.getJSON(post_url, function (datas) {
