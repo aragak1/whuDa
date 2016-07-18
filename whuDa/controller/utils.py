@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from flask import session
 from re import match
-from time import time, strftime, localtime
+from time import time, strftime, localtime, strptime, mktime
 from math import ceil
 from PIL import Image
 import whuDa.model.questions as db_questions
@@ -158,6 +158,13 @@ def get_wait_reply_datas(page_num, page_size):
 def timestamp_datetime(unix_time):
     format = '%Y-%m-%d %H:%M:%S'
     return strftime(format, localtime(unix_time))
+
+
+# birthday转时间戳
+def birthday_to_unix_time(year, month, day):
+    birth_str = '{}-{}-{} {}'.format(year, month, day, '8')
+    print birth_str
+    return int(mktime(strptime(birth_str, '%Y-%m-%d %H')))
 
 
 # 获取年月日的dict

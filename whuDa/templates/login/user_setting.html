@@ -40,9 +40,8 @@
     <div class="container">
         <!-- logo -->
         <div class="aw-logo hidden-xs">
-            <a href="http://wenda.wecenter.com"></a>
+            <a href="/"></a>
         </div>
-        <!-- end logo -->
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
             <form class="navbar-search" action="/search" id="global_search_form" method="post">
@@ -60,7 +59,6 @@
                 </div>
             </form>
         </div>
-        <!-- end 搜索框 -->
         <!-- 导航 -->
         <div class="aw-top-nav navbar">
             <div class="navbar-header">
@@ -155,95 +153,101 @@
                                     <div class="mod-head">
                                         <h3>基本信息</h3>
                                     </div>
-                                        <div class="mod-body">
-                                            <dl>
-                                                <dt>用户名:</dt>
-                                                <dd>{{ user.username }}</dd>
-                                            </dl>
-                                            <dl>
-                                                <dt>邮箱:</dt>
-                                                <dd>{{ user.email }}</dd>
-                                            </dl>
-                                            <dl>
-                                                <dt>性别:</dt>
-                                                <dd>
-                                                    <label>
-                                                        <input name="sex" id="sex" value="1" type="radio" {% if user.sex == 1 %} checked="checked" {% endif %}/>男</label>
-                                                    <label>
-                                                        <input name="sex" id="sex" value="2" type="radio" {% if user.sex == 0 %} checked="checked" {% endif %}/>女</label>
-                                                    <label>
-                                                        <input name="sex" id="sex" value="3" type="radio" {% if user.sex == 2 %} checked="checked" {% endif %}/>保密</label>
-                                                </dd>
-                                            </dl>
-                                            <dl>
-                                                <dt>生日:</dt>
-                                                <dd>
-                                                    <select name="birthday_y">
+                                    <div class="mod-body">
+                                        <dl>
+                                            <dt>用户名:</dt>
+                                            <dd>{{ user.username }}</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>邮箱:</dt>
+                                            <dd>{{ user.email }}</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>性别:</dt>
+                                            <dd>
+                                                <label>
+                                                    <input name="sex" id="sex" value="1" type="radio" {% if user.sex == 1 %} checked="checked" {% endif %}/>男</label>
+                                                <label>
+                                                    <input name="sex" id="sex" value="0" type="radio" {% if user.sex == 0 %} checked="checked" {% endif %}/>女</label>
+                                                <label>
+                                                    <input name="sex" id="sex" value="2" type="radio" {% if user.sex == 2 %} checked="checked" {% endif %}/>保密</label>
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>生日:</dt>
+                                            <dd>
+                                                <select name="birthday_y">
                                                     {% autoescape false %}
-                                                        {% for year in dates.year %}
+                                                    {% for year in dates.year %}
                                                         <option value="{{ year }}"
                                                                 {% if birthday %}
                                                                     {% if birthday.year == year %}
-                                                                        selected
+                                                                selected
                                                                     {% endif %}
                                                                 {% endif %}>
                                                             {{ year }}
                                                         </option>
-                                                        {% endfor %}
+                                                    {% endfor %}
                                                     {% endautoescape %}
-                                                    </select>年
-                                                    <select name="birthday_m">
+                                                </select>年
+                                                <select name="birthday_m">
                                                     {% autoescape false %}
-                                                        {% for month in dates.month %}
-                                                            <option value="{{ month }}"
-                                                                    {% if birthday %}{% if birthday.month == month %}
-                                                                        selected
-                                                                    {% endif %}{% endif %}
-                                                            > {{ month }}</option>
-                                                        {% endfor %}
+                                                    {% for month in dates.month %}
+                                                        <option value="{{ month }}"
+                                                                {% if birthday %}{% if birthday.month == month %}
+                                                                selected
+                                                                {% endif %}{% endif %}
+                                                        > {{ month }}</option>
+                                                    {% endfor %}
                                                     {% endautoescape %}
-                                                    </select>月
-                                                    <select name="birthday_d">
+                                                </select>月
+                                                <select name="birthday_d">
                                                     {% autoescape false %}
-                                                        {% for day in dates.day %}
+                                                    {% for day in dates.day %}
                                                         <option value="{{ day }}"
                                                                 {% if birthday %}
                                                                     {% if birthday.day == day %}
-                                                                        selected
+                                                                selected
                                                                     {% endif %}
                                                                 {% endif %}>
                                                             {{ day }}
                                                         </option>
-                                                        {% endfor %}
+                                                    {% endfor %}
                                                     {% endautoescape %}
-                                                    </select>日
+                                                </select>日
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><label>所在院系:</label></dt>
+                                            <dd><select id="department" style="150px">
+                                                {% for department in departments %}
+                                                    <option value="{{ department.department_id }}"
+                                                            {% if user.department_id == department.department_id %}
+                                                            check="checked"
+                                                            {% endif %}>{{ department.name }}</option>
+                                                {% endfor %}
+                                            </select></dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><label>介绍:</label></dt>
+                                            <dd class="introduce"><input class="form-control" name="signature" maxlength="128" type="text" value="" /></dd>
+                                        </dl>
+                                        <!-- 上传头像 -->
+                                        <div class="side-bar">
+                                            <dl>
+                                                <dt class="pull-left"><img class="aw-border-radius-5" src="/{{ user.avatar_url }}" alt="" id="avatar_src" /></dt>
+                                                <dd class="pull-left">
+                                                    <h5>头像设置</h5>
+                                                    <p>支持 jpg、gif、png 等格式的图片</p>
+                                                    <a class="btn btn-mini btn-success" id="avatar_uploader">
+                                                        <form method="post" enctype="multipart/form-data" id="upload-form" action="/user/avatar/upload">
+                                                            <input type="file" class="file-input" id="upload_file" name="file" multiple="multiple" />
+                                                        </form>上传头像</a>
                                                 </dd>
                                             </dl>
-                                            <dl>
-                                                <dt><label>介绍:</label></dt>
-                                                <dd class="introduce"><input class="form-control" name="signature" maxlength="128" type="text" value="" /></dd>
-                                            </dl>
-                                            <dl>
-                                                <dt><label>个性网址:</label></dt>
-                                                <dd class="introduce"><input class="form-control" name="user_url" maxlength="128" type="text" value="{% if user.website %}{{ user.website }}{% endif %}" /></dd>
-                                            </dl>
-
-                                            <!-- 上传头像 -->
-                                            <div class="side-bar">
-                                                <dl>
-                                                    <dt class="pull-left"><img class="aw-border-radius-5" src="/{{ user.avatar_url }}" alt="" id="avatar_src" /></dt>
-                                                    <dd class="pull-left">
-                                                        <h5>头像设置</h5>
-                                                        <p>支持 jpg、gif、png 等格式的图片</p>
-                                                        <a class="btn btn-mini btn-success" id="avatar_uploader">
-                                                            <form method="post" enctype="multipart/form-data" id="upload-form" action="/user/avatar/upload">
-                                                                <input type="file" class="file-input" id="upload_file" name="file" multiple="multiple" />
-                                                            </form>上传头像</a>
-                                                    </dd>
-                                                </dl>
-                                            </div>
-                                            <!-- end 上传头像 -->
                                         </div>
+                                        <!-- end 上传头像 -->
+                                    </div>
                                 </div>
                                 <!-- end 基本信息 -->
 
@@ -271,60 +275,9 @@
                                 </div>
                                 <!-- end 联系方式 -->
                                 </form>
-
-                                <!-- 教育经历 -->
-                                <div class="aw-mod aw-user-educate">
-                                    <div class="mod-head">
-                                        <h3>教育经历</h3>
-                                    </div>
-                                    <div class="mod-body">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>所在院系</th>
-                                                <th width="50%">入学年份</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <select style="width:150px">
-                                                        {% for department in departments %}
-                                                            <option value="{{ department.department_id }}"
-                                                                    {% if user.department_id == department.department_id %}
-                                                                    check="checked"
-                                                                    {% endif %}>{{ department.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="year">
-                                                        <option value="2016" checked="checked">2016</option>
-                                                        <option value="2015">2015</option>
-                                                        <option value="2014">2014</option>
-                                                        <option value="2013">2013</option>
-                                                        <option value="2008">2008</option>
-                                                        <option value="2007">2007</option>
-                                                        <option value="2005">2005</option>
-                                                        <option value="2004">2004</option>
-                                                        <option value="2002">2003</option>
-                                                        <option value="2001">2001</option>
-                                                        <option value="2000">2000</option>
-                                                        <option value="1999">1999</option>
-                                                        <option value="1998">1998</option>
-                                                        <option value="1997">1997</option>
-                                                        <option value="1996">1996</option>
-                                                    </select>年
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <!-- end 教育经历 -->
                             </div>
                             <div class="mod-footer clearfix">
-                                <a class="btn btn-large btn-success pull-right" onclick=";">保存</a>
+                                <a class="btn btn-large btn-success pull-right" onclick="update_user_profile()">保存</a>
                             </div>
                         </div>
                     </div>
