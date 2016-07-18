@@ -219,7 +219,7 @@
                                         </dl>
                                         <dl>
                                             <dt><label>所在院系:</label></dt>
-                                            <dd><select id="department" style="150px">
+                                            <dd><select id="department" style="width: auto">
                                                 {% for department in departments %}
                                                     <option value="{{ department.department_id }}"
                                                             {% if user.department_id == department.department_id %}
@@ -230,7 +230,7 @@
                                         </dl>
                                         <dl>
                                             <dt><label>介绍:</label></dt>
-                                            <dd class="introduce"><input class="form-control" name="signature" maxlength="128" type="text" value="" /></dd>
+                                            <dd class="introduce"><input class="form-control" name="signature" maxlength="128" type="text" value="{% if user.introduction %}{{ user.introduction }}{% endif %}" /></dd>
                                         </dl>
                                         <!-- 上传头像 -->
                                         <div class="side-bar">

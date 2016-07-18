@@ -22,6 +22,7 @@ import whuDa.model.answers as db_answers
     1.添加一个回复
     2.回复者是否关注该回复，
     3.回复者答案数加一，
+    4.给提问者发送通知，（未完成）
 '''
 
 

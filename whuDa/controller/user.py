@@ -90,6 +90,7 @@ def upload_avatar():
 def update_user_profile():
     if is_login():
         sex = int(request.form.get('sex'))
+        print sex
         birth_year = request.form.get('birth_year')
         birth_month = request.form.get('birth_month')
         birth_day = request.form.get('birth_day')
@@ -103,4 +104,13 @@ def update_user_profile():
             return 'error_mobile'
         website = request.form.get('website')
         department_id = int(request.form.get('department_id'))
+        db_users.Users().update_user_profile(username=session['username'],
+                                             sex=sex,
+                                             birthday=birthday_unix_time,
+                                             department_id=department_id,
+                                             introduction=introduction,
+                                             qq=qq,
+                                             mobile=mobile,
+                                             website=website)
+        return 'success'
     return 'error'

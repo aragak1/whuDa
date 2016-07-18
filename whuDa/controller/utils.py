@@ -163,7 +163,6 @@ def timestamp_datetime(unix_time):
 # birthday转时间戳
 def birthday_to_unix_time(year, month, day):
     birth_str = '{}-{}-{} {}'.format(year, month, day, '8')
-    print birth_str
     return int(mktime(strptime(birth_str, '%Y-%m-%d %H')))
 
 
