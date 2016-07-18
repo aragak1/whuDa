@@ -164,7 +164,7 @@
                                 <li class="active"><a href="#overview" id="page_overview" data-toggle="tab">概述</a></li>
                                 <li><a href="#questions" id="page_questions" data-toggle="tab">发问<span class="badge">{{ people.question_count }}</span></a></li>
                                 <li><a href="#answers" id="page_answers" data-toggle="tab">回复<span class="badge">{{ people.answer_count }}</span></a></li>
-                                <li><a href="#focus" id="page_focus" data-toggle="tab">关注</a></li>
+                                <li><a href="#focus" id="page_focus" data-toggle="tab">关注的问题</a></li>
                                 <li><a href="#actions" id="page_actions" data-toggle="tab">动态</a></li>
                             </ul>
                         </div>
@@ -305,65 +305,38 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="focus">
-                                <!-- 自定义切换 -->
                                 <div class="aw-mod">
-                                    <div class="aw-tabs text-center">
-                                        <ul>
-                                            <li class="active"><a href="#contents_user_focus_questions" id="page_focus_questions" data-toggle="tab" onclick="switch_tab(1)>关注的问题<span class="badge">{{ question_focus_count }}</span></a></li>
-                                            <li><a href="#contents_user_focus_topics" id="page_focus_topics" data-toggle="tab" onclick="switch_tab(2)">关注的话题<span class="badge">{{ people.topic_focus_count }}</span></a></li>
-                                        </ul>
+                                    <div class="mod-head">
+                                        <h3>关注的问题</h3>
                                     </div>
                                     <div class="mod-body">
-                                        <div class="aw-tab-content">
-                                            <div class="aw-mod aw-user-center-follow-mod">
-                                                <div class="mod-body">
-                                                    <ul id="contents_user_focus_questions" class="clearfix">
-                                                        <div class="aw-common-list" id="user_focus_question_more_list">
-                                                            {% for focus_question_list_data in focus_question_list_datas %}
-                                                            <div class="aw-item">
-                                                            {% if focus_question_list_data.is_anonymous %}
-                                                                <a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>
-                                                            {% else %}
-                                                                <a class="aw-user-name hidden-xs" href="/people{{ focus_question_list_data.user_url }}"><img src="{{ focus_question_list_data.avatar_url}}" /></a>
-                                                            {% endif %}
-                                                                <div class="aw-question-content">
-                                                                    <h4>
-                                                                        <a href="/question/{{ focus_question_list_data.question_id }}">{{ focus_question_list_data.title }}</a>
-                                                                    </h4>
-                                                                    <p>
-                                                                        <a href="/people{{ focus_question_list_data.user_url }}" class="aw-user-name">{{ focus_question_list_data.dynamic_str }}</a>
-                                                                        <span class="text-color-999"> • {{ focus_question_list_data.question_focus_count }} 人关注 • {{ focus_question_list_data.question_answer_count }} 个回复 • {{ focus_question_list_data.question_view_count }} 次浏览 • {{ focus_question_list_data.publish_time }}</span>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            {% endfor %}
-                                                        </div>
-                                                    </ul>
-                                                </div>
-                                                <div class="mod-footer">
-                                                    <a class="aw-load-more-content" id="user_focus_question_more" auto-load="false" onclick="user_focus_question_more()">
-                                                        <span>更多</span>
-                                                    </a>
-                                                </div>
+                                        <div class="aw-common-list" id="user_focus_question_more_list">
+                                            {% for focus_question_list_data in focus_question_list_datas %}
+                                            <div class="aw-item">
+                                            {% if focus_question_list_data.is_anonymous %}
+                                            <a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>
+                                            {% else %}
+                                            <a class="aw-user-name hidden-xs" href="/people{{ focus_question_list_data.user_url }}"><img src="{{ focus_question_list_data.avatar_url}}" /></a>
+                                            {% endif %}
+                                            <div class="aw-question-content">
+                                                <h4>
+                                                    <a href="/question/{{ focus_question_list_data.question_id }}">{{ focus_question_list_data.title }}</a>
+                                                </h4>
+                                                <p>
+                                                    <a href="/people{{ focus_question_list_data.user_url }}" class="aw-user-name">{{ focus_question_list_data.dynamic_str }}</a>
+                                                    <span class="text-color-999"> • {{ focus_question_list_data.question_focus_count }} 人关注 • {{ focus_question_list_data.question_answer_count }} 个回复 • {{ focus_question_list_data.question_view_count }} 次浏览 • {{ focus_question_list_data.publish_time }}</span>
+                                                        </p>
+                                                    </div>
                                             </div>
-                                            <div class="aw-mod aw-user-center-follow-mod collapse">
-                                                <div class="mod-body">
-                                                    <ul id="contents_user_focus_topics" class="clearfix">
-                                                        <div class="aw-common-list" id="user_focus_topic_more_list">
-
-                                                        </div>
-                                                    </ul>
-                                                </div>
-                                                <div class="mod-footer">
-                                                    <a class="aw-load-more-content" id="user_focus_topic_more" auto-load="false" onclick="user_focus_topic_more()">
-                                                        <span>更多</span>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
+                                    <div class="mod-footer">
+                                        <a class="aw-load-more-content" id="user_focus_question_more" auto-load="false" onclick="user_focus_question_more()">
+                                            <span>更多</span>
+                                        </a>
+                                    </div>
                                 </div>
-                                <!-- end 自定义切换 -->
                             </div>
                             <div class="tab-pane" id="actions">
                                 <div class="aw-mod">
