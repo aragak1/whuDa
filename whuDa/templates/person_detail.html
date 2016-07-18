@@ -284,8 +284,8 @@
                                 <div class="aw-mod">
                                     <div class="aw-tabs text-center">
                                         <ul>
-                                            <li class="active"><a href="#contents_user_focus_questions" id="page_focus_questions" data-toggle="tab">关注的问题<span class="badge">{{ question_focus_count }}</span></a></li>
-                                            <li><a href="#contents_user_focus_topics" id="page_focus_topics" data-toggle="tab">关注的话题<span class="badge">{{ people.topic_focus_count }}</span></a></li>
+                                            <li class="active"><a href="#contents_user_focus_questions" id="page_focus_questions" data-toggle="tab" onclick="switch_tab(1)">关注的问题<span class="badge">{{ question_focus_count }}</span></a></li>
+                                            <li><a href="#contents_user_focus_topics" id="page_focus_topics" data-toggle="tab" onclick="switch_tab(2)">关注的话题<span class="badge">{{ people.topic_focus_count }}</span></a></li>
                                         </ul>
                                     </div>
                                     <div class="mod-body">
@@ -323,7 +323,11 @@
                                             </div>
                                             <div class="aw-mod aw-user-center-follow-mod collapse">
                                                 <div class="mod-body">
-                                                    <ul id="contents_user_focus_topics" class="clearfix"></ul>
+                                                    <ul id="contents_user_focus_topics" class="clearfix">
+                                                        <div class="aw-common-list" id="user_focus_topic_more_list">
+
+                                                        </div>
+                                                    </ul>
                                                 </div>
                                                 <div class="mod-footer">
                                                     <a class="aw-load-more-content" id="user_focus_topic_more" auto-load="false" onclick="user_focus_topic_more()">
