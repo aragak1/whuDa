@@ -247,6 +247,11 @@ function c_all_more() {
     })
 }
 
+function c_more_dynamic(){
+    var next_page = current_dynamic_page + 1
+    current_dynamic_page++
+}
+
 function user_question_more() {
     var next_page = current_question_more_page + 1;
     current_question_more_page++
