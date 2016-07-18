@@ -326,23 +326,32 @@ function user_focus_question_more() {
 }
 
 function user_latest_activity_more() {
-    
-}
-
-function switch_tab(flag) {
-    if (flag == 1)
-    {
-        var a = document.getElementById("user_focus_question_more_list")
-        a.style.display = 'block'
-        var b = document.getElementById("user_focus_question_more")
-        b.style.display = 'none'
-    }
-    else {
-        var a = document.getElementById("user_focus_question_more_list")
-        a.style.display = 'none'
-        var b = document.getElementById("user_focus_question_more")
-        b.style.display = 'block'
-    }
+    var next_page = current_latest_activity_more_page + 1;
+    var uid = people_id
+    var post_url = '/api/user_latest_activity/' + uid + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#user_latest_activity_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<li><p>'
+                if (obj[i].is_question) {
+                    list_html += '<span class="pull-right text-color-999">'+ obj[i].last_time +'前</span>'
+                    list_html += '<em class="pull-left"><a href="/people/'+ obj[i].username +'" class="aw-user-name">'+ obj[i].username +' </a> 提出了问题,&nbsp;</em>'
+                    list_html += '<a class="aw-hide-txt" href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a>'
+                }
+                else {
+                    list_html += '<span class="pull-right text-color-999">'+ obj[i].last_time +'前</span>'
+                    list_html += '<em class="pull-left"><a href="/people/'+ obj[i].username +'" class="aw-user-name">'+ obj[i].username +' </a> 回答了问题,&nbsp;</em>'
+                    list_html += '<a class="aw-hide-txt" href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a>'
+                }
+                list_html += '</p></li>'
+                $('#user_latest_activity_more_list').append(list_html);
+            }
+        }
+    })
 }
 
 function update_user_profile() {
