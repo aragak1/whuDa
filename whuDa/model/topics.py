@@ -134,3 +134,7 @@ class Topics(db.Model):
             datas.append(data)
         return datas
 
+    # 获取三个用户没有关注的话题数据（topic_url, topic_name, topic_id, 关注的一个热门用户username）
+    def get_3_topics(self):
+        pass
+

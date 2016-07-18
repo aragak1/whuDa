@@ -240,33 +240,17 @@
                     <div class="aw-mod interest-user">
                         <div class="mod-head"><h3>可能感兴趣的人或话题</h3></div>
                         <div class="mod-body">
+                            {% for user in hot_users %}
                             <dl>
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people/laobai" class="aw-user-name"><img alt="laobai" src="/static/img/avatar/avatar-max-img.png"></a>
+                                    <a href="/people/{{ user.username }}" class="aw-user-name"><img alt="{{ user.username }}" src="/{{ user.avatar_url }}"></a>
                                 </dt>
                                 <dd class="pull-left">
-                                    <a href="/people/laobai" data-id="8094" class="aw-user-name"><span>老白</span></a>
-                                    <p class="signature">者是老白的一句话简介</p>
+                                    <a href="/people/{{ user.username }}" class="aw-user-name"><span>{{ user.username }}</span></a>
+                                    <p class="signature">{% if user.introduction %}{{ user.introduction }}{% endif %}</p>
                                 </dd>
                             </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people/laobai" class="aw-user-name"><img alt="laobai" src="/static/img/avatar/avatar-max-img.png"></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/laobai" data-id="8094" class="aw-user-name"><span>老白</span></a>
-                                    <p class="signature">者是老白的一句话简介</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people/laobai" class="aw-user-name"><img alt="laobai" src="/static/img/avatar/avatar-max-img.png"></a>
-                                </dt>
-                                <dd class="pull-left">
-                                    <a href="/people/laobai" data-id="8094" class="aw-user-name"><span>老白</span></a>
-                                    <p class="signature">者是老白的一句话简介</p>
-                                </dd>
-                            </dl>
+                            {% endfor %}
                             <dl>
                                 <dt class="pull-left aw-border-radius-5">
                                     <a href="/topic/1"><img alt="laobai" src="/static/img/topic-mid-img.png"></a>

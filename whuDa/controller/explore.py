@@ -119,11 +119,13 @@ def wait_reply_page(page_num):
 @app.route('/dynamic')
 def dynamic():
     if is_login():
+        hot_users = db_users.Users().get_top3_users()
         user = db_users.Users().get_user(session['username'])
         datas = get_dynamic_datas_by_page(page_num=1, page_size=10, uid=user.uid)
         return render_template('login/login-dynamic.html',
                                user=user,
-                               datas=datas)
+                               datas=datas,
+                               hot_users=hot_users)
     return redirect('/')
 
 

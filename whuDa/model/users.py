@@ -3,6 +3,7 @@ from whuDa import db
 from time import time
 from hashlib import md5
 from sqlalchemy import desc
+from random import shuffle
 salt = '3JJLohSJXbJUXYxp'
 
 
@@ -113,6 +114,22 @@ class Users(db.Model):
                 'answer_count': user.answer_count
             }
             datas.append(temp_dict)
+        return datas
+
+    # 获取前五个热门用户的数据(avatar_url, username, question_count, answer_count)
+    def get_top3_users(self):
+        datas = []
+        users = Users.query.order_by(desc(Users.answer_count + Users.question_count + Users.view_count)).limit(3)
+        for user in users:
+            temp_dict = {
+                'username': user.username,
+                'avatar_url': user.avatar_url,
+                'question_count': user.question_count,
+                'answer_count': user.answer_count,
+                'introduction': user.introduction
+            }
+            datas.append(temp_dict)
+        shuffle(datas)
         return datas
 
     # 获取一个user的年月日的dict
