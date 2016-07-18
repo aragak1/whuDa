@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
+import whuDa.model.users as db_users
 
 
 class Topic_focus(db.Model):
@@ -28,7 +29,14 @@ class Topic_focus(db.Model):
         for topic_id in topic_ids:
             data = {
                 'topic_id': topic_id,
-                'topic_name': db_topics.Topics().get_topic_name_by_id(topic_id)
+                'name': db_topics.Topics().get_topic_name_by_id(topic_id)
             }
             datas.append(data)
         return datas
+
+    # 获取关注某个话题的用户
+    def get_focus_uid(self, topic_id):
+        uids = []
+        for i in Topic_focus.query.filter_by(topic_id=topic_id).all():
+            uids.append(i.uid)
+        return uids

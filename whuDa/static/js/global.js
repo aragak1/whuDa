@@ -45,6 +45,38 @@ $(document).ready(function () {
             topic_name + '" name="topics[]"></span>');
     });
 
+    //绑定了`submit`事件。
+   $('#upload-form').on('submit',(function(e) {
+   	e.preventDefault();
+   	//序列化表单
+      var serializeData = $(this).serialize();
+
+      // var formData = new FormData(this);
+      $(this).ajaxSubmit({
+           type:'POST',
+           url: '/user/avatar/upload',
+           data: serializeData,
+           contentType: false,
+           cache: false,
+           processData:false,
+
+           success:function(data){
+                if (data='success'){
+                    alert('上传成功！');
+                    location.reload();
+                }
+           },
+           error:function(data){
+               alert('上传失败！');
+           }
+       });
+   }));
+
+    //绑定文件选择事件，一选择了图片，就让`form`提交。
+    $("#upload_file").on("change", function() {
+       $(this).parent().submit();
+    });
+});
 
 
 
@@ -188,3 +220,163 @@ function publish_comment() {
         }
     })
 }
+
+function c_all_more() {
+    var next_page = current_c_all_more_page + 1;
+    var topic_id = topic_detail_page_topic_id
+    var post_url = '/api/topic/' + topic_id + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#c_all_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item">'
+                if (obj[i].is_anonymous == 1) {
+                    list_html += '<a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>'
+                }
+                else {
+                    list_html += '<a class="aw-user-name hidden-xs" href="/people'+ obj[i].user_url +'"><img src="'+ obj[i].avatar_url + '" /></a>'
+                }
+                list_html += '<div class="aw-question-content"><h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4>'
+                list_html += '<a href="/question/'+ obj[i].question_id +'" class="pull-right text-color-999">回复</a><p>'
+                list_html += '<a href="/people'+ obj[i].user_url +'" class="aw-user-name">'+ obj[i].dynamic_str +'</a>'
+                list_html += '<span class="text-color-999"> • '+ obj[i].question_focus_count +' 人关注 • '+ obj[i].question_answer_count +' 个回复 • '+ obj[i].question_view_count +' 次浏览 • '+ obj[i].publish_time +'</span>'
+                list_html += '</p></div></div>'
+                $('#c_all_list').append(list_html);
+            }
+        }
+    })
+}
+
+function user_question_more() {
+    var next_page = current_question_more_page + 1;
+    var uid = people_id
+    var post_url = '/api/user_question/' + uid + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#user_question_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item"><div class="mod-head">'
+                list_html += '<h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4></div>'
+                list_html += '<div class="mod-body">'
+                list_html += '<span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;'+ obj[i].reply_count +'</span>'
+                list_html += '<p class="aw-hide-txt">'+ obj[i].view_count +' 次浏览 &nbsp;• '+ obj[i].focus_count +' 个关注 &nbsp; • '+ obj[i].publish_time +'前</p>'
+                list_html += '</div></div>'
+                $('#user_question_more_list').append(list_html);
+            }
+        }
+    })
+}
+
+function user_answer_more() {
+    var next_page = current_answer_more_page + 1;
+    var uid = people_id
+    var post_url = '/api/user_answer/' + uid + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#user_answer_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item"><div class="mod-head">'
+                list_html += '<h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4>'
+                list_html += '</div><div class="mod-body">'
+                list_html += '<span class="aw-border-radius-5 count pull-left"><i class="icon icon-agree"></i>&nbsp;'+ obj[i].agree_count +'</span>'
+                list_html += '<p style="max-width: 610px">'+ obj[i].content +'</p>'
+                list_html += '</div></div>'
+                $('#user_answer_more_list').append(list_html);
+            }
+        }
+    })
+}
+
+function user_focus_question_more() {
+    var next_page = current_focus_question_more_page + 1;
+    var uid = people_id
+    var post_url = '/api/user_focus_question/' + uid + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#user_focus_question_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item">'
+                if (obj[i].is_anonymous == 1) {
+                    list_html += '<a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>'
+                }
+                else {
+                    list_html += '<a class="aw-user-name hidden-xs" href="/people'+ obj[i].user_url +'"><img src="'+ obj[i].avatar_url + '" /></a>'
+                }
+                list_html += '<div class="aw-question-content"><h4><a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a></h4>'
+                list_html += '<a href="/question/'+ obj[i].question_id +'" class="pull-right text-color-999">回复</a><p>'
+                list_html += '<a href="/people'+ obj[i].user_url +'" class="aw-user-name">'+ obj[i].dynamic_str +'</a>'
+                list_html += '<span class="text-color-999"> • '+ obj[i].question_focus_count +' 人关注 • '+ obj[i].question_answer_count +' 个回复 • '+ obj[i].question_view_count +' 次浏览 • '+ obj[i].publish_time +'</span>'
+                list_html += '</p></div></div>'
+                $('#user_focus_question_more_list').append(list_html);
+            }
+        }
+    })
+}
+
+function user_latest_activity_more() {
+    
+}
+
+function switch_tab(flag) {
+    if (flag == 1)
+    {
+        var a = document.getElementById("user_focus_question_more_list")
+        a.style.display = 'block'
+        var b = document.getElementById("user_focus_question_more")
+        b.style.display = 'none'
+    }
+    else {
+        var a = document.getElementById("user_focus_question_more_list")
+        a.style.display = 'none'
+        var b = document.getElementById("user_focus_question_more")
+        b.style.display = 'block'
+    }
+}
+
+function update_user_profile() {
+    var sex = $('input[name="sex"]:checked').val()
+    var birth_year = $('select[name="birthday_y"]').find("option:selected").val()
+    var birth_month = $('select[name="birthday_m"]').find("option:selected").val()
+    var birth_day = $('select[name="birthday_d"]').find("option:selected").val()
+    var introduction = $('input[name="signature"]').val()
+    var qq = $('#input-qq').val()
+    var moblie = $('#input-mobile').val()
+    var website = $('#input-homepage').val()
+    var department_id = $('#department').find('option:selected').val()
+
+    $.post('/user/profile/update', {
+        'sex':sex,
+        'birth_year': birth_year,
+        'birth_day': birth_day,
+        'birth_month': birth_month,
+        'introduction': introduction,
+        'qq': qq,
+        'mobile': moblie,
+        'website': website,
+        'department_id': department_id
+    }, function (status) {
+        if (status == 'error_qq') {
+            alert('错误的qq号！');
+        }
+        else if (status == 'error_mobile') {
+            alert('错误的手机号！')
+        }
+        else if (status == 'success') {
+            alert('修改成功了！')
+            location.reload()
+        }
+    })
+}
+

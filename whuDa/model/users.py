@@ -70,7 +70,7 @@ class Users(db.Model):
 
     # 通过uid获取一个user
     def get_user_by_id(self, uid):
-        return db.session.query(Users).filter_by(uid=uid).first()
+        return Users.query.filter_by(uid=uid).first()
 
     # 用户问题数加一
     def add_question_count(self, username):
@@ -114,4 +114,32 @@ class Users(db.Model):
             }
             datas.append(temp_dict)
         return datas
+
+    # 获取一个user的年月日的dict
+    def get_birthday_dict(self, uid):
+        from whuDa.controller.utils import get_date
+        birthday =  Users.query.filter_by(uid=uid).first().birthday
+        if not birthday:
+            return get_date(0)
+        return get_date(Users.query.filter_by(uid=uid).first().birthday)
+
+    # 更新用户头像url
+    def update_avatar_url(self, username, avatar_url):
+        Users.query.filter_by(username=username).update({Users.avatar_url: avatar_url})
+        db.session.commit()
+        return True
+
+    # 修改用户的个人信息
+    def update_user_profile(self, username, sex, birthday, department_id, introduction, qq, mobile, website):
+        user = Users.query.filter_by(username=username)
+        user.update({Users.sex: sex,
+                     Users.birthday: birthday,
+                     Users.introduction: introduction,
+                     Users.qq: qq,
+                     Users.phone: mobile,
+                     Users.department_id: department_id,
+                     Users.website: website})
+        db.session.commit()
+        return True
+
 

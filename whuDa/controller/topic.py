@@ -1,9 +1,13 @@
+# _*_ coding: utf8 _*_
 from whuDa import app
-from utils import is_login, page_html
+from utils import is_login, page_html,  get_topic_detail_question_datas, timestamp_datetime
 from flask import render_template, session
+from time import time
+import whuDa.model.topic_question as db_topic_question
 import whuDa.model.users as db_users
 import whuDa.model.topics as db_topics
 import whuDa.model.topic_recommend as db_topic_recommend
+import whuDa.model.topic_focus as db_topic_focus
 
 
 @app.route('/topic')
@@ -144,12 +148,23 @@ def topic_recent_month_page(page_num):
     return render_template('recent_month_topics.html')
 
 
+# 话题的详细页面
 @app.route('/topic/<int:topic_id>')
 def topic_detail(topic_id):
     topic = db_topics.Topics().get_topic_by_id(topic_id)
+    first_page_datas = get_topic_detail_question_datas(page_num=1, page_size=15, topic_id=topic_id)
+    focus_count = db_topic_focus.Topic_focus().get_foucs_count(topic_id)
+    focus_users = db_topics.Topics().get_focus_users(topic_id)
+    question_count = db_topic_question.Topic_question().get_question_count(topic_id)
+    c_time = timestamp_datetime(time())
     if is_login():
         user = db_users.Users().get_user(session['username'])
         return render_template('login/login-topic_detail.html',
                                user=user,
-                               topic=topic)
+                               topic=topic,
+                               datas=first_page_datas,
+                               focus_count=focus_count,
+                               focus_users=focus_users,
+                               question_count=question_count,
+                               c_time=c_time)
     return render_template('topic_detail.html')

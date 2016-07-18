@@ -2,6 +2,8 @@
 from whuDa import db
 from time import time
 from sqlalchemy import desc
+import whuDa.model.questions as db_questions
+import whuDa.model.users as db_users
 
 
 class Answers(db.Model):
@@ -56,4 +58,29 @@ class Answers(db.Model):
         if Answers.query.filter_by(question_id=question_id).count():
             return True
         return False
+
+    # 获取一个用户的所有回答和回答对应的问题
+    def get_user_answers_with_question(self, username):
+        return db.session.query(Answers).filter(Answers.answer_uid == db_users.Users().get_uid_by_username(username)).\
+            order_by(desc(Answers.answer_time)).all()
+
+    # 获取一个用户的所有回复并且按照时间由新到旧排序
+    def get_user_answers_order_by_time(self, username):
+        return db.session.query(Answers).filter(Answers.answer_uid == db_users.Users().get_uid_by_username(username)).\
+            order_by(desc(Answers.answer_time)).all()
+
+    def get_answers_order_by_time_by_uid(self, uid):
+        return db.session.query(Answers).filter(Answers.answer_uid == uid). \
+            order_by(desc(Answers.answer_time)).all()
+
+    def get_answers_by_uid_and_page(self, uid, page_num, page_size):
+        answers = self.get_answers_order_by_time_by_uid(uid)
+        total_count = len(answers)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return answers[start_index:end_index]
+            return answers[start_index:]
+        return []
 
