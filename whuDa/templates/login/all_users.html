@@ -133,9 +133,9 @@
                                 <div class="aw-common-list">
                                     {% for user_data in all_users_datas %}
                                     <div class="aw-item">
-                                        <a class="aw-user-name hidden-xs" href="/people/{{ user_data.uid }}" rel="nofollow"><img src="{{ user_data.avatar_url }}" /></a>
+                                        <a class="aw-user-name hidden-xs" href="/people/{{ user_data.username }}" rel="nofollow"><img src="{{ user_data.avatar_url }}" /></a>
                                         <div class="aw-question-content">
-                                            <h4><a href="/people/{{ user_data.uid }}">{{ user_data.username }}</a></h4>
+                                            <h4><a href="/people/{{ user_data.username }}">{{ user_data.username }}</a></h4>
                                             <p>
                                                 <span class="text-color-999"> {{ user_data.agree_count }} 个赞同</span>
                                             </p>
