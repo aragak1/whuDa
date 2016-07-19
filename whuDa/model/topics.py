@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
 from sqlalchemy import desc
+from random import sample
 import whuDa.model.topic_focus as db_topic_focus
 import whuDa.model.topic_question as db_topic_question
 import whuDa.model.users as db_users
@@ -135,6 +136,21 @@ class Topics(db.Model):
         return datas
 
     # 获取三个用户没有关注的话题数据（topic_url, topic_name, topic_id, 关注的一个热门用户username）
-    def get_3_topics(self):
-        pass
+    def get_3_topics(self, uid):
+        all_topics = self.get_all_topics_id()
+        focus_topics = db_topic_focus.Topic_focus().get_user_foucs_topic_ids(uid)
+        unfocus_topics = [id for id in all_topics if id not in focus_topics]
+        if len(unfocus_topics) > 3:
+            unfocus_topics = sample(unfocus_topics, 3)
+        datas = []
+        for topic_id in unfocus_topics:
+            topic = self.get_topic_by_id(topic_id)
+            data = {
+                'topic_id': topic_id,
+                'topic_name': topic.name,
+                'topic_url': topic.topic_url,
+                'topic_focus_hot_user': db_topic_focus.Topic_focus().get_topic_focus_username(topic_id)
+            }
+            datas.append(data)
+        return datas
 

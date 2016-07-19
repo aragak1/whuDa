@@ -251,42 +251,20 @@
                                 </dd>
                             </dl>
                             {% endfor %}
+                            {% for topic in topics %}
                             <dl>
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="/topic/1"><img alt="laobai" src="/static/img/topic-mid-img.png"></a>
+                                    <a href="/topic/{{ topic.topic_id }}"><img alt="{{ topic.topic_name }}" src="/{{ topic.topic_url }}"></a>
                                 </dt>
                                 <dd class="pull-left">
 				                        <span class="topic-tag">
-					                    <a href="/topic/1" class="text">这是一个话题</a>
+					                    <a href="/topic/{{ topic.topic_id }}" class="text">{{ topic.topic_name }}</a>
 				                        </span>&nbsp;
-                                    <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), 'topic', 3237);AWS.ajax_request(G_BASE_URL + '/account/ajax/clean_user_recommend_cache/');"></a>
-                                    <p><a href="/people/laobai" class="aw-user-name">小白</a> 关注了该话题</p>
+                                    <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick=""></a>
+                                    {% if topic.usernmae %}<p><a href="/people/{{ topic.username }}" class="aw-user-name">{{ topic.username }}</a> 关注了该话题</p>{% endif %}
                                 </dd>
                             </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="/topic/1"><img alt="laobai" src="/static/img/topic-mid-img.png"></a>
-                                </dt>
-                                <dd class="pull-left">
-				                        <span class="topic-tag">
-					                    <a href="/topic/1" class="text">这是一个话题</a>
-				                        </span>&nbsp;
-                                    <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), 'topic', 3237);AWS.ajax_request(G_BASE_URL + '/account/ajax/clean_user_recommend_cache/');"></a>
-                                    <p><a href="/people/laobai" class="aw-user-name">小白</a> 关注了该话题</p>
-                                </dd>
-                            </dl>
-                            <dl>
-                                <dt class="pull-left aw-border-radius-5">
-                                    <a href="/topic/1"><img alt="laobai" src="/static/img/topic-mid-img.png"></a>
-                                </dt>
-                                <dd class="pull-left">
-				                        <span class="topic-tag">
-					                    <a href="/topic/1" class="text">这是一个话题</a>
-				                        </span>&nbsp;
-                                    <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), 'topic', 3237);AWS.ajax_request(G_BASE_URL + '/account/ajax/clean_user_recommend_cache/');"></a>
-                                    <p><a href="/people/laobai" class="aw-user-name">小白</a> 关注了该话题</p>
-                                </dd>
-                            </dl>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
