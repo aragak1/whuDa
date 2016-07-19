@@ -398,4 +398,18 @@ def get_notification_data(uid):
         notifications.append(sender_notification_question)
     datas={'notifications':notifications,'unread':unread}
     return datas
+#获取关注问题
+def get_all_focus_data(uname):
+    temp_all_focus = db_question_focus.Question_focus().get_user_focus_questions(uname)
+    all_focus = []
+    for focus in temp_all_focus:
+        question = db_questions.Questions().get_question_by_id(focus.question_id)
+        focus_questions = {
+            'question_id':question.question_id,
+            'username':session['username'],
+            'question_name':question.title,
+            'c_answer':focus.current_answer_count}
+        all_focus.append(focus_questions)
+    datas={'all_focus':all_focus}
+    return datas
 

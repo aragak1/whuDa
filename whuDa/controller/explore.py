@@ -16,6 +16,7 @@ from whuDa import app
 from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas, get_user_latest_activity_datas
 from utils import get_user_focus_questions_list_datas
 from utils import get_notification_data
+from utils import get_all_focus_data
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -136,6 +137,40 @@ def dynamic():
     if is_login():
         return render_template('login/login-dynamic.html')
     return redirect('/')
+
+
+@app.route('/all_focus')
+def question_focus():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        uid=user.uid
+        question_focus=db_question_focus.Question_focus().get_user_focus_questions(session['username'])
+
+        return render_template('login/all_focus.html',
+                               user=user)
+    else:
+        return redirect('/')
+
+
+@app.route('/all_focus.json',methods=['POST'])
+def more_question_focus():
+    if request.method == 'POST':
+        page_num = int(request.form.get('page_num'))
+        datas =get_all_focus_data(session['username'])
+        if len(datas['all_focus']) > 5 * (page_num + 1):
+            datas['all_focus'] = datas['all_focus'][5 * page_num:5 * (page_num + 1)]
+            more = 1
+        else:
+            datas['all_focus'] = datas['all_focus'][5 * page_num:]
+            more = 0
+        page_num = page_num + 1
+        datas['more'] = more
+        datas['page_num'] = page_num
+        return json.dumps(datas, ensure_ascii=False)
+    else:
+        return redirect('/')
+
+
 
 @app.route('/notifications', methods=['GET', 'POST'])
 def show_notifications():
