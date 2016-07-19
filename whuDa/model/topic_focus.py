@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
-import whuDa.model.users as db_users
+from random import choice
 
 
 class Topic_focus(db.Model):
@@ -49,3 +49,12 @@ class Topic_focus(db.Model):
         for topic_id in topic_ids:
             question_ids += db_topics_question.Topic_question().get_question_id_by_topic_id(topic_id)
         return question_ids
+
+    # 获取一个关注了某个话题的用户的username
+    def get_topic_focus_username(self, topic_id):
+        import whuDa.model.users as db_users
+        focus_uid = self.get_focus_uid(topic_id)
+        if focus_uid:
+            return db_users.Users().get_username_by_uid(choice(focus_uid))
+        return []
+

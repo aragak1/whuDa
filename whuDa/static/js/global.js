@@ -78,9 +78,6 @@ $(document).ready(function () {
     });
 });
 
-$("p").click(function () {
-    $(this).slideUp();
-});
 /*
  * 自定义函数*/
 function register() {

@@ -122,10 +122,12 @@ def dynamic():
         hot_users = db_users.Users().get_top3_users()
         user = db_users.Users().get_user(session['username'])
         datas = get_dynamic_datas_by_page(page_num=1, page_size=10, uid=user.uid)
+        topics = db_topics.Topics().get_3_topics(user.uid)
         return render_template('login/login-dynamic.html',
                                user=user,
                                datas=datas,
-                               hot_users=hot_users)
+                               hot_users=hot_users,
+                               topics=topics)
     return redirect('/')
 
 
