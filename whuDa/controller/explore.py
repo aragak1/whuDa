@@ -246,6 +246,17 @@ def message():
     return redirect('/')
 
 
+@app.route('/message/<int:session_id>')
+def message_detail(session_id):
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        message_datas = db_message.Message().get_messages_by_session_id(session_id)
+        return render_template('login/message_detail.html',
+                               user=user,
+                               datas=message_datas)
+    return redirect('/')
+
+
 @app.route('/help')
 def help():
     if is_login():
