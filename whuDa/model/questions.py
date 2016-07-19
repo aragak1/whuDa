@@ -202,3 +202,26 @@ class Questions(db.Model):
             questions.append(question)
         return questions
 
+    # 获取一个问题的10个相关问题,按照同一个话题下的来计算
+    def get_ten_related_questions(self, question_id):
+        import whuDa.model.topic_question as db_topic_question
+        related_questions = []
+        count = 0
+        topics = db.session.query(db_topic_question.Topic_question).\
+            filter(db_topic_question.Topic_question.question_id == question_id).all()
+        break_flag = 0
+        for topic in topics:
+            if break_flag == 1:
+                break
+            questions = db.session.query(db_topic_question.Topic_question).\
+                filter(db_topic_question.Topic_question.topic_id == topic.topic_id).\
+                filter(db_topic_question.Topic_question.question_id != question_id).all()
+            for question in questions:
+                if count == 10:
+                    break_flag = 1
+                    break
+                related_questions.append(db.session.query(Questions).
+                                         filter(Questions.question_id == question.question_id).first())
+                count += 1
+        return related_questions
+

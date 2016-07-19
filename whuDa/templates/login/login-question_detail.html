@@ -371,10 +371,10 @@
                                 </dd>
                                 {% else %}
                                     <dt class="pull-left aw-border-radius-5">
-                                        <a href="/people/{{ questioner.uid }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
+                                        <a href="/people/{{ questioner.username }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
                                     </dt>
                                     <dd class="pull-left">
-                                        <a class="aw-user-name" href="/people/{{ questioner.uid }}"><br />{{ questioner.username }}</a>
+                                        <a class="aw-user-name" href="/people/{{ questioner.username }}"><br />{{ questioner.username }}</a>
                                         <p></p>
                                     </dd>
                                 {% endif %}
@@ -417,12 +417,9 @@
                         </div>
                         <div class="mod-body font-size-12">
                             <ul>
-                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
-                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
-                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
-                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
-                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
-                                <li><a href="/question/88">推荐的问题推荐的问题推荐的问题。</a></li>
+                                {% for related_question in related_questions %}
+                                <li><a href="/question/{{ related_question.question_id }}">{{ related_question.title }}</a></li>
+                                {% endfor %}
                              </ul>
                         </div>
                     </div>

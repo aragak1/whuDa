@@ -85,6 +85,7 @@ def publish_question():
 
 @app.route('/question/<int:id>')
 def question(id):
+    related_questions = db_questions.Questions().get_ten_related_questions(id)
     db_questions.Questions().add_question_view_count(id)
     question = db_questions.Questions().get_question_by_id(id)
     publish_time = get_past_time(question.publish_time)
@@ -113,6 +114,10 @@ def question(id):
             topics.append(temp_dict)
         if is_login():
             user = db_users.Users().get_user(session['username'])
+            if len(related_questions) > 5:
+                five_related_questions = related_questions[0:5]
+            else:
+                five_related_questions = related_questions
             return render_template('login/login-question_detail.html',
                                    question=question,
                                    topics=topics,
@@ -121,7 +126,8 @@ def question(id):
                                    questioner=questioner,
                                    answers_and_users=answers_and_users,
                                    publish_time=publish_time,
-                                   answer_count=answer_count)
+                                   answer_count=answer_count,
+                                   related_questions=five_related_questions)
         return render_template('question_detail.html',
                                question=question,
                                topics=topics,
@@ -129,9 +135,9 @@ def question(id):
                                questioner=questioner,
                                answers_and_users=answers_and_users,
                                publish_time=publish_time,
-                               answer_count=answer_count)
+                               answer_count=answer_count,
+                               related_questions=related_questions)
     return '没有这个问题'
-
 
 
 @app.route('/question/answer', methods=['POST'])
