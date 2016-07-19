@@ -151,11 +151,11 @@
                             <div class="aw-item">
                                 <div class="mod-head">
                                     <a class="aw-user-img aw-border-radius-5 hidden-xs" href="/people/{{ data.sender_name }}"><img src="/{{ data.sender_avatar }}" /></a>
-                                    <p><a class="aw-user-name" href="/people/t">terry0314</a></p>
-                                    <p class="content"><a href="/message/1">尊敬的terry0314，balabalbalbalablabal私信的具体内容。...</a></p>
+                                    <p><a class="aw-user-name" href="/people/{{ data.sender_name }}">{{ data.sender_name }}</a></p>
+                                    <p class="content"><a href="/message/{{ data.session_id }}">{{ data.content }}</a></p>
                                     <p class="text-color-999">
-                                        <span class="pull-right"><a href="/message/1">共 1 条对话</a> &nbsp; <a href="javascript:;" class="text-color-999" onclick=";">删除</a></span>
-                                        <span>2016-06-21 13:50</span>
+                                        <span class="pull-right"><a href="/message/{{ data.session_id }}">共 {{ data.message_count }} 条对话</a> &nbsp; <a href="javascript:;" class="text-color-999" onclick=";">删除</a></span>
+                                        <span>{{ data.send_time }}</span>
                                     </p>
                                 </div>
                             </div>

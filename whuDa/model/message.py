@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from whuDa import db
+from whuDa.controller.utils import timestamp_datetime
 import whuDa.model.users as db_users
 
 
@@ -42,7 +43,7 @@ class Message(db.Model):
                 'content': first_message.content,
                 'sender_avatar': sender.avatar_url,
                 'sender_name': sender.username,
-                'sender_time': first_message.send_time,
+                'send_time': timestamp_datetime(first_message.send_time),
                 'message_count': self.get_session_message_count(session_id)
             }
             datas.append(data)

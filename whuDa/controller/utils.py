@@ -105,6 +105,7 @@ def is_anonymous(question_id):
 
 # 获取发现页面需要渲染的数据
 
+
 def get_discover_datas(page_num, page_size):
     questions = db_questions.Questions().get_questions_by_page(page_num=page_num, page_size=page_size)
     datas = []
