@@ -12,7 +12,7 @@
     <base href="/" /><!--[if IE]></base><![endif]-->
     <link href="" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="static/css/icon.css" rel="stylesheet" type="text/css" />
     <link href="static/css/common.css" rel="stylesheet" type="text/css" />
     <link href="static/css/link.css" rel="stylesheet" type="text/css" />
@@ -103,13 +103,13 @@
         <!-- 用户栏 -->
         <div class="aw-user-nav">
             <!-- 登陆&注册栏 -->
-            <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
-                <img alt="{{ user.username }}" src="/{{ user.avatar_url }}" />
+            <a href="/people/t" class="aw-user-nav-dropdown">
+                <img alt="terry0314" src="/static/img/avatar/avatar-max-img.png" />
 
             </a>
             <div class="aw-dropdown dropdown-list pull-right">
                 <ul class="aw-dropdown-list">
-                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">{{ user.message_unread }}</span></a></li>
+                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread">0</span></a></li>
                     <li class="hidden-xs"><a href="/setting"><i class="icon icon-setting"></i> 设置</a></li>
                     <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
                 </ul>
@@ -146,19 +146,17 @@
                             </h2>
                         </div>
                         <div class="mod-body aw-feed-list">
-                            {% for data in datas %}
                             <div class="aw-item">
                                 <div class="mod-head">
-                                    <a class="aw-user-img aw-border-radius-5 hidden-xs" href="/people/{{ data.sender_name }}"><img src="/{{ data.sender_avatar }}" /></a>
-                                    <p><a class="aw-user-name" href="/people/{{ data.sender_name }}">{{ data.sender_name }}</a></p>
-                                    <p class="content"><a href="/message/{{ data.session_id }}">{{ data.content }}</a></p>
+                                    <a class="aw-user-img aw-border-radius-5 hidden-xs" href="/people/terry0314"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                    <p><a class="aw-user-name" href="/people/t">terry0314</a></p>
+                                    <p class="content"><a href="/message/1">尊敬的terry0314，balabalbalbalablabal私信的具体内容。...</a></p>
                                     <p class="text-color-999">
-                                        <span class="pull-right"><a href="/message/{{ data.session_id }}">共 {{ data.message_count }} 条对话</a> &nbsp; <a href="javascript:;" class="text-color-999" onclick=";">删除</a></span>
-                                        <span>{{ data.send_time }}</span>
+                                        <span class="pull-right"><a href="/message/1">共 1 条对话</a> &nbsp; <a href="javascript:;" class="text-color-999" onclick=";">删除</a></span>
+                                        <span>2016-06-21 13:50</span>
                                     </p>
                                 </div>
                             </div>
-                            {% endfor %}
                         </div>
                         <div class="mod-footer">
                         </div>

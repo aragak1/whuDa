@@ -8,7 +8,6 @@ import whuDa.model.questions as db_questions
 import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
-import whuDa.model.answer_agree as db_answer_agree
 import whuDa.model.notification as db_notification
 import sys
 
@@ -90,22 +89,7 @@ def get_avatar_url(question_id):
         return '/' + db_users.Users().get_user_by_id(db_answers.Answers().get_last_answer_uid(question_id)).avatar_url
 
 
-def is_anonymous(question_id):
-    # 判断是否有人回答
-    if not db_answers.Answers().get_answer_count(question_id):
-        # 是否匿名
-        if db_questions.Questions().get_question_by_id(question_id).is_anonymous:
-            return True
-        return False
-    else:
-        # 获取最新的回答
-        if db_answers.Answers().get_last_answer(question_id).is_anonymous:
-            return True
-        return False
-
 # 获取发现页面需要渲染的数据
-
-
 def get_discover_datas(page_num, page_size):
     questions = db_questions.Questions().get_questions_by_page(page_num=page_num, page_size=page_size)
     datas = []
@@ -352,7 +336,6 @@ def get_user_latest_activity_datas(username):
         else:
             pass
         data = {
-            'username': username,
             'is_question': is_question,
             'question_id': question_id,
             'title': title,
@@ -360,19 +343,6 @@ def get_user_latest_activity_datas(username):
         }
         datas.append(data)
     return datas
-
-
-# 按照分页获取用户的最新用动态数据
-def get_user_latest_activity_datas_by_page(username, page_num, page_size):
-    datas = get_user_latest_activity_datas(username)
-    total_count = len(datas)
-    start_index = (page_num - 1) * page_size
-    end_index = start_index + page_size
-    if total_count > start_index:
-        if total_count > end_index:
-            return datas[start_index:end_index]
-        return datas[start_index:]
-    return []
 
 
 # 把图片缩放到指定大小
@@ -405,35 +375,7 @@ def get_user_focus_questions_list_datas(uid):
         datas.append(data)
     return datas
 
-# 获取动态页面需要渲染的数据，根据页数获取
-def get_dynamic_datas_by_page(page_num, page_size, uid):
-    datas = []
-    questions = db_questions.Questions().get_dynamic_questions(uid)
-    for question in questions:
-        data = {
-            'question_id': question.question_id,
-            'title': question.title,
-            'username': db_users.Users().get_user_by_id(question.questioner_uid).username,
-            'is_anonymous': is_anonymous(question.question_id),
-            'question_focus_count': db_question_focus.Question_focus().get_question_foucs_count(question.question_id),
-            'question_answer_count': db_answers.Answers().get_answer_count(question.question_id),
-            'question_view_count': db_questions.Questions().get_question_view_count(question.question_id),
-            'publish_time': timestamp_datetime(question.publish_time),
-            'user_url': get_user_url(question.question_id),
-            'dynamic_str': get_dynamic_str(question.question_id),
-            'avatar_url': db_users.Users().get_user_by_id(question.questioner_uid).avatar_url,
-            'agree_count':db_answer_agree.Anser_agree().get_question_agree_count(question.question_id)
-        }
-        datas.append(data)
-    start_index = (page_num-1) * page_size
-    end_index = start_index + page_size
-    total_count = len(questions)
-    if total_count > start_index:
-        if total_count > end_index:
-            return datas[start_index:end_index]
-        return datas[start_index:]
-    return []
-
+#获取通知信息
 def get_notification_data(uid):
     temp_notifications = db_notification.Notification().get_notification_by_ruid(uid)
     unread = 0
@@ -454,5 +396,20 @@ def get_notification_data(uid):
             'is_read': notification.is_read,
             'past_time':get_past_time(notification.send_time)}
         notifications.append(sender_notification_question)
-    datas = {'notifications':notifications,'unread':unread}
+    datas={'notifications':notifications,'unread':unread}
     return datas
+#获取关注问题
+def get_all_focus_data(uname):
+    temp_all_focus = db_question_focus.Question_focus().get_user_focus_questions(uname)
+    all_focus = []
+    for focus in temp_all_focus:
+        question = db_questions.Questions().get_question_by_id(focus.question_id)
+        focus_questions = {
+            'question_id':question.question_id,
+            'username':session['username'],
+            'question_name':question.title,
+            'c_answer':focus.current_answer_count}
+        all_focus.append(focus_questions)
+    datas={'all_focus':all_focus}
+    return datas
+

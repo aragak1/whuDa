@@ -4,7 +4,6 @@ from time import time
 from sqlalchemy import desc, exists, not_
 import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
-import whuDa.model.topic_focus as db_topic_focus
 
 '''
     question_id int(11) unsigned not null auto_increment comment '问题ID',
@@ -179,26 +178,3 @@ class Questions(db.Model):
                 return questions[start_index:end_index]
             return questions[start_index:]
         return []
-
-    # 获取用户关注的话题（关注话题）下所有问题的id
-    def get_question_ids_under_focus_topic(self, uid):
-        return db_topic_focus.Topic_focus().get_question_ids_under_topic(uid)
-
-    # 获取用户关注的问题（直接关注问题）id
-    def get_user_focus_question_ids(self, uid):
-        return db_question_focus.Question_focus().get_user_focus_question_ids(uid)
-
-    # 获取动态列表需要读取的问题id
-    def get_all_question_ids(self, uid):
-        return self.get_question_ids_under_focus_topic(uid) + self.get_user_focus_question_ids(uid)
-
-    # 获取用户关注的话题下所有的问题和关注的所有问题
-    def get_dynamic_questions(self, uid):
-        # question_id去重
-        question_ids = list(set(self.get_all_question_ids(uid)))
-        questions = []
-        for question_id in question_ids:
-            question = self.get_question_by_id(question_id)
-            questions.append(question)
-        return questions
-
