@@ -405,3 +405,29 @@ def people(name):
                            focus_question_list_datas=focus_question_list_datas,
                            latest_activity_list_datas=latest_activity_list_datas)
 
+
+@app.route('/all_users/page/<int:page_num>')
+def all_users_page(page_num):
+    user = db_users.Users().get_user(session['username'])
+    pagination = page_html(total_count=db_users.Users().get_users_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='all_users/page')
+    return render_template('login/all_users.html',
+                           user=user,
+                           all_users_datas=db_users.Users().get_all_users(),
+                           pagination=pagination)
+
+
+@app.route('/all_users')
+def all_users():
+    user = db_users.Users().get_user(session['username'])
+    pagination = page_html(total_count=db_users.Users().get_users_count(),
+                           page_size=15,
+                           current_page=1,
+                           url='all_users/page')
+    return render_template('login/all_users.html',
+                           user=user,
+                           all_users_datas=db_users.Users().get_all_users(),
+                           pagination=pagination)
+

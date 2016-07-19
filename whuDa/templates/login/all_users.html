@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <title>用户列表 - WhuDa网络问答社区</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content=""  />
+    <base href="/" /><!--[if IE]></base><![endif]-->
+    <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <script src="/static/js/jquery.2.js" type="text/javascript"></script>
+    <script src="/static/js/jquery.form.js" type="text/javascript"></script>
+    <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
+    <script src="/static/js/compatibility.js" type="text/javascript"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="/static/js/respond.js"></script>
+    <![endif]-->
+</head>
+<noscript unselectable="on" id="noscript">
+    <div class="aw-404 aw-404-wrap container">
+        <img src="/static/img/no-js.jpg">
+        <p>你的浏览器禁用了JavaScript, 请开启后刷新浏览器获得更好的体验!</p>
+    </div>
+</noscript>
+<body>
+    <div class="aw-top-menu-wrap">
+		<div class="container">
+			<!-- logo -->
+			<div class="aw-logo hidden-xs">
+				<a href="#"></a>
+			</div>
+			<!-- end logo -->
+			<!-- 搜索框 -->
+			<div class="aw-search-box  hidden-xs hidden-sm">
+                <form class="navbar-search" action="#" id="global_search_form" method="post">
+                    <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query" />
+                    <span title="搜索" id="global_search_btns" onClick="window.alert('search!');"><i class="icon icon-search"></i></span>
+                </form>
+            </div>
+			<!-- end 搜索框 -->
+			<!-- 导航 -->
+			<div class="aw-top-nav navbar">
+				<div class="navbar-header">
+				    <button  class="navbar-toggle pull-left">
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+				    </button>
+			    </div>
+				<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+				    <ul class="nav navbar-nav">
+					    <li><a href="/dynamic"><i class="icon icon-home"></i> 动态</a></li>
+					    <li><a href="/" class=""><i class="icon icon-list"></i> 发现</a></li>
+					    <li><a href="/topic" ><i class="icon icon-topic"></i> 话题</a></li>
+						<li>
+                            <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
+                            <span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
+                            <div class="aw-dropdown pull-right hidden-xs">
+                                <div class="mod-body">
+                                    <ul id="header_notification_list"><p class="aw-padding10" align="center">没有未读通知</p></ul>
+                                </div>
+                                <div class="mod-footer">
+                                    <a href="/notifications">查看全部</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a href="/help"><i class="icon icon-bulb"></i> 帮助</a></li>
+                        <li>
+                            <a style="font-weight:bold;">· · ·</a>
+                            <div class="dropdown-list pull-right">
+                                <ul id="extensions-nav-list">
+                                    <li><a href="/about"><i class="icon icon-activity"></i>关于</a></li>
+                                </ul>
+                            </div>
+                        </li>
+				    </ul>
+				</nav>
+			</div>
+			<!-- end 导航 -->
+			<!-- 用户栏 -->
+			<div class="aw-user-nav">
+				<a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+					<img alt="{{ user.username }}" src="/{{ user.avatar_url }}" />
+				</a>
+				<div class="aw-dropdown dropdown-list pull-right">
+					<ul class="aw-dropdown-list">
+						<li><a href="/inbox"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
+                        <li class="hidden-xs"><a href="/setting"><i class="icon icon-setting"></i> 设置</a></li>
+                        <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 发起 -->
+			<div class="aw-publish-btn">
+                <a id="header_publish" class="btn-primary" href="/publish" onclick="AWS.dialog('publish', {'category_enable':'0', 'category_id':'0', 'topic_title':''}); return false;"><i class="icon icon-ask"></i>发起</a>
+                <div class="dropdown-list pull-right">
+                    <ul>
+                        <li>
+                            <form method="post" action="/publish">
+                                <a onclick="$(this).parents('form').submit();">问题</a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+			<!-- end 发起 -->
+		</div>
+	</div>
+
+
+    <div class="aw-container-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="aw-content-wrap clearfix">
+                    <div class="col-sm-12 col-md-9 aw-main-content">
+                        <div class="aw-mod">
+                            <div class="mod-head common-head">
+                                <h2><i class="icon icon-users"></i>全部用户</h2>
+                            </div>
+                            <div class="mod-body aw-people-list">
+                                {% for user_data in all_users_datas %}
+                                <div class="aw-item">
+                                    <a class="aw-user-img aw-border-radius-5" href="/people/{{ user_data.uid }}">
+                                        <img alt="{{ user_data.username }}" src="/{{ user_data.avatar_url }}" />
+                                    </a>
+                                    <p class="text-color-999 title">
+                                        <a href="/people/{{ user_data.uid }}" class="aw-user-name">{{ user_data.username }}</a>
+                                    </p>
+                                    <p class="text-color-999 signature"></p>
+                                    <div class="meta">
+                                        <span><i class="icon icon-agree"></i>赞同 <b>{{ user_data.agree_count }}</b></span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <div class="page-control">
+                                    <ul class="pagination pull-right">
+                                        {% autoescape false %}
+                                        {{ pagination }}
+                                        {% endautoescape %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm active">
+                        <div class="aw-mod side-nav">
+                            <div class="mod-body">
+                                <ul>
+                                    <li><a href="#">开发</a></li>
+                                    <li><a href="#">微信</a></li>
+                                    <li><a href="#">模板</a></li>
+                                    <li><a href="#">程序</a></li>
+                                    <li><a href="#">网站</a></li>
+                                    <li><a href="#">设计</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="aw-footer-wrap">
+        <div class="aw-footer">
+            Copyright © 2016<span class="hidden-xs"> - All Rights Reserved</span>
+        </div>
+    </div>
+
+    <a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
+
+    <script type="text/javascript" src="https://dn-bughd-web.qbox.me/bughd.min.js" crossOrigin="anonymous"></script>
+</body>
+</html>

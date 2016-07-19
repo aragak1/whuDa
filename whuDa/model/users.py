@@ -166,4 +166,12 @@ class Users(db.Model):
             return True
         return False
 
+    # 获取所有用户
+    def get_all_users(self):
+        return db.session.query(Users).all()
+
+    # 获取用户的个数
+    def get_users_count(self):
+        return db.session.query(Users).count()
+
 
