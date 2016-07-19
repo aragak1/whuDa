@@ -15,7 +15,18 @@ class Message(db.Model):
     recipient_uid = db.Column(db.Integer, nullable=False)
     content = db.Column(db.Text, nullable=False)
     send_time = db.Column(db.Integer, nullable=False)
-    is_read = db.Column(db.Integer, nullable=False, default=0)
+    is_read = db.Column(db.Integer, nullable=False, default=1)
+
+    # 开启一次新的会话
+    def send_new_session(self, sender_uid, recipient_uid, content):
+        session_id = Message.query.order_by(desc(Message.session_id)).first().session_id + 1
+        message = Message(sender_uid=sender_uid,
+                          recipient_uid=recipient_uid,
+                          content=content,
+                          session_id=session_id,
+                          send_time=time())
+        db.session.add(message)
+        db.session.commit()
 
     # 获取用户的所有私信会话
     def get_user_session_ids(self, uid):

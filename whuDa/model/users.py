@@ -174,4 +174,9 @@ class Users(db.Model):
     def get_users_count(self):
         return db.session.query(Users).count()
 
+    # 查询用户名是否在数据库中
+    def is_exist_username(self, username):
+        if Users.query.filter_by(username=username).count():
+            return True
+        return False
 
