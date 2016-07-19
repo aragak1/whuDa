@@ -250,10 +250,31 @@ def message():
 def message_detail(session_id):
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        message_datas = db_message.Message().get_messages_by_session_id(session_id)
-        return render_template('login/message_detail.html',
-                               user=user,
-                               datas=message_datas)
+        if db_message.Message().is_user_session(session_id, user.uid):
+            message_datas = db_message.Message().get_messages_by_session_id(session_id)
+            return render_template('login/message_detail.html',
+                                   user=user,
+                                   datas=message_datas,
+                                   session_id=session_id)
+        return redirect('/')
+    return redirect('/')
+
+
+@app.route('/message/send', methods=['GET', 'POST'])
+def send_message():
+    if is_login():
+        sender = db_users.Users().get_user(session['username'])
+        recipient_name = request.form.get('recipient')
+        recipient = db_users.Users().get_user(recipient_name)
+        session_id = int(request.form.get('session_id'))
+        content = request.form.get('content')
+        if not content:
+            return 'empty_content'
+        db_message.Message().send_message(session_id=session_id,
+                                          sender_uid=sender.uid,
+                                          recipient_uid=recipient.uid,
+                                          content=content)
+        return 'success'
     return redirect('/')
 
 
