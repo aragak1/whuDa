@@ -222,14 +222,28 @@ def get_more_notifications():
         return redirect('/')
 
 
-@app.route('/message')
+@app.route('/message', methods=['GET', 'POST'])
 def message():
-    if is_login():
+    if is_login() and request.method == 'GET':
         user = db_users.Users().get_user(session['username'])
         message_datas = db_message.Message().get_messages(user.uid)
         return render_template('login/message.html',
                                user=user,
                                datas=message_datas)
+    elif is_login() and request.method == 'POST':
+        user = db_users.Users().get_user(session['username'])
+        recipient_name = request.form.get('recipient')
+        content = request.form.get('content')
+        if not len(content):
+            return 'empty_content'
+        if db_users.Users().is_exist_username(recipient_name):
+            recipient = db_users.Users().get_user(recipient_name)
+            db_message.Message().send_new_session(sender_uid=user.uid,
+                                                  recipient_uid=recipient.uid,
+                                                  content=content)
+            return 'success'
+        else:
+            return 'not_exist_user'
     return redirect('/')
 
 
