@@ -11,7 +11,7 @@
     <base href="#" /><!--[if IE]></base><![endif]-->
     <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
@@ -37,7 +37,7 @@
     <div class="container">
         <!-- logo -->
         <div class="aw-logo hidden-xs">
-            <a href="#"></a>
+            <a href="/"></a>
         </div>
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
@@ -101,7 +101,7 @@
                                     {% if data.is_anonymous %}
                                         <a class="aw-user-name hidden-xs" rel="nofollow"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
                                     {% else %}
-                                        <a class="aw-user-name hidden-xs" href="/people/{{ data.username }}" rel="nofollow"><img src="/{{ data.avatar_url }}" alt="{{ data.username }}" /></a>
+                                        <a class="aw-user-name hidden-xs" href="/people/{{ data.username }}" rel="nofollow"><img src="{{ data.avatar_url }}" alt="{{ data.username }}" /></a>
                                     {% endif %}
                                     <div class="aw-question-content">
                                         <h4><a href="/question/{{ data.question_id }}">{{ data.title }}</a></h4>

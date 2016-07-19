@@ -3,6 +3,7 @@ from whuDa import db
 from time import time
 from hashlib import md5
 from sqlalchemy import desc
+from random import shuffle
 salt = '3JJLohSJXbJUXYxp'
 
 
@@ -115,6 +116,22 @@ class Users(db.Model):
             datas.append(temp_dict)
         return datas
 
+    # 获取前五个热门用户的数据(avatar_url, username, question_count, answer_count)
+    def get_top3_users(self):
+        datas = []
+        users = Users.query.order_by(desc(Users.answer_count + Users.question_count + Users.view_count)).limit(3)
+        for user in users:
+            temp_dict = {
+                'username': user.username,
+                'avatar_url': user.avatar_url,
+                'question_count': user.question_count,
+                'answer_count': user.answer_count,
+                'introduction': user.introduction
+            }
+            datas.append(temp_dict)
+        shuffle(datas)
+        return datas
+
     # 获取一个user的年月日的dict
     def get_birthday_dict(self, uid):
         from whuDa.controller.utils import get_date
@@ -141,5 +158,20 @@ class Users(db.Model):
                      Users.website: website})
         db.session.commit()
         return True
+
+    # 判断是否为当前用户密码
+    def is_user_password(self, username, password):
+        user = Users.query.filter_by(username=username).first()
+        if md5(password + salt).hexdigest() == user.password:
+            return True
+        return False
+
+    # 获取所有用户
+    def get_all_users(self):
+        return db.session.query(Users).all()
+
+    # 获取用户的个数
+    def get_users_count(self):
+        return db.session.query(Users).count()
 
 

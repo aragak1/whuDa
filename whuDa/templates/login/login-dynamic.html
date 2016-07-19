@@ -10,7 +10,7 @@
     <base href="/"><!--[if IE]></base><![endif]-->
     <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon">
 
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/icon.css">
     <link href="/static/css/common.css" rel="stylesheet" type="text/css">
     <link href="/static/css/link.css" rel="stylesheet" type="text/css">
@@ -20,7 +20,12 @@
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
+    <script src="/static/js/global.js" type="text/javascript"></script>
     <script type="text/javascript" src="/static/js/compatibility.js"></script>
+    <script>
+        current_dynamic_page = 1
+        user_uid = {{ user.uid }}
+    </script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
     <![endif]-->
@@ -31,825 +36,253 @@
         </div>
     </noscript>
 </head>
-    <div class="aw-top-menu-wrap">
-        <div class="container">
-            <!-- logo -->
-            <div class="aw-logo hidden-xs">
-                <a href="/"></a>
-            </div>
-            <!-- 搜索框 -->
-            <div class="aw-search-box  hidden-xs hidden-sm">
-                <form class="navbar-search" action="/search" id="global_search_form" method="post">
-                    <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query">
-                    <span title="搜索" id="global_search_btns" onclick="$('#global_search_form').submit();"><i class="icon icon-search"></i></span>
-                    <div class="aw-dropdown">
-                        <div class="mod-body">
-                            <p class="title">输入关键字进行搜索</p>
-                            <ul class="aw-dropdown-list collapse"></ul>
-                            <p class="search"><span>搜索:</span><a onclick="$('#global_search_form').submit();"></a></p>
-                        </div>
-                        <div class="mod-footer">
-                            <a href="javascript:;" onclick="$('#header_publish').click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- 导航 -->
-            <div class="aw-top-nav navbar">
-                <div class="navbar-header">
-                    <button class="navbar-toggle pull-left">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="/dynamic" class="active"><i class="icon icon-home"></i> 动态</a></li>
-                        <li><a href="/" class=""><i class="icon icon-list"></i> 发现</a></li>
-                        <li><a href="/topic"><i class="icon icon-topic"></i> 话题</a></li>
-                        <li>
-                            <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
-                            <span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
-                            <div class="aw-dropdown pull-right hidden-xs">
-                                <div class="mod-body">
-                                    <ul id="header_notification_list"><p class="aw-padding10" align="center">没有未读通知</p></ul>
-                                </div>
-                                <div class="mod-footer">
-                                    <a href="/notifications">查看全部</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li><a href="/help"><i class="icon icon-bulb"></i> 帮助</a></li>
-                        <li>
-                            <a style="font-weight:bold;">· · ·</a>
-                            <div class="dropdown-list pull-right">
-                                <ul id="extensions-nav-list">
-                                    <li><a href="/about"><i class="icon icon-activity"></i>关于</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- 用户栏 -->
-            <div class="aw-user-nav">
-                <a href="/people/terry0314" class="aw-user-nav-dropdown">
-                    <img alt="terry0314" src="/static/img/avatar/avatar-max-img.png">
-
-                </a>
-                <div class="aw-dropdown dropdown-list pull-right">
-                    <ul class="aw-dropdown-list">
-                        <li><a href="/inbox"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">0</span></a></li>
-                        <li class="hidden-xs"><a href="/setting"><i class="icon icon-setting"></i> 设置</a></li>
-                        <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- 发起 -->
-            <div class="aw-publish-btn">
-                <a id="header_publish" class="btn-primary" href="/publish" onclick="AWS.dialog('publish', {'category_enable':'0', 'category_id':'0', 'topic_title':''}); return false;"><i class="icon icon-ask"></i>发起</a>
-                <div class="dropdown-list pull-right">
-                    <ul>
-                        <li>
-                            <form method="post" action="/publish">
-                                <a onclick="$(this).parents('form').submit();">问题</a>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<div class="aw-top-menu-wrap">
+    <div class="container">
+        <!-- logo -->
+        <div class="aw-logo hidden-xs">
+            <a href="/"></a>
         </div>
-    </div>
-
-    <div class="aw-container-wrap">
-        <div class="container">
-            <div class="row">
-                <div class="aw-content-wrap clearfix">
-                    <div class="col-sm-12 col-md-9 aw-main-content">
-                        <!-- 新消息通知 -->
-                        <div class="aw-mod aw-notification-box collapse" id="index_notification">
-                            <div class="mod-head common-head">
-                                <h2>
-                                    <span class="pull-right"><a href="/setting/privacy/#notifications" class="text-color-999"><i class="icon icon-setting"></i> 通知设置</a></span>
-                                    <i class="icon icon-bell"></i>新通知<em class="badge badge-important" name="notification_unread_num">0</em>
-                                </h2>
-                            </div>
+        <!-- 搜索框 -->
+        <div class="aw-search-box  hidden-xs hidden-sm">
+            <form class="navbar-search" action="/search" id="global_search_form" method="post">
+                <input class="form-control search-query" type="text" placeholder="搜索问题、话题或人" autocomplete="off" name="q" id="aw-search-query">
+                <span title="搜索" id="global_search_btns" onclick="$('#global_search_form').submit();"><i class="icon icon-search"></i></span>
+                <div class="aw-dropdown">
+                    <div class="mod-body">
+                        <p class="title">输入关键字进行搜索</p>
+                        <ul class="aw-dropdown-list collapse"></ul>
+                        <p class="search"><span>搜索:</span><a onclick="$('#global_search_form').submit();"></a></p>
+                    </div>
+                    <div class="mod-footer">
+                        <a href="javascript:;" onclick="$('#header_publish').click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 导航 -->
+        <div class="aw-top-nav navbar">
+            <div class="navbar-header">
+                <button class="navbar-toggle pull-left">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/dynamic" class="active"><i class="icon icon-home"></i> 动态</a></li>
+                    <li><a href="/" class=""><i class="icon icon-list"></i> 发现</a></li>
+                    <li><a href="/topic"><i class="icon icon-topic"></i> 话题</a></li>
+                    <li>
+                        <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
+                        <span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
+                        <div class="aw-dropdown pull-right hidden-xs">
                             <div class="mod-body">
-                                <ul id="notification_list"></ul>
+                                <ul id="header_notification_list"><p class="aw-padding10" align="center">没有未读通知</p></ul>
                             </div>
-                            <div class="mod-footer clearfix">
-                                <a href="javascript:;" onclick="AWS.Message.read_notification(false, 0, false);" class="pull-left btn btn-mini btn-default">我知道了</a>
-                                <a href="/notifications" class="pull-right btn btn-mini btn-success">查看所有</a>
-                            </div>
-                        </div>
-
-                        <a name="c_contents"></a>
-                        <div class="aw-mod clearfix">
-                            <div class="mod-head common-head">
-                                <h2 id="main_title">最新动态</h2>
-                            </div>
-                            <!-- 动态列表 -->
-                            <div class="mod-body aw-feed-list clearfix" id="main_contents">
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="aw-item">
-                                    <div class="mod-head">
-                                        <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people/lb"><img src="/static/img/avatar/avatar-max-img.png" alt="laobai"></a>
-                                        <p class="text-color-999">
-                                            <a href="/people/4" class="aw-user-name" data-id="49">老白</a> 回答了问题 • 2016-01-27 13:46 •
-                                            <a href="/question/2" class="text-color-999">1 个回复</a>
-                                        </p>
-                                        <h4><a href="/question/2">老白为什么总是这么可爱？</a></h4>
-                                        <p class="text-color-999 aw-agree-by">
-                                            赞同来自:
-                                            <a href="/people/laobai" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/e" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em>、</em>
-                                            <a href="/people/a" class="aw-user-name">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="/people/a" class="aw-user-name collapse">老白</a><em class="collapse">、</em>
-                                            <a href="javascript:;" class="aw-agree-by-show" onclick="$(this).parents('.aw-agree-by').find('em,a').removeClass('collapse'); $(this).remove();">更多 »</a>
-                                        </p>
-                                    </div>
-                                    <div class="mod-body clearfix">
-                                        <!-- 答案内容 -->
-                                        <div id="detail_268903" class="markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                        <div id="detail_more_268903" class="collapse markitup-box">
-                                            因为老白本来就是这么可爱。
-                                        </div>
-                                    </div>
-                                    <div class="mod-footer">
-                                        <!-- 社交操作 -->
-                                        <div class="meta clearfix">
-                                            <!-- 投票栏 -->
-			                                <span class="operate">
-                                                <a class="agree" onclick="window.alert('agree');">
-                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">12</b>
-                                                </a>
-                                                <a class="disagree " onclick="window.alert('disagree');">
-                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
-                                                    <b class="count">&nbsp;</b>
-                                                </a>
-                                            </span>
-			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
-				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-					                            <i class="icon icon-share"></i>分享</a>
-				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-				                                </div>
-			                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="mod-footer">
-                                <!-- 加载更多内容 -->
-                                <a id="bp_more" class="aw-load-more-content" data-page="1">
-                                    <span>更多</span>
-                                </a>
+                                <a href="/notifications">查看全部</a>
                             </div>
                         </div>
-                    </div>
-                    <!-- 侧边栏 -->
-                    <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm">
-                        <div class="aw-mod side-nav">
-                            <div class="mod-body">
-                                <ul>
-                                    <li><a href="/dynamic" class="active"><i class="icon icon-home"></i>最新动态</a></li>
-                                    <li><a href="/home" ><i class="icon icon-draft"></i>我的草稿</a></li>
-                                    <li><a href="/favorite"><i class="icon icon-favor"></i>我的收藏</a></li>
-                                    <li><a href="/home"><i class="icon icon-check"></i>我关注的问题</a></li>
-                                    <li><a href="/home"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
-                                    <li><a href="/home"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
-                                </ul>
-                            </div>
+                    </li>
+                    <li><a href="/help"><i class="icon icon-bulb"></i> 帮助</a></li>
+                    <li>
+                        <a style="font-weight:bold;">· · ·</a>
+                        <div class="dropdown-list pull-right">
+                            <ul id="extensions-nav-list">
+                                <li><a href="/about"><i class="icon icon-activity"></i>关于</a></li>
+                            </ul>
                         </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- 用户栏 -->
+        <div class="aw-user-nav">
+            <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                <img alt="{{ user.username }}" src="/{{ user.avatar_url }}">
 
-                        <div class="aw-mod side-nav">
-                            <div class="mod-body">
-                                <ul>
-                                    <li><a href="/topic"><i class="icon icon-topic"></i>所有话题</a></li>
-                                    <li><a href="/people"><i class="icon icon-user"></i>所有用户</a></li>
-                                    <li><a href="/invitation"><i class="icon icon-inviteask"></i>邀请好友加入 <em class="badge">5</em></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 可能感兴趣的人/或话题 -->
-                        <div class="aw-mod interest-user">
-                            <div class="mod-head"><h3>可能感兴趣的人或话题</h3></div>
-                            <div class="mod-body">
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="/people/laobai" class="aw-user-name"><img alt="laobai" src="/static/img/avatar/avatar-max-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a href="/people/laobai" data-id="8094" class="aw-user-name"><span>老白</span></a>
-                                        <p class="signature">者是老白的一句话简介</p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="/people/laobai" class="aw-user-name"><img alt="laobai" src="/static/img/avatar/avatar-max-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a href="/people/laobai" data-id="8094" class="aw-user-name"><span>老白</span></a>
-                                        <p class="signature">者是老白的一句话简介</p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="/people/laobai" class="aw-user-name"><img alt="laobai" src="/static/img/avatar/avatar-max-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-                                        <a href="/people/laobai" data-id="8094" class="aw-user-name"><span>老白</span></a>
-                                        <p class="signature">者是老白的一句话简介</p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="/topic/1"><img alt="laobai" src="/static/img/topic-mid-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-				                        <span class="topic-tag">
-					                    <a href="/topic/1" class="text">这是一个话题</a>
-				                        </span>&nbsp;
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), 'topic', 3237);AWS.ajax_request(G_BASE_URL + '/account/ajax/clean_user_recommend_cache/');"></a>
-                                        <p><a href="/people/laobai" class="aw-user-name">小白</a> 关注了该话题</p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="/topic/1"><img alt="laobai" src="/static/img/topic-mid-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-				                        <span class="topic-tag">
-					                    <a href="/topic/1" class="text">这是一个话题</a>
-				                        </span>&nbsp;
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), 'topic', 3237);AWS.ajax_request(G_BASE_URL + '/account/ajax/clean_user_recommend_cache/');"></a>
-                                        <p><a href="/people/laobai" class="aw-user-name">小白</a> 关注了该话题</p>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt class="pull-left aw-border-radius-5">
-                                        <a href="/topic/1"><img alt="laobai" src="/static/img/topic-mid-img.png"></a>
-                                    </dt>
-                                    <dd class="pull-left">
-				                        <span class="topic-tag">
-					                    <a href="/topic/1" class="text">这是一个话题</a>
-				                        </span>&nbsp;
-                                        <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick="AWS.User.follow($(this), 'topic', 3237);AWS.ajax_request(G_BASE_URL + '/account/ajax/clean_user_recommend_cache/');"></a>
-                                        <p><a href="/people/laobai" class="aw-user-name">小白</a> 关注了该话题</p>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end 侧边栏 -->
-                </div>
+            </a>
+            <div class="aw-dropdown dropdown-list pull-right">
+                <ul class="aw-dropdown-list">
+                    <li><a href="/message"><i class="icon icon-inbox"></i> 私信<span class="badge badge-important collapse" id="inbox_unread" style="display: none;">{{ user.message_unread }}</span></a></li>
+                    <li class="hidden-xs"><a href="/setting"><i class="icon icon-setting"></i> 设置</a></li>
+                    <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 发起 -->
+        <div class="aw-publish-btn">
+            <a id="header_publish" class="btn-primary" href="/publish"><i class="icon icon-ask"></i>发起</a>
+            <div class="dropdown-list pull-right">
+                <ul>
+                    <li>
+                        <a href="/publish">问题</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
 
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <!-- 新消息通知 -->
+                    <div class="aw-mod aw-notification-box collapse" id="index_notification">
+                        <div class="mod-head common-head">
+                            <h2>
+                                <span class="pull-right"><a href="/setting/privacy/#notifications" class="text-color-999"><i class="icon icon-setting"></i> 通知设置</a></span>
+                                <i class="icon icon-bell"></i>新通知<em class="badge badge-important" name="notification_unread_num">0</em>
+                            </h2>
+                        </div>
+                        <div class="mod-body">
+                            <ul id="notification_list"></ul>
+                        </div>
+                        <div class="mod-footer clearfix">
+                            <a href="javascript:;" onclick="AWS.Message.read_notification(false, 0, false);" class="pull-left btn btn-mini btn-default">我知道了</a>
+                            <a href="/notifications" class="pull-right btn btn-mini btn-success">查看所有</a>
+                        </div>
+                    </div>
 
-    <div class="aw-footer-wrap">
-        <div class="aw-footer">
-            Copyright © 2016<span class="hidden-xs"> - All Rights Reserved</span>
+                    <a name="c_contents"></a>
+                    <div class="aw-mod clearfix">
+                        <div class="mod-head common-head">
+                            <h2 id="main_title">最新动态</h2>
+                        </div>
+                        <!-- 动态列表 -->
+                        <div class="mod-body aw-feed-list clearfix" id="main_contents">
+                            {% for data in datas %}
+                                <div class="aw-item">
+                                    <div class="mod-head">
+                                        {% if data.is_anonymous %}
+                                            <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people{{ data.user_url }}"><img src="/static/img/avatar/avatar.png"></a>
+                                            <p class="text-color-999">
+                                                <a href="/people{{ data.user_url }}" class="aw-user-name">{{ data.dynamic_str }}</a> • {{ data.publish_time }} •
+                                        {% else %}
+                                                <a data-id="49" class="aw-user-img aw-border-radius-5" href="/people{{ data.user_url }}"><img src="/{{ data.avatar_url }}"></a>
+                                            <p class="text-color-999">
+                                            <a href="/people{{ data.user_url }}" class="aw-user-name">{{ data.dynamic_str }}</a> • {{ data.publish_time }} •
+                                        {% endif %}
+                                        <a href="/question/{{ data.question_id }}" class="text-color-999">{{ data.question_answer_count }} 个回复</a>
+                                        </p>
+                                        <h4><a href="/question/{{ data.question_uid }}">{{ data.title }}</a></h4>
+                                    </div>
+                                    <div class="mod-body clearfix">
+                                    </div>
+                                    <div class="mod-footer">
+                                        <!-- 社交操作 -->
+                                        <div class="meta clearfix">
+                                            <!-- 投票栏 -->
+			                                <span class="operate">
+                                                <a class="agree" onclick="window.alert('agree');">
+                                                    <i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>
+                                                    <b class="count">{{ data.agree_count }}</b>
+                                                </a>
+                                                <a class="disagree " onclick="window.alert('disagree');">
+                                                    <i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>
+                                                    <b class="count">&nbsp;</b>
+                                                </a>
+                                            </span>
+			                                <span class="pull-right more-operate">
+								                <a href="javascript:;" onclick="AWS.dialog('favorite', {item_id:45248, item_type:'answer'});" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>
+				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
+					                            <i class="icon icon-share"></i>分享</a>
+				                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
+                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
+                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
+                                                    </ul>
+				                                </div>
+			                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mod-footer">
+                            <!-- 加载更多内容 -->
+                            <a id="bp_more" class="aw-load-more-content" data-page="1" onclick="c_more_dynamic();">
+                                <span>更多</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 侧边栏 -->
+                <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm">
+                    <div class="aw-mod side-nav">
+                        <div class="mod-body">
+                            <ul>
+                                <li><a href="/dynamic" class="active"><i class="icon icon-home"></i>最新动态</a></li>
+                                <li><a href="/home" ><i class="icon icon-draft"></i>我的草稿</a></li>
+                                <li><a href="/favorite"><i class="icon icon-favor"></i>我的收藏</a></li>
+                                <li><a href="/home"><i class="icon icon-check"></i>我关注的问题</a></li>
+                                <li><a href="/home"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
+                                <li><a href="/home"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="aw-mod side-nav">
+                        <div class="mod-body">
+                            <ul>
+                                <li><a href="/topic"><i class="icon icon-topic"></i>所有话题</a></li>
+                                <li><a href="/all_users"><i class="icon icon-user"></i>所有用户</a></li>
+                                <li><a href="/invitation"><i class="icon icon-inviteask"></i>邀请好友加入 <em class="badge">5</em></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 可能感兴趣的人/或话题 -->
+                    <div class="aw-mod interest-user">
+                        <div class="mod-head"><h3>可能感兴趣的人或话题</h3></div>
+                        <div class="mod-body">
+                            {% for user in hot_users %}
+                            <dl>
+                                <dt class="pull-left aw-border-radius-5">
+                                    <a href="/people/{{ user.username }}" class="aw-user-name"><img alt="{{ user.username }}" src="/{{ user.avatar_url }}"></a>
+                                </dt>
+                                <dd class="pull-left">
+                                    <a href="/people/{{ user.username }}" class="aw-user-name"><span>{{ user.username }}</span></a>
+                                    <p class="signature">{% if user.introduction %}{{ user.introduction }}{% endif %}</p>
+                                </dd>
+                            </dl>
+                            {% endfor %}
+                            {% for topic in topics %}
+                            <dl>
+                                <dt class="pull-left aw-border-radius-5">
+                                    <a href="/topic/{{ topic.topic_id }}"><img alt="{{ topic.topic_name }}" src="/{{ topic.topic_url }}"></a>
+                                </dt>
+                                <dd class="pull-left">
+				                        <span class="topic-tag">
+					                    <a href="/topic/{{ topic.topic_id }}" class="text">{{ topic.topic_name }}</a>
+				                        </span>&nbsp;
+                                    <a class="icon-inverse follow tooltips icon icon-plus" data-placement="bottom" title="" data-toggle="tooltip" data-original-title="关注" onclick=""></a>
+                                    {% if topic.usernmae %}<p><a href="/people/{{ topic.username }}" class="aw-user-name">{{ topic.username }}</a> 关注了该话题</p>{% endif %}
+                                </dd>
+                            </dl>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- end 侧边栏 -->
+            </div>
         </div>
     </div>
+</div>
 
-    <a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});" style="display: inline;"><i class="icon icon-up"></i></a>
-    <script type="text/javascript" src="/static/js/bughd.min.js" crossorigin="anonymous"></script>
 
-    </body>
+<div class="aw-footer-wrap">
+    <div class="aw-footer">
+        Copyright © 2016<span class="hidden-xs"> - All Rights Reserved</span>
+    </div>
+</div>
+
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});" style="display: inline;"><i class="icon icon-up"></i></a>
+<script type="text/javascript" src="/static/js/bughd.min.js" crossorigin="anonymous"></script>
+
+</body>
 </html>

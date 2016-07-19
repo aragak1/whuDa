@@ -12,7 +12,7 @@
     <base href="/" /><!--[if IE]></base><![endif]-->
     <link href="" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="static/css/icon.css" rel="stylesheet" type="text/css" />
     <link href="static/css/common.css" rel="stylesheet" type="text/css" />
     <link href="static/css/link.css" rel="stylesheet" type="text/css" />
@@ -76,7 +76,7 @@
                     <li><a href="/" class=""><i class="icon icon-list"></i> 发现</a></li>
                     <li><a href="/topic" ><i class="icon icon-topic"></i> 话题</a></li>
                     <li>
-                        <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
+                        <a href="/notifications" class="active"><i class="icon icon-bell"></i> 通知</a>
                         <span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
                         <div class="aw-dropdown pull-right hidden-xs">
                             <div class="mod-body">
@@ -103,8 +103,8 @@
         <!-- 用户栏 -->
         <div class="aw-user-nav">
             <!-- 登陆&注册栏 -->
-            <a href="/people/t" class="aw-user-nav-dropdown">
-                <img alt="terry0314" src="/static/img/avatar/avatar-max-img.png" />
+            <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
+                <img alt="{{ user.username }}" src="/{{ user.avatar_url }}" />
 
             </a>
             <div class="aw-dropdown dropdown-list pull-right">
@@ -143,8 +143,11 @@
                         <div class="mod-head common-head clearfix">
                             <h2>
 								<span class="pull-right hidden-xs">
-									<a class="text-color-999" href="/setting"><i class="icon icon-setting"></i> 通知设置</a>
-                                    <a onclick=";" class="btn btn-mini btn-success" id="unread_notification_num">全部通知已读</a>
+                                    {% if unread==0 %}
+                                    <a onclick=";" class="btn btn-mini btn-success">全部通知已读</a>
+                                    {% else %}
+                                    <a onclick=";" class="btn btn-mini btn-success">有{{unread}}条未读通知</a>
+                                    {% endif %}
 								</span>
                                 通知
                             </h2>

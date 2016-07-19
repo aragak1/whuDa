@@ -163,7 +163,7 @@
                         </div>
                         <div class="mod-footer">
                             <div class="meta">
-                                <span class="text-color-999">21 小时前</span>
+                                <span class="text-color-999">{{ publish_time }}</span>
                                 <!-- 这里邀请点了以后下面站内邀请的display none 变成block -->
                                 <a class="text-color-999 aw-invite-replay"><i class="icon icon-invite"></i>邀请 </a>
                                 <a class="text-color-999" href="/publish/{{ question.question_id }}"><i class="icon icon-edit"></i>编辑</a>
@@ -230,7 +230,7 @@
                         <div class="mod-head">
                             <ul class="nav nav-tabs aw-nav-tabs active">
                                 <li class="active"><a href="">票数</a></li>
-                                <h2 class="hidden-xs">1 个回复</h2>
+                                <h2 class="hidden-xs">{{ answer_count }} 个回复</h2>
                             </ul>
                         </div>
                         <div class="mod-body aw-feed-list">
@@ -434,7 +434,7 @@
                         </div>
                         <div class="mod-body">
                             <ul>
-                                <li>最新活动: <span class="aw-text-color-blue">17 小时前</span></li>
+                                <li>最新活动: <span class="aw-text-color-blue">{{ publish_time }} 前</span></li>
                                 <li>浏览: <span class="aw-text-color-blue">{{ question.view_count }}</span></li>
                                 <li>关注: <span class="aw-text-color-blue">{{ question_focus_cnt }}</span> 人</li>
 

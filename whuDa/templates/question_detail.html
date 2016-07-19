@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
     <meta name="renderer" content="webkit" />
     <title>这是一个具体的问题标题 - WhuDa 符合大学生行为习惯的网络问答社区</title>
-    <meta name="keywords" content="老白" />
-    <meta name="description" content="为什么老白总是这么可爱呢。"  />
+    <meta name="keywords" content="" />
+    <meta name="description" content=""  />
     <base href="/" /><!--[if IE]></base><![endif]-->
     <link href="#" rel="shortcut icon" type="image/x-icon" />
-    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/icon.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/common.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
@@ -88,25 +88,28 @@
                     <!-- 话题bar -->
                     <div class="aw-mod aw-topic-bar" id="question_topic_editor">
                         <div class="tag-bar clearfix">
-							<span class="topic-tag">
-								<a href="/topic/123" class="text">问题所属的话题</a>
-							</span>
-
+							{% for topic in topics %}
+                                <span class="topic-tag">
+                                <a href="/topic/{{ topic.topic_id }}" class="text">{{ topic.name }}</a>
+                                </span>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="aw-mod aw-question-detail aw-item">
                         <div class="mod-head">
-                            <h1>问题的标题</h1>
+                            <h1>{{ question.title }}</h1>
 
                         </div>
                         <div class="mod-body">
                             <div class="content markitup-box">
-                                问题的具体描述哈哈哈哈哈哈哈哈哈哈哈哈哈，为什么老白总是这么可爱呢。问题的具体描述哈哈哈哈哈哈哈哈哈哈哈哈哈，为什么老白总是这么可爱呢。问题的具体描述哈哈哈哈哈哈哈哈哈哈哈哈哈，为什么老白总是这么可爱呢。
+                                {% autoescape false %}
+                                {{ question.content }}
+                                {% endautoescape %}
                             </div>
                         </div>
                         <div class="mod-footer">
                             <div class="meta">
-                                <span class="text-color-999">5 小时前</span>
+                                <span class="text-color-999">{{ publish_time }}前</span>
 
                                 <div class="pull-right more-operate">
                                     <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
@@ -129,28 +132,48 @@
                         <div class="mod-head">
                             <ul class="nav nav-tabs aw-nav-tabs active">
 
-                                <h2 class="hidden-xs">1 个回复</h2>
+                                <h2 class="hidden-xs">{{ answer_count }} 个回复</h2>
                             </ul>
                         </div>
                         <div class="mod-body aw-feed-list">
-                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46858">
+                            {% for x in answers_and_users %}
+                                <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
                                 <div class="mod-head">
-                                    <a class="anchor" name="answer_46858"></a>
+                                    {% if x.is_anonymous %}
+                                    <a class="anchor" name="answer_1"></a>
                                     <!-- 用户头像 -->
-                                    <a class="aw-user-img aw-border-radius-5" href="/people/laobai"><img src="/static/img/avatar/avatar-max-img.png" alt="" /></a>
+                                    <a class="aw-user-img aw-border-radius-5"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
                                     <div class="title">
                                         <p>
-                                            <a class="aw-user-name" href="/people/ircli">laobai</a>
-                                        </p>
+                                            <a class="aw-user-name">匿名用户</a>																																		</p>
                                         <p class="text-color-999 aw-agree-by collapse">
                                             赞同来自:
                                         </p>
                                     </div>
+                                    {% else %}
+                                        <a class="anchor" name="answer_1"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="/people/{{ x.uid }}"><img src="/{{ x.avatar_url }}" alt="" /></a>
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="/people/{{ x.uid }}">{{ x.username }}</a>
+                                            {% if x.introduction %}
+                                                - <span class="text-color-999">
+                                                {{ x.introduction }}
+                                            {% endif %}
+                                            </span>																																			</p>
+                                        <p class="text-color-999 aw-agree-by collapse">
+                                            赞同来自:
+                                        </p>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <div class="mod-body clearfix">
-                                    <!-- 评论内容 -->
+                                    <!-- 回答内容 -->
                                     <div class="markitup-box">
-                                        因为老白总是这么可爱的呢。
+                                        {% autoescape false %}
+                                        {{ x.content }}<br />
+                                        {% endautoescape %}
                                     </div>
                                 </div>
                                 <div class="mod-footer">
@@ -183,6 +206,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
                         <div class="mod-footer">
                             <div class="aw-load-more-content collapse" id="load_uninterested_answers">
@@ -210,13 +234,22 @@
                         </div>
                         <div class="mod-body">
                             <dl>
+                                {% if question.is_anonymous %}
                                 <dt class="pull-left aw-border-radius-5">
-                                    <a href="/people/laobai"><img alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
+                                    <img alt="匿名用户" src="/static/img/avatar/avatar.png" />
                                 </dt>
-                                <dd class="pull-left">
-                                    <a class="aw-user-name" href="/people/laobai">老白well</a>
+                                <dd class="pull-left"><br />匿名用户
                                     <p></p>
                                 </dd>
+                                {% else %}
+                                    <dt class="pull-left aw-border-radius-5">
+                                        <a href="/people/{{ questioner.uid }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
+                                    </dt>
+                                    <dd class="pull-left">
+                                        <a class="aw-user-name" href="/people/{{ questioner.uid }}"><br />{{ questioner.username }}</a>
+                                        <p></p>
+                                    </dd>
+                                {% endif %}
                             </dl>
                         </div>
                     </div>
@@ -250,9 +283,9 @@
                         </div>
                         <div class="mod-body">
                             <ul>
-                                <li>最新活动: <span class="aw-text-color-blue">17 分钟前</span></li>
-                                <li>浏览: <span class="aw-text-color-blue">30</span></li>
-                                <li>关注: <span class="aw-text-color-blue">2</span> 人</li>
+                                <li>最新活动: <span class="aw-text-color-blue">{{ publish_time }} 前</span></li>
+                                <li>浏览: <span class="aw-text-color-blue">{{ question.view_count }}</span></li>
+                                <li>关注: <span class="aw-text-color-blue">{{ question_focus_cnt }}</span> 人</li>
 
                                 <li class="aw-border-radius-5" id="focus_users"></li>
                             </ul>
