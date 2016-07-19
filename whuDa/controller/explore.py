@@ -151,14 +151,14 @@ def question_focus():
 def more_question_focus():
     if request.method == 'POST':
         page_num = int(request.form.get('page_num'))
-        datas =get_all_focus_data(session['username'])
+        datas = get_all_focus_data(session['username'])
         if len(datas['all_focus']) > 5 * (page_num + 1):
             datas['all_focus'] = datas['all_focus'][5 * page_num:5 * (page_num + 1)]
             more = 1
         else:
             datas['all_focus'] = datas['all_focus'][5 * page_num:]
             more = 0
-        page_num = page_num + 1
+        page_num += 1
         datas['more'] = more
         datas['page_num'] = page_num
         return json.dumps(datas, ensure_ascii=False)
@@ -166,21 +166,19 @@ def more_question_focus():
         return redirect('/')
 
 
-
 @app.route('/notifications', methods=['GET', 'POST'])
 def show_notifications():
     if request.method == 'GET' and is_login():
         user = db_users.Users().get_user(session['username'])
-        uid=db_users.Users().get_uid_by_username(session['username'])
-        datas=get_notification_data(uid)
-        more=0
-        page=1
-        unread=datas['unread']
-
-
-        if len(datas['notifications'])>5:
-            notifications=datas['notifications'][0:5]
-            more=1
+        uid = db_users.Users().get_uid_by_username(session['username'])
+        datas = get_notification_data(uid)
+        more = 0
+        page = 1
+        unread = datas['unread']
+        notifications = datas['notifications']
+        if len(datas['notifications']) > 5:
+            notifications = datas['notifications'][0:5]
+            more = 1
         return render_template('login/notifications.html',
                                user=user,
                                unread=unread,
@@ -188,15 +186,15 @@ def show_notifications():
                                more=more,
                                page=page)
     elif request.method == 'POST':
-        option=request.form.get('option')
-        if option=='has_read':
-            id=request.form.get('notification_id')
+        option = request.form.get('option')
+        if option == 'has_read':
+            id = request.form.get('notification_id')
             return db_notification.Notification().has_read(id)
-        elif option=='delete':
-            id=request.form.get('notification_id')
+        elif option == 'delete':
+            id = request.form.get('notification_id')
             uid = db_users.Users().get_uid_by_username(session['username'])
-            return db_notification.Notification().delete(id,uid)
-        elif option=='read_all':
+            return db_notification.Notification().delete(id, uid)
+        elif option == 'read_all':
             db_notification.Notification().read_all()
             pass
     return redirect('/')
@@ -204,9 +202,9 @@ def show_notifications():
 
 @app.route('/notifications.json',methods=['POST','GET'])
 def get_more_notifications():
-    if request.method=='POST':
+    if request.method == 'POST':
 
-        page_num=int(request.form.get('page_num'))
+        page_num = int(request.form.get('page_num'))
 
         uid = db_users.Users().get_uid_by_username(session['username'])
         datas = get_notification_data(uid)
@@ -214,11 +212,11 @@ def get_more_notifications():
             datas['notifications'] = datas['notifications'][5*page_num:5 * (page_num + 1)]
             more = 1
         else:
-            datas['notifications']=datas['notifications'][5*page_num:]
+            datas['notifications'] = datas['notifications'][5*page_num:]
             more = 0
-        page_num = page_num + 1
-        datas['more']=more
-        datas['page_num']=page_num
+        page_num += 1
+        datas['more'] = more
+        datas['page_num'] = page_num
         return json.dumps(datas, ensure_ascii=False)
     else:
         return redirect('/')
