@@ -155,40 +155,15 @@
                         <div class="mod-body">
                             <div class="aw-notifications-list">
                                 <ul id="notifications_list">
-                                    {% for notification in notifications %}
-                                    {% if notification['is_read']==0 %}
-                                    <li class="active">
-                                    {% else%}
-                                    <li>
-                                    {% endif %}
 
-                                        <p class="moreContent">
-                                            <a href="question/{{ notification['question_id'] }}">{{ notification['question_title'] }}</a>
-                                            {{ notification['content'][2:] }}
-                                            <a href="user/{{ notification['sender_uid'] }}">{{ notification['sender_name'] }}</a>
-                                            <span class="icon-tips"></span>
-                                        </p>
-                                        <p class="text-color-999">
-                                            4秒前
-                                            <a class="read pull-right has_read" onclick="has_read($(this),{{ notification['notification_id'] }})">{% if notification['is_read']==0 %}标记为已读{% else%}标记为未读{% endif %}</a>
-                                            <a class="read pull-right delete" onclick="remove_notification($(this),{{ notification['notification_id'] }})">删除</a>
-                                        </p>
-                                    </li>
-                                    {% endfor %}
                                 </ul>
 
                             </div>
                         </div>
                         <div class="mod-footer">
-                            {% if more==0 %}
-                            <a class="aw-load-more-content disabled" data-page="0">
-                                <span>没有更多了</span>
+                            <a class="aw-load-more-content disabled" id="notifications_more">
+                                <span>没有更多了哦！</span>
                             </a>
-                            {% else %}
-                            <a href="/notifications/{{ page }}" class="aw-load-more-content" id="notifications_more">
-                                <span>更多</span>
-                            </a>
-                            {% endif %}
                         </div>
                     </div>
                 </div>

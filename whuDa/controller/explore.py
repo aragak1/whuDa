@@ -1,5 +1,6 @@
 # _*_ coding:utf8 _*_
 import sys
+import json
 from time import time
 from flask import render_template, redirect, session, request
 import whuDa.model.department as db_department
@@ -14,6 +15,7 @@ from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wa
 from whuDa import app
 from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas, get_user_latest_activity_datas
 from utils import get_user_focus_questions_list_datas, get_dynamic_datas_by_page
+from utils import get_notification_data
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -209,6 +211,28 @@ def show_notifications_page(page_num):
                                more=more,
                                page=page_num)
     return redirect('/')
+
+
+@app.route('/notifications.json', methods=['POST', 'GET'])
+def get_more_notifications():
+    if request.method == 'POST':
+
+        page_num = int(request.form.get('page_num'))
+
+        uid = db_users.Users().get_uid_by_username(session['username'])
+        datas = get_notification_data(uid)
+        if len(datas['notifications']) > 5 * (page_num + 1):
+            datas['notifications'] = datas['notifications'][5*page_num:5 * (page_num + 1)]
+            more = 1
+        else:
+            datas['notifications']=datas['notifications'][5*page_num:]
+            more = 0
+        page_num += 1
+        datas['more'] = more
+        datas['page_num'] = page_num
+        return json.dumps(datas, ensure_ascii=False)
+    else:
+        return redirect('/')
 
 
 @app.route('/message')

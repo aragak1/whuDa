@@ -78,6 +78,7 @@ $(document).ready(function () {
     });
 });
 
+
 /*
  * 自定义函数*/
 function register() {
