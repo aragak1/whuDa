@@ -114,24 +114,3 @@ def update_user_profile():
                                              website=website)
         return 'success'
     return 'error'
-
-
-@app.route('/setting/security')
-def setting_security():
-    if is_login():
-        user = db_users.Users().get_user(session['username'])
-        return render_template('login/change_pass.html',
-                               user=user)
-    return redirect('/')
-
-
-@app.route('/user/change/password', methods=['POST'])
-def change_pass():
-    old_password = request.form.get('old_password')
-    new_password = request.form.get('new_password')
-    re_password = request.form.get('re_password')
-    if new_password != re_password:
-        return 'not_same'
-    if not db_users.Users().is_user_password(session['username'], old_password):
-        return 'error_pass'
-    return 'success'

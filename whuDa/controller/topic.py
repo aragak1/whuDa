@@ -167,10 +167,4 @@ def topic_detail(topic_id):
                                focus_users=focus_users,
                                question_count=question_count,
                                c_time=c_time)
-    return render_template('topic_detail.html',
-                           topic=topic,
-                           datas=first_page_datas,
-                           focus_count=focus_count,
-                           focus_users=focus_users,
-                           question_count=question_count,
-                           c_time=c_time)
+    return render_template('topic_detail.html')
