@@ -143,11 +143,8 @@
                         <div class="mod-head common-head clearfix">
                             <h2>
 								<span class="pull-right hidden-xs">
-                                    {% if unread==0 %}
-                                    <a onclick=";" class="btn btn-mini btn-success">全部通知已读</a>
-                                    {% else %}
-                                    <a onclick=";" class="btn btn-mini btn-success">有{{unread}}条未读通知</a>
-                                    {% endif %}
+									<a class="text-color-999" href="/setting"><i class="icon icon-setting"></i> 通知设置</a>
+                                    <a onclick=";" class="btn btn-mini btn-success" id="unread_notification_num">全部通知已读</a>
 								</span>
                                 通知
                             </h2>
