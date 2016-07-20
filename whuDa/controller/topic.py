@@ -37,21 +37,27 @@ def topic():
 @app.route('/topic/page/<int:page_num>')
 def get_page_topic(page_num):
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
+    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15)
+    pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='topic/page')
+
+    today_topic = db_topics.Topics().get_topic_by_id(
+        db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15)
-        pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                               page_size=15,
-                               current_page=page_num,
-                               url='topic/page')
-        today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
         return render_template('login/login-topic.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic/page',
                                today_topic=today_topic)
-    return render_template('topic.html')
+    return render_template('topic.html',
+                           datas=datas,
+                           pagination=pagination,
+                           url='topic/page',
+                           today_topic=today_topic)
 
 
 @app.route('/topic-recent-week')
