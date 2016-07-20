@@ -135,3 +135,9 @@ def get_user_latest_activity_by_page(uid, page_num):
 @app.route('/api/dynamic/<int:uid>/page/<int:page_num>.json', methods=['GET', 'POST'])
 def get_dynamic_datas_by_page_api(page_num, uid):
     return json.dumps(get_dynamic_datas_by_page(page_num=page_num, page_size=10, uid=uid), ensure_ascii=False)
+
+
+@app.route('/api/user_focus_topic/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
+def get_user_focus_topics_by_page(uid, page_num):
+    import whuDa.model.topic_focus as db_topic_focus
+    return json.dumps(db_topic_focus.Topic_focus().get_user_focus_topics_by_page(uid, page_num, page_size=15), ensure_ascii=False)

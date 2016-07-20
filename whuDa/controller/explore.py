@@ -485,10 +485,11 @@ def me_focus_questions():
 @app.route('/me_focus_topics')
 def me_focus_topics():
     user = db_users.Users().get_user(session['username'])
-    #user_focus_topics =
+    user_focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics_by_page(user.uid, 1, 15)
     hot_users = db_users.Users().get_top3_users()
     topics = db_topics.Topics().get_3_topics(user.uid)
     return render_template('login/me_focus_topics.html',
                            user=user,
+                           user_focus_topics=user_focus_topics,
                            hot_users=hot_users,
                            topics=topics)

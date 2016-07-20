@@ -18,6 +18,11 @@
     <link href="/static/css/link.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
+    <script>
+        var current_user_focus_topic_more_page = 1
+        var user_uid = {{ user.uid }}
+    </script>
+
     <script src="/static/js/jquery.2.js" type="text/javascript"></script>
     <script src="/static/js/jquery.form.js" type="text/javascript"></script>
     <script src="/static/js/plug-in_module.js" type="text/javascript"></script>
@@ -144,20 +149,16 @@
 					</div>
 
                     <div class="aw-mod aw-topic-list">
-                        <div class="mod-body clearfix">
+                        <div class="mod-body clearfix" id="user_focus_topic_list">
                             {% for user_focus_topic in user_focus_topics %}
                             <div class="aw-item">
-                                <!-- 话题图片 -->
                                 <a class="img aw-border-radius-5" href="/topic/{{ user_focus_topic.topic_id }}">
                                     <img src="/{{ user_focus_topic.topic_url }}" alt="{{ user_focus_topic.topic_name }}" />
                                 </a>
-
                                 <p class="clearfix">
-                                    <!-- 话题内容 -->
                                     <span class="topic-tag">
                                         <a class="text" href="/topic/{{ user_focus_topic.topic_id }}">{{ user_focus_topic.topic_name }}</a>
                                     </span>
-
                                 </p>
                                 <p class="text-color-999">
                                     <span>{{ user_focus_topic.topic_question_count }} 个问题</span>
@@ -168,7 +169,7 @@
                             {% endfor %}
                         </div>
                         <div class="mod-footer">
-                            <a class="aw-load-more-content" id="" auto-load="false" onclick="">
+                            <a class="aw-load-more-content" id="user_focus_topics_more" auto-load="false" onclick="user_focus_topics_more()">
                                 <span>更多</span>
                             </a>
                         </div>

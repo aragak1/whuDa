@@ -455,3 +455,32 @@ function change_pass() {
         }
     })
 }
+
+function user_focus_topics_more() {
+    var next_page = current_user_focus_topic_more_page + 1;
+    current_user_focus_topic_more_page++
+    var uid = user_uid
+    var post_url = '/api/user_focus_topic/' + uid + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) {
+        if (jQuery.isEmptyObject(datas)){
+            $('#user_focus_topics_more').children('span').text('没有更多了');
+        }
+        else {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) {
+                var list_html = '<div class="aw-item">'
+                list_html += '<a class="img aw-border-radius-5" href="/topic/'+ obj[i].topic_id +'">'
+                list_html += '<img src="/'+ obj[i].topic_url +'" alt="'+ obj[i].topic_name +'" />'
+                list_html += '</a><p class="clearfix"><span class="topic-tag">'
+                list_html += '<a class="text" href="/topic/'+ obj[i].topic_id +'">'+ obj[i].topic_name +'</a>'
+                list_html += '</span></p><p class="text-color-999">'
+                list_html += '<span>'+ obj[i].topic_question_count +' 个问题</span>'
+                list_html += '<span>'+ obj[i].topic_focus +' 个关注</span>'
+                list_html += '</p>'
+                list_html += '<p class="text-color-999">7 天新增 '+ obj[i].last_week_question_count +' 个问题, 30 天新增 '+ obj[i].last_month_question_count +' 个问题 </p>'
+                list_html += '</div>'
+                $('#user_focus_topic_list').append(list_html);
+            }
+        }
+    })
+}
