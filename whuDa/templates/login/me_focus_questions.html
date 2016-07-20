@@ -152,38 +152,36 @@
                                 </div>
                             </div>
                             <!-- end 新消息通知 -->
+                            <div class="mod-head common-head">
+							    <h2 id="main_title">我关注的问题</h2>
+						    </div>
 
-                            <a name="c_contents"></a>
-                            <div class="aw-mod clearfix">
-                                <div class="mod-head common-head">
-                                    <h2 id="main_title">我关注的问题</h2>
-                                </div>
-                                <div class="mod-body aw-feed-list clearfix" id="user_focus_question_more_list">
-                                    {% for user_focus_question in user_focus_questions %}
-                                    <div class="aw-item">
-                                        {% if user_focus_question.is_anonymous %}
-                                        <a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>
-                                        {% else %}
-                                        <a class="aw-user-name hidden-xs" href="/people{{ user_focus_question.user_url }}"><img src="{{ user_focus_question.avatar_url}}" /></a>
-                                        {% endif %}
-                                        <div class="aw-question-content">
-                                            <h4>
-                                                <a href="/question/{{ user_focus_question.question_id }}">{{ user_focus_question.title }}</a>
-                                            </h4>
-                                            <p>
-                                                <a href="/people{{ user_focus_question.user_url }}" class="aw-user-name">{{ user_focus_question.dynamic_str }}</a>
-                                                <span class="text-color-999"> • {{ user_focus_question.question_focus_count }} 人关注 • {{ user_focus_question.question_answer_count }} 个回复 • {{ user_focus_question.question_view_count }} 次浏览 • {{ user_focus_question.publish_time }}</span>
-                                            </p>
+                            <div class="aw-mod aw-explore-list">
+                                <div class="mod-body">
+                                    <div class="aw-common-list" id="user_focus_question_more_list">
+                                        {% for user_focus_question in user_focus_questions %}
+                                        <div class="aw-item">
+                                            {% if user_focus_question.is_anonymous %}
+                                                <a class="aw-user-name hidden-xs" rel="nofollow"><img src="/static/img/avatar/avatar.png" alt="匿名用户" /></a>
+                                            {% else %}
+                                                <a class="aw-user-name hidden-xs" href="/people/{{ user_focus_question.username }}" rel="nofollow"><img src="{{ user_focus_question.avatar_url }}" alt="{{ user_focus_question.username }}" /></a>
+                                            {% endif %}
+                                            <div class="aw-question-content">
+                                                <h4><a href="/question/{{ user_focus_question.question_id }}">{{ user_focus_question.title }}</a></h4>
+                                                <a href="#" class="pull-right text-color-999">回复</a>
+                                                <p>
+                                                    <span class="text-color-999">
+                                                        <a href="/people{{ user_focus_question.user_url }}" class="aw-user-name">{{ user_focus_question.dynamic_str }}</a> • {{ user_focus_question.question_focus_count }} 人关注 • {{ user_focus_question.question_answer_count }} 个回复 • {{ user_focus_question.question_view_count }} 次浏览</span>
+                                                </p>
+                                            </div>
                                         </div>
+                                        {% endfor %}
                                     </div>
-                                    {% endfor %}
                                 </div>
                                 <div class="mod-footer">
-                                    <!-- 加载更多内容 -->
                                     <a class="aw-load-more-content" id="user_focus_question_more" auto-load="false" onclick="user_focus_question_more()">
                                         <span>更多</span>
                                     </a>
-                                    <!-- end 加载更多内容 -->
                                 </div>
                             </div>
                         </div>
@@ -192,10 +190,10 @@
                             <div class="aw-mod side-nav">
                                 <div class="mod-body">
                                     <ul>
-                                        <li><a href="/dynamic" class="active"><i class="icon icon-home"></i>最新动态</a></li>
+                                        <li><a href="/dynamic"><i class="icon icon-home"></i>最新动态</a></li>
                                         <li><a href="/home" ><i class="icon icon-draft"></i>我的草稿</a></li>
                                         <li><a href="/favorite"><i class="icon icon-favor"></i>我的收藏</a></li>
-                                        <li><a href="/home"><i class="icon icon-check"></i>我关注的问题</a></li>
+                                        <li><a href="/me_focus_questions" class="active"><i class="icon icon-check"></i>我关注的问题</a></li>
                                         <li><a href="/home"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
                                         <li><a href="/home"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
                                     </ul>
@@ -242,7 +240,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- end 侧边栏 -->
                     </div>
                 </div>
             </div>

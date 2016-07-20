@@ -468,7 +468,7 @@ def all_users():
 @app.route('/me_focus_questions')
 def me_focus_questions():
     user = db_users.Users().get_user(session['username'])
-    temp_user_focus_questions = get_user_focus_question_datas(user.username)
+    temp_user_focus_questions = get_user_focus_questions_list_datas(user.uid)
     hot_users = db_users.Users().get_top3_users()
     topics = db_topics.Topics().get_3_topics(user.uid)
     if len(temp_user_focus_questions) > 15:
