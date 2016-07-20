@@ -75,14 +75,7 @@
                     <li>
                         <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
                         <span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
-                        <div class="aw-dropdown pull-right hidden-xs">
-                            <div class="mod-body">
-                                <ul id="header_notification_list"></ul>
-                            </div>
-                            <div class="mod-footer">
-                                <a href="/notifications">查看全部</a>
-                            </div>
-                        </div>
+
                     </li>
                     <li><a href="/help"><i class="icon icon-bulb"></i> 帮助</a></li>
                     <li>
@@ -189,35 +182,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- 站内邀请 -->
-                        {#                        <div class="aw-invite-box collapse" style="display: none">#}
-                        {#                            <div class="mod-head clearfix">#}
-                        {#                                <div class="search-box pull-left">#}
-                        {#                                    <input id="invite-input" class="form-control" type="text"  placeholder="搜索你想邀请的人..."/>#}
-                        {#                                    <div class="aw-dropdown">#}
-                        {#                                        <p class="title">没有找到相关结果</p>#}
-                        {#                                        <ul class="aw-dropdown-list"></ul>#}
-                        {#                                    </div>#}
-                        {#                                    <i class="icon icon-search"></i>#}
-                        {#                                </div>#}
-                        {#                                <div class="invite-list pull-left collapse">已邀请:</div>#}
-                        {#                            </div>#}
-                        {#                            <div class="mod-body clearfix">#}
-                        {#                                <ul>#}
-                        {#                                    <li>#}
-                        {#                                        <a class="aw-user-img pull-left" href="/people/laobai"><img class="img" alt="" src="/static/img/avatar/avatar-max-img.png" /></a>#}
-                        {#                                        <div class="main">#}
-                        {#                                            <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>#}
-                        {#                                            <a class="aw-user-name" href="/people/laobai">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>#}
-                        {#                                            <p>在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>#}
-                        {#                                        </div>#}
-                        {#                                    </li>#}
-                        {#                                </ul>#}
-                        {#                            </div>#}
-                        {#                            <div class="mod-footer">#}
-                        {#                                <a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>#}
-                        {#                            </div>#}
-                        {#                        </div>#}
                         <!-- 相关链接 -->
                         <div class="aw-question-related-box collapse">
                             <form action="/" method="post" onsubmit="return false" id="related_link_form">
@@ -391,12 +355,12 @@
                     <!-- 邀请别人回复 -->
                     <div class="aw-mod email-invite-replay">
                         <div class="mod-head">
-                            <h3>邮件邀请别人回复</h3>
+                            <h3>邀请别人回复</h3>
                         </div>
                         <div class="mod-body clearfix">
                             <!-- 侧边栏邀请box -->
                             <form method="post" action="/" onsubmit="return false;" id="email_invite_form">
-                                <input class="form-control" type="text" name="email" placeholder="邮件邀请回复..."/>
+                                <input class="form-control" type="text" name="email" placeholder="邀请回复..."/>
                                 <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>
                             </form>
                         </div>
