@@ -13,10 +13,10 @@ import whuDa.model.question_focus as db_question_focus
 import whuDa.model.message as db_message
 from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_date
 from whuDa import app
-from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas, get_user_latest_activity_datas
+from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas
 from utils import get_user_focus_questions_list_datas, get_dynamic_datas_by_page
 from utils import get_notification_data
-from utils import get_all_focus_data
+from utils import get_all_focus_data, get_user_latest_activity_datas
 reload(sys)
 sys.setdefaultencoding('utf8')
 
