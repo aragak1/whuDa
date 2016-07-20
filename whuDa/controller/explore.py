@@ -368,6 +368,7 @@ def wait_reply():
 # 关注的话题涉及topic_focus和topics的连接查询
 @app.route('/people/<name>')
 def people(name):
+    db_users.Users().increase_view_count(name)
     people = db_users.Users().get_user(username=name)
     temp_answer_datas = get_user_answer_datas(name)
     temp_question_datas = get_user_question_datas(name)

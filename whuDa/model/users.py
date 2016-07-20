@@ -193,3 +193,9 @@ class Users(db.Model):
                 }
                 users.append(data)
         return users
+
+    def increase_view_count(self, username):
+        old_row = Users.query.filter(Users.username == username).first()
+        old_row.view_count += 1
+        db.session.commit()
+
