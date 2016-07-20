@@ -152,8 +152,8 @@ def get_search_datas(keyword):
         'quesitons': questions,
         'users': users,
         'topics': topics,
-        'null': False
+        'empty': False
     }
     if not users and not topics and not questions:
-        results['null'] = True
+        results['empty'] = True
     return json.dumps(results, ensure_ascii=False)
