@@ -266,13 +266,7 @@ function c_more_dynamic(){
                 list_html += '<span class="pull-right more-operate">'
                 list_html += '<a onclick=";" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>'
                 list_html += '<a class="text-color-999 dropdown-toggle" data-toggle="dropdown">'
-                list_html += '<i class="icon icon-share"></i>分享</a>'
-                list_html += '<div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">'
-                list_html += '<ul class="aw-dropdown-list">'
-                list_html += '<li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>'
-                list_html += '<li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>'
-                list_html += '<li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>'
-                list_html += '</ul></div></span></div>'
+                list_html += '</span></div>'
                 $('#main_contents').append(list_html)
             }
         }
