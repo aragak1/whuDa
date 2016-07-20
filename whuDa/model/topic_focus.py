@@ -18,19 +18,19 @@ class Topic_focus(db.Model):
         db.session.add(row)
         db.session.commit()
         return True
+
     # 用户取消关注话题
     def cancel_focus_topic(self, uid,topic_id):
-        print topic_id
         row = Topic_focus.query.filter(Topic_focus.topic_id == topic_id, Topic_focus.uid == uid).first()
-        print row
         db.session.delete(row)
         db.session.commit()
-    #判断用户是否已经关注该话题
+
+    # 判断用户是否已经关注该话题
     def user_focus_topic(self,uid,topic_id):
         if db.session.query(Topic_focus).filter(Topic_focus.uid == uid, Topic_focus.topic_id == topic_id).first():
             return True
-        else:
-            return False
+        return False
+
     # 获取话题的关注数
     def get_foucs_count(self, topic_id):
         return db.session.query(Topic_focus).filter_by(topic_id=topic_id).count()

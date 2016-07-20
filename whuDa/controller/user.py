@@ -90,7 +90,6 @@ def upload_avatar():
 def update_user_profile():
     if is_login():
         sex = int(request.form.get('sex'))
-        print sex
         birth_year = request.form.get('birth_year')
         birth_month = request.form.get('birth_month')
         birth_day = request.form.get('birth_day')
