@@ -262,13 +262,8 @@ function c_more_dynamic(){
                 }
                 list_html += '<a href="/question/'+ obj[i].question_id +'" class="text-color-999">'+ obj[i].question_answer_count +' 个回复</a></p>'
                 list_html += '<h4><a href="/question/'+ obj[i].question_uid +'">'+ obj[i].title +'</a></h4></div>'
-                list_html += '<div class="mod-body clearfix"></div><div class="mod-footer"><div class="meta clearfix"><span class="operate">'
-                list_html += '<a class="agree" onclick=";">'
-                list_html += '<i data-original-title="赞同回复" class="icon icon-agree" data-toggle="tooltip" title="" data-placement="right"></i>'
-                list_html += '<b class="count">'+ obj[i].agree_count +'</b></a>'
-                list_html += '<a class="disagree " onclick=";">'
-                list_html += '<i data-original-title="对回复持反对意见" class="icon icon-disagree" data-toggle="tooltip" title="" data-placement="right"></i>'
-                list_html += '<b class="count">&nbsp;</b></a></span><span class="pull-right more-operate">'
+                list_html += '<div class="mod-body clearfix"></div>'
+                list_html += '<span class="pull-right more-operate">'
                 list_html += '<a onclick=";" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>'
                 list_html += '<a class="text-color-999 dropdown-toggle" data-toggle="dropdown">'
                 list_html += '<i class="icon icon-share"></i>分享</a>'
@@ -277,7 +272,7 @@ function c_more_dynamic(){
                 list_html += '<li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>'
                 list_html += '<li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>'
                 list_html += '<li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>'
-                list_html += '</ul></div></span></div></div></div>'
+                list_html += '</ul></div></span></div>'
                 $('#main_contents').append(list_html)
             }
         }
