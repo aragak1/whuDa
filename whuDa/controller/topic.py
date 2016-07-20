@@ -165,9 +165,9 @@ def topic_recent_month_page(page_num):
 
 
 # 话题的详细页面
-@app.route('/topic/<int:topic_id>',methods=['GET','POST'])
+@app.route('/topic/<int:topic_id>', methods=['GET','POST'])
 def topic_detail(topic_id):
-    if request.method=='GET':
+    if request.method == 'GET':
         topic = db_topics.Topics().get_topic_by_id(topic_id)
         first_page_datas = get_topic_detail_question_datas(page_num=1, page_size=15, topic_id=topic_id)
         focus_count = db_topic_focus.Topic_focus().get_foucs_count(topic_id)
@@ -192,10 +192,10 @@ def topic_detail(topic_id):
                                focus_users=focus_users,
                                question_count=question_count,
                                c_time=c_time)
-    elif request.method=='POST':
-        return
+    elif request.method == 'POST':
+        return 'error'
 
-#添加关注话题
+# 添加关注话题
 @app.route('/topic/cancel_focus', methods=['POST'])
 def cancel_topic_focus():
     if is_login():
@@ -205,7 +205,7 @@ def cancel_topic_focus():
         return 'success'
     return 'error'
 
-#取消关注话题
+# 取消关注话题
 @app.route('/topic/add_focus', methods=['POST'])
 def add_topic_focus():
     if is_login():
