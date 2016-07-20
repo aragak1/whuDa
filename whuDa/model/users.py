@@ -180,3 +180,8 @@ class Users(db.Model):
             return True
         return False
 
+    # 递增用户主页的浏览量
+    def increase_view_count(self, username):
+        old_row = Users.query.filter(Users.username == username).first()
+        old_row.view_count += 1
+        db.session.commit()
