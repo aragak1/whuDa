@@ -464,3 +464,19 @@ def all_users():
                            all_users_datas=db_users.Users().get_all_users(),
                            pagination=pagination)
 
+
+@app.route('/me_focus_questions')
+def me_focus_questions():
+    user = db_users.Users().get_user(session['username'])
+    temp_user_focus_questions = get_user_focus_question_datas(user.username)
+    hot_users = db_users.Users().get_top3_users()
+    topics = db_topics.Topics().get_3_topics(user.uid)
+    if len(temp_user_focus_questions) > 15:
+        user_focus_questions = temp_user_focus_questions[0:15]
+    else:
+        user_focus_questions = temp_user_focus_questions
+    return render_template('login/me_focus_questions.html',
+                           user=user,
+                           user_focus_questions=user_focus_questions,
+                           hot_users=hot_users,
+                           topics=topics)
