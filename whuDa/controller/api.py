@@ -141,3 +141,8 @@ def get_dynamic_datas_by_page_api(page_num, uid):
 def get_user_focus_topics_by_page(uid, page_num):
     import whuDa.model.topic_focus as db_topic_focus
     return json.dumps(db_topic_focus.Topic_focus().get_user_focus_topics_by_page(uid, page_num, page_size=15), ensure_ascii=False)
+
+
+@app.route('/api/search.json', methods=['POST', 'GET'])
+def get_search_datas():
+    pass

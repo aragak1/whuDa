@@ -180,3 +180,16 @@ class Users(db.Model):
             return True
         return False
 
+    # 根据关键字获取用户(question_id, title, answer_count)
+    def get_questions_by_keyword(self, keyword):
+        key_str = '{}{}{}'.format('%', keyword, '%')
+        users = []
+        if Users.query.filter(Users.username.like(key_str)).count():
+            for user in Users.query.filter(Users.name.like(key_str)).all():
+                data = {
+                    'username': user.username,
+                    'avatar': user.avatar_url,
+                    'introduction': user.introduction
+                }
+                users.append(data)
+        return users
