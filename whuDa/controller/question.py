@@ -41,7 +41,9 @@ def update_question(question_id):
         if request.method == 'POST':
             return 'success'
         else:
-            return 'error'
+            user = db_users.Users().get_user(session['username'])
+            question = db_questions.Questions().get_question_by_id(question_id)
+            return render_template('login/publish.html', user=user, question=question)
     return redirect('/')
 
 
