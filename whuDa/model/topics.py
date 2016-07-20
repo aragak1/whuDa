@@ -154,3 +154,17 @@ class Topics(db.Model):
             datas.append(data)
         return datas
 
+    # 根据关键字获取话题数据
+    def get_topics_by_keyword(self, keyword):
+        key_str = '{}{}{}'.format('%', keyword, '%')
+        topics = []
+        if Topics.query.filter(Topics.name.like(key_str)).count():
+            for topic in Topics.query.filter(Topics.name.like(key_str)).all():
+                data = {
+                    'topic_id': topic.topic_id,
+                    'topic_url': topic.topic_url,
+                    'topic_name': topic.name,
+                    'question_count': db_topic_question.Topic_question().get_question_count(topic.topic_id)
+                }
+                topics.append(data)
+        return topics

@@ -368,6 +368,7 @@ def wait_reply():
 # 关注的话题涉及topic_focus和topics的连接查询
 @app.route('/people/<name>')
 def people(name):
+    db_users.Users().increase_view_count(name)
     people = db_users.Users().get_user(username=name)
     temp_answer_datas = get_user_answer_datas(name)
     temp_question_datas = get_user_question_datas(name)
@@ -446,7 +447,7 @@ def all_users_page(page_num):
                            page_size=15,
                            current_page=page_num,
                            url='all_users/page')
-    return render_template('login/all_users.html',
+    return render_template('login/login-all_users.html',
                            user=user,
                            all_users_datas=db_users.Users().get_all_users(),
                            pagination=pagination)
@@ -454,13 +455,17 @@ def all_users_page(page_num):
 
 @app.route('/all_users')
 def all_users():
-    user = db_users.Users().get_user(session['username'])
     pagination = page_html(total_count=db_users.Users().get_users_count(),
                            page_size=15,
                            current_page=1,
                            url='all_users/page')
-    return render_template('login/all_users.html',
-                           user=user,
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/login-all_users.html',
+                               user=user,
+                               all_users_datas=db_users.Users().get_all_users(),
+                               pagination=pagination)
+    return render_template('all_users.html',
                            all_users_datas=db_users.Users().get_all_users(),
                            pagination=pagination)
 

@@ -405,6 +405,7 @@ def get_user_focus_questions_list_datas(uid):
         datas.append(data)
     return datas
 
+
 # 获取动态页面需要渲染的数据，根据页数获取
 def get_dynamic_datas_by_page(page_num, page_size, uid):
     datas = []
@@ -434,7 +435,8 @@ def get_dynamic_datas_by_page(page_num, page_size, uid):
         return datas[start_index:]
     return []
 
-#获取通知信息
+
+# 获取通知信息
 def get_notification_data(uid):
     temp_notifications = db_notification.Notification().get_notification_by_ruid(uid)
     unread = 0
@@ -453,21 +455,23 @@ def get_notification_data(uid):
             'question_id': question.question_id,
             'question_title': question.title,
             'is_read': notification.is_read,
-            'past_time':get_past_time(notification.send_time)}
+            'past_time': get_past_time(notification.send_time)}
         notifications.append(sender_notification_question)
-    datas={'notifications':notifications,'unread':unread}
+    datas = {'notifications': notifications, 'unread': unread}
     return datas
-#获取关注问题
+
+
+# 获取关注问题
 def get_all_focus_data(uname):
     temp_all_focus = db_question_focus.Question_focus().get_user_focus_questions(uname)
     all_focus = []
     for focus in temp_all_focus:
         question = db_questions.Questions().get_question_by_id(focus.question_id)
         focus_questions = {
-            'question_id':question.question_id,
-            'username':session['username'],
-            'question_name':question.title,
-            'c_answer':focus.current_answer_count}
+            'question_id': question.question_id,
+            'username': session['username'],
+            'question_name': question.title,
+            'c_answer': focus.current_answer_count}
         all_focus.append(focus_questions)
-    datas={'all_focus':all_focus}
+    datas = {'all_focus': all_focus}
     return datas
