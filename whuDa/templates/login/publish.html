@@ -146,20 +146,16 @@
                                 <!-- 问题标题 -->
                                 <div class="aw-publish-title active">
                                     <div>
-                                        <input type="text" placeholder="问题标题..." name="question_content" id="question_contents" value="" class="form-control" />
-                                        <div class="aw-publish-suggest-question collapse">
-                                            <p class="text-color-999">你的问题可能已经有答案</p>
-                                            <ul class="aw-dropdown-list">
-                                            </ul>
-                                        </div>
+                                        <input type="text" placeholder="问题标题..." name="question_content" id="question_contents" value="{% if question %}{{ question.title }}{% endif %}" class="form-control" />
                                     </div>
                                 </div>
 
-                                <h3>问题补充:</h3>
+                                <h3>问题内容:</h3>
                                 <div class="aw-mod aw-editor-box">
                                     <div class="mod-head">
                                         <div class="wmd-panel">
                                             <textarea class="wmd-input form-control autosize editor" id="wmd-input" rows="15" name="question_detail">
+                                                {% if question %}{{ question.content}}{% endif %}
                                             </textarea>
                                         </div>
                                     </div>
@@ -230,6 +226,27 @@
 <!-- 文本编辑器 -->
 <script type="text/javascript">
     var editor = new wangEditor('wmd-input');
+        var editor = new wangEditor('wmd-input');
+        editor.config.menus =     [
+        'source',
+        'bold',
+        'underline',
+        'italic',
+        'strikethrough',
+        'eraser',
+        'quote',
+        'head',
+        'unorderlist',
+        'orderlist',
+        'link',
+        'unlink',
+        'table',
+        'img',
+        'insertcode',
+        'undo',
+        'redo',
+        'fullscreen'
+    ];
     editor.create();
 </script>
 </body>

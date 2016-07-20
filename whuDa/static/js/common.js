@@ -129,3 +129,99 @@ $(window).on('hashchange', function() {
         }
     }
 });
+
+(function ($)
+{
+	$.fn.extend(
+	{
+		insertAtCaret: function (textFeildValue)
+		{
+			var textObj = $(this).get(0);
+			if (document.all && textObj.createTextRange && textObj.caretPos)
+			{
+				var caretPos = textObj.caretPos;
+				caretPos.text = caretPos.text.charAt(caretPos.text.length - 1) == '' ?
+					textFeildValue + '' : textFeildValue;
+			}
+			else if (textObj.setSelectionRange)
+			{
+				var rangeStart = textObj.selectionStart,
+					rangeEnd = textObj.selectionEnd,
+					tempStr1 = textObj.value.substring(0, rangeStart),
+					tempStr2 = textObj.value.substring(rangeEnd);
+				textObj.value = tempStr1 + textFeildValue + tempStr2;
+				textObj.focus();
+				var len = textFeildValue.length;
+				textObj.setSelectionRange(rangeStart + len, rangeStart + len);
+				textObj.blur();
+			}
+			else
+			{
+				textObj.value += textFeildValue;
+			}
+		},
+
+		highText: function (searchWords, htmlTag, tagClass)
+		{
+			return this.each(function ()
+			{
+				$(this).html(function high(replaced, search, htmlTag, tagClass)
+				{
+					var pattarn = search.replace(/\b(\w+)\b/g, "($1)").replace(/\s+/g, "|");
+
+					return replaced.replace(new RegExp(pattarn, "ig"), function (keyword)
+					{
+						return $("<" + htmlTag + " class=" + tagClass + ">" + keyword + "</" + htmlTag + ">").outerHTML();
+					});
+				}($(this).text(), searchWords, htmlTag, tagClass));
+			});
+		},
+
+		outerHTML: function (s)
+		{
+			return (s) ? this.before(s).remove() : jQuery("<p>").append(this.eq(0).clone()).html();
+		}
+	});
+
+	$.extend(
+	{
+		// 滚动到指定位置
+		scrollTo : function (type, duration, options)
+		{
+			if (typeof type == 'object')
+			{
+				var type = $(type).offset().top
+			}
+
+			$('html, body').animate({
+				scrollTop: type
+			}, {
+				duration: duration,
+				queue: options.queue
+			});
+		}
+	})
+
+})(jQuery);
+
+function cancel_question_focus() {
+    var question_id = $('input[name="question_id_input"]').val()
+    $.post('/question/cancel_focus', {
+        'question_id': question_id
+    }, function (status) {
+        if (status == 'success') {
+            location.reload()
+        }
+    })
+}
+
+function add_focus_question() {
+    var question_id = $('input[name="question_id_input"]').val()
+    $.post('/question/add_focus', {
+        'question_id': question_id
+    }, function (status) {
+        if (status == 'success') {
+            location.reload()
+        }
+    })
+}

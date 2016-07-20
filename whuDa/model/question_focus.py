@@ -55,3 +55,9 @@ class Question_focus(db.Model):
         for item in Question_focus.query.filter_by(uid=uid).all():
             question_ids.append(item.question_id)
         return question_ids
+
+    # 取消关注某个问题
+    def question_cancel_focus(self, question_id, uid):
+        row = Question_focus.query.filter(Question_focus.question_id == question_id, Question_focus.uid == uid).first()
+        db.session.delete(row)
+        db.session.commit()

@@ -41,7 +41,9 @@ def update_question(question_id):
         if request.method == 'POST':
             return 'success'
         else:
-            return 'error'
+            user = db_users.Users().get_user(session['username'])
+            question = db_questions.Questions().get_question_by_id(question_id)
+            return render_template('login/publish.html', user=user, question=question)
     return redirect('/')
 
 
@@ -104,7 +106,9 @@ def question(id):
             'content': answers[i].content,
             'username': answer_users[i].username,
             'avatar_url': answer_users[i].avatar_url,
-            'introduction': answer_users[i].introduction}
+            'introduction': answer_users[i].introduction,
+            'is_anonymous': answers[i].is_anonymous
+        }
         answers_and_users.append(answer_and_user)
     if question:
         topic_ids = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
@@ -114,6 +118,7 @@ def question(id):
             topics.append(temp_dict)
         if is_login():
             user = db_users.Users().get_user(session['username'])
+            question_focused = db_question_focus.Question_focus().question_focused(id, uid=user.uid)
             if len(related_questions) > 5:
                 five_related_questions = related_questions[0:5]
             else:
@@ -127,7 +132,8 @@ def question(id):
                                    answers_and_users=answers_and_users,
                                    publish_time=publish_time,
                                    answer_count=answer_count,
-                                   related_questions=five_related_questions)
+                                   related_questions=five_related_questions,
+                                   question_focused=question_focused)
         return render_template('question_detail.html',
                                question=question,
                                topics=topics,
@@ -168,5 +174,25 @@ def answer():
 
         # 回答者答复数加一
         db_users.Users().add_answer_count(session['username'])
+        return 'success'
+    return 'error'
+
+
+@app.route('/question/cancel_focus', methods=['POST'])
+def cancel_question_focus():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        question_id = request.form.get('question_id')
+        db_question_focus.Question_focus().question_cancel_focus(question_id, user.uid)
+        return 'success'
+    return 'error'
+
+
+@app.route('/question/add_focus', methods=['POST'])
+def add_question_focus():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        question_id = request.form.get('question_id')
+        db_question_focus.Question_focus().add_focus_question(user.uid, question_id=question_id, cnt=0)
         return 'success'
     return 'error'
