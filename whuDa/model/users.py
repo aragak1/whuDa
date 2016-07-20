@@ -2,7 +2,7 @@
 from whuDa import db
 from time import time
 from hashlib import md5
-from sqlalchemy import desc, update
+from sqlalchemy import desc
 from random import shuffle
 salt = '3JJLohSJXbJUXYxp'
 
