@@ -27,49 +27,6 @@ $(document).ready(function () {
         }
     });
 
-    //
-    // // 文本框失去焦点
-    // $('#aw_edit_topic_title').blur(function () {
-    //     $('#edit_topic_title_div').children('p.title').hide();
-    //     $('#edit_topic_title_div').hide();
-    //     $('#edit_topic_title_div').children('ul.aw-dropdown-list').hide();
-    // });\
-    
-    $('#aw-search-query').bind('input propertychange', function () {
-        var keyword = $('#aw-search-query').val()
-        if (keyword != '') {
-            var post_url = '/api/search/' + keyword+ '.json'
-            $.getJSON(post_url, function (datas) {
-                if (!datas) {
-                    $('#search_div').hide();
-                }
-                else {
-                    $('ul#search_aw_list').empty();
-                    $.each(datas.users, function (i, user) {
-                        var user_html = '<li class="user clearfix"><a href="/people/' + user.username + '"><img src="/' + user.avatar + '">' + user.username + '<span class="aw-hide-txt">' + user.introduction + '</span></a></li>'
-                        $('ul#search_aw_list').append(user_html);
-                    });
-                    $.each(datas.topics, function (i, topic) {
-                        ;
-                    })
-                    $.each(datas.questions, function (i, question) {
-                        ;
-                    })
-                    $('#search_div').show();
-                }
-            })
-        }
-    });
-
-    $('#aw-search-query').blur(function () {
-        $('#search_div').hide();
-    })
-
-    $('#aw-search-query').focus(function () {
-        $('#search_div').show();
-    })
-
-
     // 添加topic tags
     $(document).on('click', '.question', function () {
         var topic_name = $(this).text();
@@ -110,7 +67,7 @@ $(document).ready(function () {
     $("#upload_file").on("change", function() {
         $(this).parent().submit();
     });
-    
+
 });
 
 
@@ -518,4 +475,8 @@ function user_focus_topics_more() {
             }
         }
     })
+}
+
+function global_search() {
+    ;
 }
