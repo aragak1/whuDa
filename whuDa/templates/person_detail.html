@@ -52,25 +52,11 @@
         <div class="aw-logo hidden-xs">
             <a href="/"></a>
         </div>
-        <!-- end logo -->
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
-            <form class="navbar-search" action="/" id="global_search_form" method="post">
-                <input class="form-control search-query" type="text" placeholder="搜索问题" autocomplete="off" name="q" id="aw-search-query" />
-                <span title="搜索" id="global_search_btns" onClick=";"><i class="icon icon-search"></i></span>
-                <div class="aw-dropdown">
-                    <div class="mod-body">
-                        <p class="title">输入关键字进行搜索</p>
-                        <ul class="aw-dropdown-list collapse"></ul>
-                        <p class="search"><span>搜索:</span><a onClick=";"></a></p>
-                    </div>
-                    <div class="mod-footer">
-                        <a href="/publish" onClick=";" class="pull-right btn btn-mini btn-success publish">发起问题</a>
-                    </div>
-                </div>
-            </form>
+            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" />
+            <span title="搜索" id="global_search_btns" onclick="global_search();"><i class="icon icon-search"></i></span>
         </div>
-        <!-- end 搜索框 -->
         <!-- 导航 -->
         <div class="aw-top-nav navbar">
             <div class="navbar-header">
@@ -122,9 +108,9 @@
                             <span class="pull-right operate"></span>
                             <h1>{{ people.username }}  </h1>
                             {% if people.website %}
-                            <p class="text-color-999">{{ people.website }}</p>
+                                <p class="text-color-999">{{ people.website }}</p>
                             {% else %}
-                            <p class="text-color-999"></p>
+                                <p class="text-color-999"></p>
                             {% endif %}
                             <p class="aw-user-flag"></p>
                         </div>
@@ -182,15 +168,15 @@
                                     <div class="mod-body">
                                         <div class="aw-profile-publish-list">
                                             {% for question_data in question_datas %}
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question/{{ question_data.question_id }}">{{ question_data.title }}</a></h4>
+                                                <div class="aw-item">
+                                                    <div class="mod-head">
+                                                        <h4><a href="/question/{{ question_data.question_id }}">{{ question_data.title }}</a></h4>
+                                                    </div>
+                                                    <div class="mod-body">
+                                                        <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;{{ question_data.reply_count }}</span>
+                                                        <p class="aw-hide-txt">{{ question_data.view_count }} 次浏览 &nbsp;• {{ question_data.focus_count }} 个关注 &nbsp; • {{ question_data.publish_time }}前</p>
+                                                    </div>
                                                 </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;{{ question_data.reply_count }}</span>
-                                                    <p class="aw-hide-txt">{{ question_data.view_count }} 次浏览 &nbsp;• {{ question_data.focus_count }} 个关注 &nbsp; • {{ question_data.publish_time }}前</p>
-                                                </div>
-                                            </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -205,19 +191,19 @@
                                     <div class="mod-body">
                                         <ul>
                                             {% for latest_activity_data in latest_activity_datas %}
-                                            <li>
-                                                <p>
-                                                    {% if latest_activity_data.is_question %}
-                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}前</span>
-                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 提出了问题,&nbsp;</em>
-                                                    <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.title }}</a>
-                                                    {% else %}
-                                                    <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}前</span>
-                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,&nbsp;</em>
-                                                    <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.title }}</a>
-                                                    {% endif %}
-                                                </p>
-                                            </li>
+                                                <li>
+                                                    <p>
+                                                        {% if latest_activity_data.is_question %}
+                                                            <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}前</span>
+                                                            <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 提出了问题,&nbsp;</em>
+                                                            <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.title }}</a>
+                                                        {% else %}
+                                                            <span class="pull-right text-color-999">{{ latest_activity_data.last_time }}前</span>
+                                                            <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,&nbsp;</em>
+                                                            <a class="aw-hide-txt" href="/question/{{ latest_activity_data.question_id }}">{{ latest_activity_data.title }}</a>
+                                                        {% endif %}
+                                                    </p>
+                                                </li>
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -231,15 +217,15 @@
                                     <div class="mod-body">
                                         <div class="aw-profile-publish-list" id="user_question_more_list">
                                             {% for question_list_data in question_list_datas %}
-                                            <div class="aw-item">
-                                                <div class="mod-head">
-                                                    <h4><a href="/question/{{ question_list_data.question_id }}">{{ question_list_data.title }}</a></h4>
+                                                <div class="aw-item">
+                                                    <div class="mod-head">
+                                                        <h4><a href="/question/{{ question_list_data.question_id }}">{{ question_list_data.title }}</a></h4>
+                                                    </div>
+                                                    <div class="mod-body">
+                                                        <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;{{ question_list_data.reply_count }}</span>
+                                                        <p class="aw-hide-txt">{{ question_list_data.view_count }} 次浏览 &nbsp;• {{ question_list_data.focus_count }} 个关注 &nbsp; • {{ question_list_data.publish_time }}前</p>
+                                                    </div>
                                                 </div>
-                                                <div class="mod-body">
-                                                    <span class="aw-border-radius-5 count pull-left"><i class="icon icon-reply"></i>&nbsp;{{ question_list_data.reply_count }}</span>
-                                                    <p class="aw-hide-txt">{{ question_list_data.view_count }} 次浏览 &nbsp;• {{ question_list_data.focus_count }} 个关注 &nbsp; • {{ question_list_data.publish_time }}前</p>
-                                                </div>
-                                            </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -287,22 +273,22 @@
                                     <div class="mod-body">
                                         <div class="aw-common-list" id="user_focus_question_more_list">
                                             {% for focus_question_list_data in focus_question_list_datas %}
-                                            <div class="aw-item">
-                                            {% if focus_question_list_data.is_anonymous %}
-                                            <a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>
-                                            {% else %}
-                                            <a class="aw-user-name hidden-xs" href="/people{{ focus_question_list_data.user_url }}"><img src="{{ focus_question_list_data.avatar_url}}" /></a>
-                                            {% endif %}
-                                            <div class="aw-question-content">
-                                                <h4>
-                                                    <a href="/question/{{ focus_question_list_data.question_id }}">{{ focus_question_list_data.title }}</a>
-                                                </h4>
-                                                <p>
-                                                    <a href="/people{{ focus_question_list_data.user_url }}" class="aw-user-name">{{ focus_question_list_data.dynamic_str }}</a>
-                                                    <span class="text-color-999"> • {{ focus_question_list_data.question_focus_count }} 人关注 • {{ focus_question_list_data.question_answer_count }} 个回复 • {{ focus_question_list_data.question_view_count }} 次浏览 • {{ focus_question_list_data.publish_time }}</span>
+                                                <div class="aw-item">
+                                                    {% if focus_question_list_data.is_anonymous %}
+                                                        <a class="aw-user-name hidden-xs" href="/people"><img src="/static/img/avatar/avatar.png" alt="匿名用户" title="匿名用户" /></a>
+                                                    {% else %}
+                                                        <a class="aw-user-name hidden-xs" href="/people{{ focus_question_list_data.user_url }}"><img src="{{ focus_question_list_data.avatar_url}}" /></a>
+                                                    {% endif %}
+                                                    <div class="aw-question-content">
+                                                        <h4>
+                                                            <a href="/question/{{ focus_question_list_data.question_id }}">{{ focus_question_list_data.title }}</a>
+                                                        </h4>
+                                                        <p>
+                                                            <a href="/people{{ focus_question_list_data.user_url }}" class="aw-user-name">{{ focus_question_list_data.dynamic_str }}</a>
+                                                            <span class="text-color-999"> • {{ focus_question_list_data.question_focus_count }} 人关注 • {{ focus_question_list_data.question_answer_count }} 个回复 • {{ focus_question_list_data.question_view_count }} 次浏览 • {{ focus_question_list_data.publish_time }}</span>
                                                         </p>
                                                     </div>
-                                            </div>
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -321,19 +307,19 @@
                                     <div class="mod-body">
                                         <ul id="user_latest_activity_more_list">
                                             {% for latest_activity_list_data in latest_activity_list_datas %}
-                                            <li>
-                                                <p>
-                                                    {% if latest_activity_list_data.is_question %}
-                                                    <span class="pull-right text-color-999">{{ latest_activity_list_data.last_time }}前</span>
-                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 提出了问题,&nbsp;</em>
-                                                    <a class="aw-hide-txt" href="/question/{{ latest_activity_list_data.question_id }}">{{ latest_activity_list_data.title }}</a>
-                                                    {% else %}
-                                                    <span class="pull-right text-color-999">{{ latest_activity_list_data.last_time }}前</span>
-                                                    <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,&nbsp;</em>
-                                                    <a class="aw-hide-txt" href="/question/{{ latest_activity_list_data.question_id }}">{{ latest_activity_list_data.title }}</a>
-                                                    {% endif %}
-                                                </p>
-                                            </li>
+                                                <li>
+                                                    <p>
+                                                        {% if latest_activity_list_data.is_question %}
+                                                            <span class="pull-right text-color-999">{{ latest_activity_list_data.last_time }}前</span>
+                                                            <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 提出了问题,&nbsp;</em>
+                                                            <a class="aw-hide-txt" href="/question/{{ latest_activity_list_data.question_id }}">{{ latest_activity_list_data.title }}</a>
+                                                        {% else %}
+                                                            <span class="pull-right text-color-999">{{ latest_activity_list_data.last_time }}前</span>
+                                                            <em class="pull-left"><a href="/people/{{ people.username }}" class="aw-user-name">{{ people.username }} </a> 回答了问题,&nbsp;</em>
+                                                            <a class="aw-hide-txt" href="/question/{{ latest_activity_list_data.question_id }}">{{ latest_activity_list_data.title }}</a>
+                                                        {% endif %}
+                                                    </p>
+                                                </li>
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -357,7 +343,7 @@
                             <div class="aw-topic-bar">
                                 <div class="tag-bar clearfix">
                                     {% for focus_topic_data in  focus_topic_datas %}
-                                    <span class="topic-tag"><a href="/topic/{{ focus_topic_data.topic_id }}" class="text">{{ focus_topic_data.name }}</a></span>
+                                        <span class="topic-tag"><a href="/topic/{{ focus_topic_data.topic_id }}" class="text">{{ focus_topic_data.name }}</a></span>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -371,7 +357,7 @@
                         <div class="mod-body">
                             <ul>
                                 {% for focus_question_data in focus_question_datas %}
-                                <li><a href="/question/{{ focus_question_data.question_id }}">{{ focus_question_data.title }}</a></li>
+                                    <li><a href="/question/{{ focus_question_data.question_id }}">{{ focus_question_data.title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>

@@ -43,20 +43,8 @@
         </div>
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
-            <form class="navbar-search" action="/search" id="global_search_form" method="post">
-                <input class="form-control search-query" type="text" placeholder="搜索问题" autocomplete="off" name="q" id="aw-search-query" />
-                <span title="搜索" id="global_search_btns" onClick=""><i class="icon icon-search"></i></span>
-                <div class="aw-dropdown">
-                    <div class="mod-body">
-                        <p class="title">输入关键字进行搜索</p>
-                        <ul class="aw-dropdown-list collapse"></ul>
-                        <p class="search"><span>搜索:</span><a onClick=""></a></p>
-                    </div>
-                    <div class="mod-footer">
-                        <a href="/publish" class="pull-right btn btn-mini btn-success publish">发起问题</a>
-                    </div>
-                </div>
-            </form>
+            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" />
+            <span title="搜索" id="global_search_btns" onclick="global_search();"><i class="icon icon-search"></i></span>
         </div>
         <!-- 导航 -->
         <div class="aw-top-nav navbar">

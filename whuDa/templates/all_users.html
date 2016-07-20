@@ -33,30 +33,27 @@
     </div>
 </noscript>
 <body>
-    <div class="aw-top-menu-wrap">
-		<div class="container">
-			<!-- logo -->
-			<div class="aw-logo hidden-xs">
-				<a href="/"></a>
-			</div>
-			<!-- 搜索框 -->
-			<div class="aw-search-box  hidden-xs hidden-sm">
-                <form class="navbar-search" action="#" id="global_search_form" method="post">
-                    <input class="form-control search-query" type="text" placeholder="搜索问题" autocomplete="off" name="q" id="aw-search-query" />
-                    <span title="搜索" id="global_search_btns" onClick="window.alert('search!');"><i class="icon icon-search"></i></span>
-                </form>
+<div class="aw-top-menu-wrap">
+    <div class="container">
+        <!-- logo -->
+        <div class="aw-logo hidden-xs">
+            <a href="/"></a>
+        </div>
+        <!-- 搜索框 -->
+        <div class="aw-search-box  hidden-xs hidden-sm">
+            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" />
+            <span title="搜索" id="global_search_btns" onclick="global_search();"><i class="icon icon-search"></i></span>
+        </div>
+        <!-- 导航 -->
+        <div class="aw-top-nav navbar">
+            <div class="navbar-header">
+                <button  class="navbar-toggle pull-left">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
-			<!-- end 搜索框 -->
-			<!-- 导航 -->
-			<div class="aw-top-nav navbar">
-				<div class="navbar-header">
-				    <button  class="navbar-toggle pull-left">
-					    <span class="icon-bar"></span>
-					    <span class="icon-bar"></span>
-					    <span class="icon-bar"></span>
-				    </button>
-			    </div>
-				<nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+            <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/" class="active"><i class="icon icon-list"></i> 发现</a></li>
                     <li><a href="/topic" ><i class="icon icon-topic"></i> 话题</a></li>
@@ -71,31 +68,31 @@
                     </li>
                 </ul>
             </nav>
-			</div>
-			<!-- end 导航 -->
-			<!-- 用户栏 -->
-			<div class="aw-user-nav">
-				<a class="login btn btn-normal btn-primary" href="/login">登录</a>
-                <a class="register btn btn-normal btn-success" href="/register">注册</a>
-			</div>
-		</div>
-	</div>
+        </div>
+        <!-- end 导航 -->
+        <!-- 用户栏 -->
+        <div class="aw-user-nav">
+            <a class="login btn btn-normal btn-primary" href="/login">登录</a>
+            <a class="register btn btn-normal btn-success" href="/register">注册</a>
+        </div>
+    </div>
+</div>
 
 
-    <div class="aw-container-wrap">
-        <div class="container">
-            <div class="row">
-                <div class="aw-content-wrap clearfix">
-                    <div class="col-sm-12 col-md-9 aw-main-content">
-                        <!-- tab切换 -->
-                        <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-                            <h2 class="hidden-xs"><i class="icon icon icon-users"></i> 所有用户</h2>
-                        </ul>
-                        <!-- 问题列表 -->
-                        <div class="aw-mod aw-explore-list">
-                            <div class="mod-body">
-                                <div class="aw-common-list">
-                                    {% for user_data in all_users_datas %}
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <!-- tab切换 -->
+                    <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
+                        <h2 class="hidden-xs"><i class="icon icon icon-users"></i> 所有用户</h2>
+                    </ul>
+                    <!-- 问题列表 -->
+                    <div class="aw-mod aw-explore-list">
+                        <div class="mod-body">
+                            <div class="aw-common-list">
+                                {% for user_data in all_users_datas %}
                                     <div class="aw-item">
                                         <a class="aw-user-name hidden-xs" href="/people/{{ user_data.username }}" rel="nofollow"><img src="{{ user_data.avatar_url }}" /></a>
                                         <div class="aw-question-content">
@@ -105,28 +102,28 @@
                                             </p>
                                         </div>
                                     </div>
-                                    {% endfor %}
-                                </div>
+                                {% endfor %}
                             </div>
-                            <div class="mod-footer">
-                                <div class="page-control">
-                                    <ul class="pagination pull-right">
-                                        {% autoescape false %}
-                                        {{ pagination }}
-                                        {% endautoescape %}
-                                    </ul>
-                                </div>
+                        </div>
+                        <div class="mod-footer">
+                            <div class="page-control">
+                                <ul class="pagination pull-right">
+                                    {% autoescape false %}
+                                    {{ pagination }}
+                                    {% endautoescape %}
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- 侧边栏 -->
-                    <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm active">
-                        <div class="aw-mod aw-text-align-justify">
-                            <div class="mod-head">
-                                <h3>热门用户</h3>
-                            </div>
-                            <div class="mod-body">
-                                {% for hot_user in hot_users %}
+                </div>
+                <!-- 侧边栏 -->
+                <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs hidden-sm active">
+                    <div class="aw-mod aw-text-align-justify">
+                        <div class="mod-head">
+                            <h3>热门用户</h3>
+                        </div>
+                        <div class="mod-body">
+                            {% for hot_user in hot_users %}
                                 <dl>
                                     <dt class="pull-left aw-border-radius-5">
                                         <a href="/people/{{ hot_user.username }}"><img alt="{{ hot_user.username }}" src="/{{ hot_user.avatar_url }}" /></a>
@@ -137,23 +134,23 @@
                                         <p><b>{{ hot_user.question_count }}</b> 个问题, <b>{{ hot_user.answer_count }}</b> 次答复</p>
                                     </dd>
                                 </dl>
-                                {% endfor %}
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="aw-footer-wrap">
-        <div class="aw-footer">
-            Copyright © 2016<span class="hidden-xs"> - All Rights Reserved</span>
-        </div>
+<div class="aw-footer-wrap">
+    <div class="aw-footer">
+        Copyright © 2016<span class="hidden-xs"> - All Rights Reserved</span>
     </div>
+</div>
 
-    <a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i class="icon icon-up"></i></a>
 
-    <script type="text/javascript" src="https://dn-bughd-web.qbox.me/bughd.min.js" crossOrigin="anonymous"></script>
+<script type="text/javascript" src="https://dn-bughd-web.qbox.me/bughd.min.js" crossOrigin="anonymous"></script>
 </body>
 </html>
