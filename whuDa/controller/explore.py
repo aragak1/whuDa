@@ -510,8 +510,11 @@ def me_focus_topics():
                            topics=topics)
 
 
-@app.route('/search', methods=['POST', 'GET'])
-def search():
+@app.route('/search/<keyword>', methods=['POST', 'GET'])
+def search(keyword):
     if is_login():
         user = db_users.Users().get_user(session['username'])
-        return render_template('login/search.html', user=user)
+        questions = db_questions.Questions().get_questions_by_keyword(keyword)
+        return render_template('login/search.html',
+                               user=user,
+                               questions=questions)

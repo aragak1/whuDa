@@ -235,7 +235,8 @@ class Questions(db.Model):
                 data = {
                     'question_id': question.question_id,
                     'title': question.title,
-                    'answer_count': db_answers.Answers().get_answer_count(question.question_id)
+                    'answer_count': db_answers.Answers().get_answer_count(question.question_id),
+                    'focus_count': db_question_focus.Question_focus().get_question_foucs_count(question.question_id)
                 }
                 questions.append(data)
         return questions

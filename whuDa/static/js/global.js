@@ -478,5 +478,6 @@ function user_focus_topics_more() {
 }
 
 function global_search() {
-    ;
+    var keyword = $('#aw-search-query').val()
+    location.href = '/search/' + keyword
 }
