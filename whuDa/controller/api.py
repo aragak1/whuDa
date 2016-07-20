@@ -148,3 +148,9 @@ def get_search_datas(keyword):
     questions = db_questions.Questions().get_questions_by_keyword(keyword)
     users = db_users.Users().get_users_by_keyword(keyword)
     topics = db_topics.Topics().get_topics_by_keyword(keyword)
+    results = {
+        'quesitons': questions,
+        'users': users,
+        'topics': topics
+    }
+    return json.dumps(results, ensure_ascii=False)

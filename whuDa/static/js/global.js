@@ -33,7 +33,34 @@ $(document).ready(function () {
     //     $('#edit_topic_title_div').children('p.title').hide();
     //     $('#edit_topic_title_div').hide();
     //     $('#edit_topic_title_div').children('ul.aw-dropdown-list').hide();
-    // });
+    // });\
+    
+    $('#aw-search-query').bind('input propertychange', function () {
+        $('div.aw-dropdown').show();
+        var keyword = $('#aw-search-query').val()
+        if (keyword != '') {
+            var post_url = '/api/search/' + keyword+ '.json'
+            $.getJSON(post_url, function (datas) {
+                $.each(datas.users, function (i, user) {
+                    $('ul.aw-dropdown-list').append('');
+                });
+                $.each(datas.topics, function (i, topic) {
+                    ;
+                })
+                $.each(datas.questions, function (i, question) {
+                    ;
+                })
+            })
+        }
+    });
+
+    $('#aw-search-query').blur(function () {
+        $('div.aw-dropdown').hide();
+    })
+
+    $('#aw-search-query').focus(function () {
+        $('div.aw-dropdown').show();
+    })
 
 
     // 添加topic tags
@@ -76,6 +103,7 @@ $(document).ready(function () {
     $("#upload_file").on("change", function() {
         $(this).parent().submit();
     });
+    
 });
 
 

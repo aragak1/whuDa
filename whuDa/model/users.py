@@ -185,7 +185,7 @@ class Users(db.Model):
         key_str = '{}{}{}'.format('%', keyword, '%')
         users = []
         if Users.query.filter(Users.username.like(key_str)).count():
-            for user in Users.query.filter(Users.name.like(key_str)).all():
+            for user in Users.query.filter(Users.username.like(key_str)).all():
                 data = {
                     'username': user.username,
                     'avatar': user.avatar_url,
