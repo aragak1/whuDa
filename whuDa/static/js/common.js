@@ -203,3 +203,25 @@ $(window).on('hashchange', function() {
 	})
 
 })(jQuery);
+
+function cancel_question_focus() {
+    var question_id = $('input[name="question_id_input"]').val()
+    $.post('/question/cancel_focus', {
+        'question_id': question_id
+    }, function (status) {
+        if (status == 'success') {
+            location.reload()
+        }
+    })
+}
+
+function add_focus_question() {
+    var question_id = $('input[name="question_id_input"]').val()
+    $.post('/question/add_focus', {
+        'question_id': question_id
+    }, function (status) {
+        if (status == 'success') {
+            location.reload()
+        }
+    })
+}

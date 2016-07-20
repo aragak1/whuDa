@@ -86,12 +86,12 @@
                     </li>
                     <li><a href="/help"><i class="icon icon-bulb"></i> 帮助</a></li>
                     <li>
-                    <a style="font-weight:bold;">· · ·</a>
-                    <div class="dropdown-list pull-right">
-                        <ul id="extensions-nav-list">
-                            <li><a href="/about"><i class="icon icon-activity"></i> 关于</a></li>
-                        </ul>
-                    </div>
+                        <a style="font-weight:bold;">· · ·</a>
+                        <div class="dropdown-list pull-right">
+                            <ul id="extensions-nav-list">
+                                <li><a href="/about"><i class="icon icon-activity"></i> 关于</a></li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -119,7 +119,7 @@
             <div class="dropdown-list pull-right">
                 <ul>
                     <li>
-                            <a href="/publish">问题</a>
+                        <a href="/publish">问题</a>
                     </li>
                 </ul>
             </div>
@@ -146,12 +146,21 @@
                     <div class="aw-mod aw-question-detail aw-item">
                         <div class="mod-head">
                             <h1>{{ question.title }}</h1>
+                            <input type="hidden" name="question_id_input" value="{{ question.question_id }}">
                             <div class="operate clearfix">
-                                <a href="javascript:;" onclick=";" class="follow btn btn-normal btn-success pull-left ">
-                                    <span>关注</span>
-                                    <em>|</em>
-                                    <b>{{ question_focus_cnt}}</b>
-                                </a>
+                                {% if question_focused %}
+                                        <a onclick="cancel_question_focus();" class="follow btn btn-normal btn-success pull-left active">
+                                            <span>取消关注</span>
+                                            <em>|</em>
+                                            <b>{{ question_focus_cnt}}</b>
+                                        </a>
+                                {% else %}
+                                    <a onclick="add_focus_question();" class="follow btn btn-normal btn-success pull-left ">
+                                        <span>关注</span>
+                                        <em>|</em>
+                                        <b>{{ question_focus_cnt}}</b>
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="mod-body">
@@ -183,34 +192,34 @@
                             </div>
                         </div>
                         <!-- 站内邀请 -->
-                        <div class="aw-invite-box collapse" style="display: none">
-                            <div class="mod-head clearfix">
-                                <div class="search-box pull-left">
-                                    <input id="invite-input" class="form-control" type="text"  placeholder="搜索你想邀请的人..."/>
-                                    <div class="aw-dropdown">
-                                        <p class="title">没有找到相关结果</p>
-                                        <ul class="aw-dropdown-list"></ul>
-                                    </div>
-                                    <i class="icon icon-search"></i>
-                                </div>
-                                <div class="invite-list pull-left collapse">已邀请:</div>
-                            </div>
-                            <div class="mod-body clearfix">
-                                <ul>
-                                    <li>
-                                        <a class="aw-user-img pull-left" href="/people/laobai"><img class="img" alt="" src="/static/img/avatar/avatar-max-img.png" /></a>
-                                        <div class="main">
-                                            <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>
-                                            <a class="aw-user-name" href="/people/laobai">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>
-                                            <p>在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="mod-footer">
-                                <a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>
-                            </div>
-                        </div>
+{#                        <div class="aw-invite-box collapse" style="display: none">#}
+{#                            <div class="mod-head clearfix">#}
+{#                                <div class="search-box pull-left">#}
+{#                                    <input id="invite-input" class="form-control" type="text"  placeholder="搜索你想邀请的人..."/>#}
+{#                                    <div class="aw-dropdown">#}
+{#                                        <p class="title">没有找到相关结果</p>#}
+{#                                        <ul class="aw-dropdown-list"></ul>#}
+{#                                    </div>#}
+{#                                    <i class="icon icon-search"></i>#}
+{#                                </div>#}
+{#                                <div class="invite-list pull-left collapse">已邀请:</div>#}
+{#                            </div>#}
+{#                            <div class="mod-body clearfix">#}
+{#                                <ul>#}
+{#                                    <li>#}
+{#                                        <a class="aw-user-img pull-left" href="/people/laobai"><img class="img" alt="" src="/static/img/avatar/avatar-max-img.png" /></a>#}
+{#                                        <div class="main">#}
+{#                                            <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>#}
+{#                                            <a class="aw-user-name" href="/people/laobai">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>#}
+{#                                            <p>在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>#}
+{#                                        </div>#}
+{#                                    </li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <div class="mod-footer">#}
+{#                                <a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>#}
+{#                            </div>#}
+{#                        </div>#}
                         <!-- 相关链接 -->
                         <div class="aw-question-related-box collapse">
                             <form action="/" method="post" onsubmit="return false" id="related_link_form">
@@ -235,35 +244,35 @@
                         </div>
                         <div class="mod-body aw-feed-list">
                             {% for x in answers_and_users %}
-                                <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
                                 <div class="mod-head">
                                     {% if x.is_anonymous %}
-                                    <a class="anchor" name="answer_1"></a>
-                                    <!-- 用户头像 -->
-                                    <a class="aw-user-img aw-border-radius-5"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
-                                    <div class="title">
-                                        <p>
-                                            <a class="aw-user-name">匿名用户</a>																																		</p>
-                                        <p class="text-color-999 aw-agree-by collapse">
-                                            赞同来自:
-                                        </p>
-                                    </div>
+                                        <a class="anchor" name="answer_1"></a>
+                                        <!-- 用户头像 -->
+                                        <a class="aw-user-img aw-border-radius-5"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
+                                        <div class="title">
+                                            <p>
+                                                <a class="aw-user-name">匿名用户</a>																																		</p>
+                                            <p class="text-color-999 aw-agree-by collapse">
+                                                赞同来自:
+                                            </p>
+                                        </div>
                                     {% else %}
                                         <a class="anchor" name="answer_1"></a>
-                                    <!-- 用户头像 -->
-                                    <a class="aw-user-img aw-border-radius-5" href="/people/{{ x.uid }}"><img src="/{{ x.avatar_url }}" alt="" /></a>
-                                    <div class="title">
-                                        <p>
-                                            <a class="aw-user-name" href="/people/{{ x.uid }}">{{ x.username }}</a>
-                                            {% if x.introduction %}
-                                                - <span class="text-color-999">
-                                                {{ x.introduction }}
-                                            {% endif %}
-                                            </span>																																			</p>
-                                        <p class="text-color-999 aw-agree-by collapse">
-                                            赞同来自:
-                                        </p>
-                                    </div>
+                                        <!-- 用户头像 -->
+                                        <a class="aw-user-img aw-border-radius-5" href="/people/{{ x.uid }}"><img src="/{{ x.avatar_url }}" alt="" /></a>
+                                        <div class="title">
+                                            <p>
+                                                <a class="aw-user-name" href="/people/{{ x.uid }}">{{ x.username }}</a>
+                                                {% if x.introduction %}
+                                                    - <span class="text-color-999">
+                                                    {{ x.introduction }}
+                                                {% endif %}
+                                                </span>																																			</p>
+                                            <p class="text-color-999 aw-agree-by collapse">
+                                                赞同来自:
+                                            </p>
+                                        </div>
                                     {% endif %}
                                 </div>
                                 <div class="mod-body clearfix">
@@ -363,12 +372,12 @@
                         <div class="mod-body">
                             <dl>
                                 {% if question.is_anonymous %}
-                                <dt class="pull-left aw-border-radius-5">
-                                    <img alt="匿名用户" src="/static/img/avatar/avatar.png" />
-                                </dt>
-                                <dd class="pull-left"><br />匿名用户
-                                    <p></p>
-                                </dd>
+                                    <dt class="pull-left aw-border-radius-5">
+                                        <img alt="匿名用户" src="/static/img/avatar/avatar.png" />
+                                    </dt>
+                                    <dd class="pull-left"><br />匿名用户
+                                        <p></p>
+                                    </dd>
                                 {% else %}
                                     <dt class="pull-left aw-border-radius-5">
                                         <a href="/people/{{ questioner.username }}"><img alt="{{ questioner.username }}" src="/{{ questioner.avatar_url }}" /></a>
@@ -418,9 +427,9 @@
                         <div class="mod-body font-size-12">
                             <ul>
                                 {% for related_question in related_questions %}
-                                <li><a href="/question/{{ related_question.question_id }}">{{ related_question.title }}</a></li>
+                                    <li><a href="/question/{{ related_question.question_id }}">{{ related_question.title }}</a></li>
                                 {% endfor %}
-                             </ul>
+                            </ul>
                         </div>
                     </div>
 
@@ -458,7 +467,7 @@
 <script type="text/javascript" src="/static/editor/js/wangEditor.min.js"></script>
 <script type="text/javascript">
     var editor = new wangEditor('wmd-input');
-        editor.config.menus =     [
+    editor.config.menus =     [
         'source',
         'bold',
         'underline',
