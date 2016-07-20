@@ -60,12 +60,10 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/"><i class="icon icon-home"></i> 动态</a></li>
                     <li><a href="/" class=""><i class="icon icon-list"></i> 发现</a></li>
-
                     <li><a href="/topic" ><i class="icon icon-topic"></i> 话题</a></li>
                     <li>
-                        <a href="/notifications" class=""><i class="icon icon-bell"></i> 通知</a>
+                        <a href="/notifications"><i class="icon icon-bell"></i> 通知</a>
                         <span class="badge badge-important" style="display:none" id="notifications_unread">0</span>
-
                     </li>
                     <li><a href="/help"><i class="icon icon-bulb"></i> 帮助</a></li>
                     <li>
@@ -84,7 +82,6 @@
             <!-- 登陆&注册栏 -->
             <a href="/people/{{ user.username }}" class="aw-user-nav-dropdown">
                 <img alt="t" src="/{{ user.avatar_url }}" />
-
             </a>
             <div class="aw-dropdown dropdown-list pull-right">
                 <ul class="aw-dropdown-list">

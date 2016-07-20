@@ -22,12 +22,13 @@ def topic():
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
-
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-topic.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
-                               today_topic=today_topic)
+                               today_topic=today_topic,
+                               focus_topics=focus_topics)
     return render_template('topic.html',
                            datas=datas,
                            pagination=pagination,
@@ -42,17 +43,18 @@ def get_page_topic(page_num):
                            page_size=15,
                            current_page=page_num,
                            url='topic/page')
-
     today_topic = db_topics.Topics().get_topic_by_id(
         db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     if is_login():
         user = db_users.Users().get_user(session['username'])
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-topic.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic/page',
-                               today_topic=today_topic)
+                               today_topic=today_topic,
+                               focus_topics=focus_topics)
     return render_template('topic.html',
                            datas=datas,
                            pagination=pagination,
@@ -71,12 +73,14 @@ def topic_recent_week():
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-recent_week_topics.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic-recent-week/page',
-                               today_topic=today_topic)
+                               today_topic=today_topic,
+                               focus_topics=focus_topics)
     return render_template('recent_week_topics.html',
                            datas=datas,
                            pagination=pagination,
@@ -97,12 +101,14 @@ def topic_recent_week_page(page_num):
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
     if is_login():
         user = db_users.Users().get_user(session['username'])
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-recent_week_topics.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic/page',
-                               today_topic=today_topic)
+                               today_topic=today_topic,
+                               focus_topics=focus_topics)
     return render_template('login/login-recent_week_topics.html',
                            datas=datas,
                            pagination=pagination,
@@ -121,12 +127,14 @@ def topic_recent_month():
     today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     if is_login():
         user = db_users.Users().get_user(session['username'])
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-recent_month_topics.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic-recent-month/page',
-                               today_topic=today_topic)
+                               today_topic=today_topic,
+                               focus_topics=focus_topics)
     return render_template('recent_month_topics.html',
                            datas=datas,
                            pagination=pagination,
@@ -145,12 +153,14 @@ def topic_recent_month_page(page_num):
     today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     if is_login():
         user = db_users.Users().get_user(session['username'])
+        focus_topics = db_topic_focus.Topic_focus().get_user_focus_topics(user.uid)
         return render_template('login/login-recent_month_topics.html',
                                user=user,
                                datas=datas,
                                pagination=pagination,
                                url='topic-recent-month/page',
-                               today_topic=today_topic)
+                               today_topic=today_topic,
+                               focus_topics=focus_topics)
     return render_template('recent_month_topics.html')
 
 
