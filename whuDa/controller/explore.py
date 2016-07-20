@@ -508,3 +508,10 @@ def me_focus_topics():
                            user_focus_topics=user_focus_topics,
                            hot_users=hot_users,
                            topics=topics)
+
+
+@app.route('/search', methods=['POST', 'GET'])
+def search():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/search.html', user=user)
