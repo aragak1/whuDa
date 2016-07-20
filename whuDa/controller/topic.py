@@ -1,7 +1,7 @@
 # _*_ coding: utf8 _*_
 from whuDa import app
 from utils import is_login, page_html,  get_topic_detail_question_datas, timestamp_datetime
-from flask import render_template, session
+from flask import render_template, session,request
 from time import time
 import whuDa.model.topic_question as db_topic_question
 import whuDa.model.users as db_users
@@ -149,28 +149,53 @@ def topic_recent_month_page(page_num):
 
 
 # 话题的详细页面
-@app.route('/topic/<int:topic_id>')
+@app.route('/topic/<int:topic_id>',methods=['GET','POST'])
 def topic_detail(topic_id):
-    topic = db_topics.Topics().get_topic_by_id(topic_id)
-    first_page_datas = get_topic_detail_question_datas(page_num=1, page_size=15, topic_id=topic_id)
-    focus_count = db_topic_focus.Topic_focus().get_foucs_count(topic_id)
-    focus_users = db_topics.Topics().get_focus_users(topic_id)
-    question_count = db_topic_question.Topic_question().get_question_count(topic_id)
-    c_time = timestamp_datetime(time())
-    if is_login():
-        user = db_users.Users().get_user(session['username'])
-        return render_template('login/login-topic_detail.html',
-                               user=user,
+    if request.method=='GET':
+        topic = db_topics.Topics().get_topic_by_id(topic_id)
+        first_page_datas = get_topic_detail_question_datas(page_num=1, page_size=15, topic_id=topic_id)
+        focus_count = db_topic_focus.Topic_focus().get_foucs_count(topic_id)
+        print focus_count
+        focus_users = db_topics.Topics().get_focus_users(topic_id)
+        question_count = db_topic_question.Topic_question().get_question_count(topic_id)
+        c_time = timestamp_datetime(time())
+        if is_login():
+            user = db_users.Users().get_user(session['username'])
+            return render_template('login/login-topic_detail.html',
+                                   has_focus=db_topic_focus.Topic_focus().user_focus_topic(user.uid,topic_id),
+                                   user=user,
+                                   topic=topic,
+                                   datas=first_page_datas,
+                                   focus_count=focus_count,
+                                   focus_users=focus_users,
+                                   question_count=question_count,
+                                   c_time=c_time)
+        return render_template('topic_detail.html',
                                topic=topic,
                                datas=first_page_datas,
                                focus_count=focus_count,
                                focus_users=focus_users,
                                question_count=question_count,
                                c_time=c_time)
-    return render_template('topic_detail.html',
-                           topic=topic,
-                           datas=first_page_datas,
-                           focus_count=focus_count,
-                           focus_users=focus_users,
-                           question_count=question_count,
-                           c_time=c_time)
+    elif request.method=='POST':
+        return
+
+#添加关注话题
+@app.route('/topic/cancel_focus', methods=['POST'])
+def cancel_topic_focus():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        topic_id = request.form.get('topic_id')
+        db_topic_focus.Topic_focus().cancel_focus_topic(user.uid, topic_id)
+        return 'success'
+    return 'error'
+
+#取消关注话题
+@app.route('/topic/add_focus', methods=['POST'])
+def add_topic_focus():
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        topic_id = request.form.get('topic_id')
+        db_topic_focus.Topic_focus().add_focus_topic(user.uid, topic_id)
+        return 'success'
+    return 'error'
