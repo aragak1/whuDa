@@ -225,3 +225,18 @@ class Questions(db.Model):
                 count += 1
         return related_questions
 
+    # 根据关键字获取问题数据(question_id, title, answer_counts)
+    def get_questions_by_keyword(self, keyword):
+        import whuDa.model.answers as db_answers
+        key_str = '{}{}{}'.format('%', keyword, '%')
+        questions = []
+        if Questions.query.filter(Questions.title.like(key_str)).count():
+            for question in Questions.query.filter(Questions.title.like(key_str)).all():
+                data = {
+                    'question_id': question.question_id,
+                    'title': question.title,
+                    'answer_count': db_answers.Answers().get_answer_count(question.question_id)
+                }
+                questions.append(data)
+        return questions
+

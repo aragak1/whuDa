@@ -143,6 +143,8 @@ def get_user_focus_topics_by_page(uid, page_num):
     return json.dumps(db_topic_focus.Topic_focus().get_user_focus_topics_by_page(uid, page_num, page_size=15), ensure_ascii=False)
 
 
-@app.route('/api/search.json', methods=['POST', 'GET'])
-def get_search_datas():
-    pass
+@app.route('/api/search/<keyword>.json', methods=['POST', 'GET'])
+def get_search_datas(keyword):
+    questions = db_questions.Questions().get_questions_by_keyword(keyword)
+    users = db_users.Users().get_users_by_keyword(keyword)
+    topics = db_topics.Topics().get_topics_by_keyword(keyword)
