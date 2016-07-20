@@ -58,3 +58,34 @@ class Topic_focus(db.Model):
             return db_users.Users().get_username_by_uid(choice(focus_uid))
         return []
 
+    # 获取一个用户关注的所有话题
+    def get_user_focus_topics(self, uid):
+        import whuDa.model.topic_question as db_topic_question
+        import whuDa.model.topics as db_topics
+        focus_topics = db.session.query(Topic_focus).filter(Topic_focus.uid == uid).all()
+        focus_topics_datas = []
+        for focus_topic in focus_topics:
+            data = {
+                'topic_id': focus_topic.topic_id,
+                'topic_focus': self.get_foucs_count(focus_topic.topic_id),
+                'topic_question_count': db_topic_question.Topic_question().get_question_count(focus_topic.topic_id),
+                'topic_name': db_topics.Topics().get_topic_name_by_id(focus_topic.topic_id),
+                'topic_url': db_topics.Topics().get_topic_url(focus_topic.topic_id),
+                'last_week_question_count': db_topic_question.Topic_question().get_last_week_question_count(focus_topic.topic_id),
+                'last_month_question_count': db_topic_question.Topic_question().get_last_month_question_count(focus_topic.topic_id)
+            }
+            focus_topics_datas.append(data)
+        return focus_topics_datas
+
+    # 按照分页获取一个用户关注的所有话题
+    def get_user_focus_topics_by_page(self, uid, page_num, page_size):
+        focus_topics = self.get_user_focus_topics(uid)
+        total_count = len(focus_topics)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return focus_topics[start_index:end_index]
+            return focus_topics[start_index:]
+        return []
+
