@@ -28,6 +28,7 @@
     <script src="/static/js/compatibility.js" type="text/javascript"></script>
     <script src="/static/js/common.js" type="text/javascript"></script>
     <script src="/static/js/global.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/static/js/topic.js"></script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
     <![endif]-->
@@ -132,7 +133,11 @@
                             <img src="/{{ topic.topic_url }}" alt="{{ topic.name }}" />
                             <h2 class="pull-left">{{ topic.name }} </h2>
                             <div class="aw-topic-operate text-color-999">
-                                <a href="javascript:;" onclick=";" class="follow btn btn-normal btn-success"><span>关注</span> <em>|</em> <b>{{ focus_count }}</b></a>
+                                {% if has_focus %}
+                                <a href="javascript:;" onclick="switch_focus($(this))" class="follow btn btn-normal btn-success active"><span>取消关注</span> <em>|</em> <b>{{ focus_count }}</b></a>
+                                {% else %}
+                                <a href="javascript:;" onclick="switch_focus($(this))" class="follow btn btn-normal btn-success"><span>关注</span> <em>|</em> <b>{{ focus_count }}</b></a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -243,7 +248,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/static/js/topic.js"></script>
 
 <div class="aw-footer-wrap">
     <div class="aw-footer">
