@@ -149,11 +149,11 @@
                             <input type="hidden" name="question_id_input" value="{{ question.question_id }}">
                             <div class="operate clearfix">
                                 {% if question_focused %}
-                                        <a onclick="cancel_question_focus();" class="follow btn btn-normal btn-success pull-left active">
-                                            <span>取消关注</span>
-                                            <em>|</em>
-                                            <b>{{ question_focus_cnt}}</b>
-                                        </a>
+                                    <a onclick="cancel_question_focus();" class="follow btn btn-normal btn-success pull-left active">
+                                        <span>取消关注</span>
+                                        <em>|</em>
+                                        <b>{{ question_focus_cnt}}</b>
+                                    </a>
                                 {% else %}
                                     <a onclick="add_focus_question();" class="follow btn btn-normal btn-success pull-left ">
                                         <span>关注</span>
@@ -173,8 +173,6 @@
                         <div class="mod-footer">
                             <div class="meta">
                                 <span class="text-color-999">{{ publish_time }}</span>
-                                <!-- 这里邀请点了以后下面站内邀请的display none 变成block -->
-                                <a class="text-color-999 aw-invite-replay"><i class="icon icon-invite"></i>邀请 </a>
                                 <a class="text-color-999" href="/publish/{{ question.question_id }}"><i class="icon icon-edit"></i>编辑</a>
                                 <div class="pull-right more-operate">
                                     <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
@@ -192,34 +190,34 @@
                             </div>
                         </div>
                         <!-- 站内邀请 -->
-{#                        <div class="aw-invite-box collapse" style="display: none">#}
-{#                            <div class="mod-head clearfix">#}
-{#                                <div class="search-box pull-left">#}
-{#                                    <input id="invite-input" class="form-control" type="text"  placeholder="搜索你想邀请的人..."/>#}
-{#                                    <div class="aw-dropdown">#}
-{#                                        <p class="title">没有找到相关结果</p>#}
-{#                                        <ul class="aw-dropdown-list"></ul>#}
-{#                                    </div>#}
-{#                                    <i class="icon icon-search"></i>#}
-{#                                </div>#}
-{#                                <div class="invite-list pull-left collapse">已邀请:</div>#}
-{#                            </div>#}
-{#                            <div class="mod-body clearfix">#}
-{#                                <ul>#}
-{#                                    <li>#}
-{#                                        <a class="aw-user-img pull-left" href="/people/laobai"><img class="img" alt="" src="/static/img/avatar/avatar-max-img.png" /></a>#}
-{#                                        <div class="main">#}
-{#                                            <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>#}
-{#                                            <a class="aw-user-name" href="/people/laobai">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>#}
-{#                                            <p>在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>#}
-{#                                        </div>#}
-{#                                    </li>#}
-{#                                </ul>#}
-{#                            </div>#}
-{#                            <div class="mod-footer">#}
-{#                                <a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>#}
-{#                            </div>#}
-{#                        </div>#}
+                        {#                        <div class="aw-invite-box collapse" style="display: none">#}
+                        {#                            <div class="mod-head clearfix">#}
+                        {#                                <div class="search-box pull-left">#}
+                        {#                                    <input id="invite-input" class="form-control" type="text"  placeholder="搜索你想邀请的人..."/>#}
+                        {#                                    <div class="aw-dropdown">#}
+                        {#                                        <p class="title">没有找到相关结果</p>#}
+                        {#                                        <ul class="aw-dropdown-list"></ul>#}
+                        {#                                    </div>#}
+                        {#                                    <i class="icon icon-search"></i>#}
+                        {#                                </div>#}
+                        {#                                <div class="invite-list pull-left collapse">已邀请:</div>#}
+                        {#                            </div>#}
+                        {#                            <div class="mod-body clearfix">#}
+                        {#                                <ul>#}
+                        {#                                    <li>#}
+                        {#                                        <a class="aw-user-img pull-left" href="/people/laobai"><img class="img" alt="" src="/static/img/avatar/avatar-max-img.png" /></a>#}
+                        {#                                        <div class="main">#}
+                        {#                                            <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>#}
+                        {#                                            <a class="aw-user-name" href="/people/laobai">zhengqiang<i class="icon-v i-ve" title="企业认证"></i></a>#}
+                        {#                                            <p>在 <span class="topic-tag"><a class="text" data-id="345" href="http://wenda.wecenter.com/topic/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span> 话题下 获得 20 个赞同												</p>#}
+                        {#                                        </div>#}
+                        {#                                    </li>#}
+                        {#                                </ul>#}
+                        {#                            </div>#}
+                        {#                            <div class="mod-footer">#}
+                        {#                                <a class="next pull-right">&gt;</a> <a class="prev active pull-right">&lt;</a>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
                         <!-- 相关链接 -->
                         <div class="aw-question-related-box collapse">
                             <form action="/" method="post" onsubmit="return false" id="related_link_form">
