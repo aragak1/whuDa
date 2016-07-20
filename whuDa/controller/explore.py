@@ -442,19 +442,27 @@ def people(name):
 
 @app.route('/all_users/page/<int:page_num>')
 def all_users_page(page_num):
-    user = db_users.Users().get_user(session['username'])
+    hot_users = db_users.Users().get_top5_users()
     pagination = page_html(total_count=db_users.Users().get_users_count(),
                            page_size=15,
                            current_page=page_num,
                            url='all_users/page')
-    return render_template('login/login-all_users.html',
-                           user=user,
+    if is_login():
+        user = db_users.Users().get_user(session['username'])
+        return render_template('login/login-all_users.html',
+                               user=user,
+                               all_users_datas=db_users.Users().get_all_users(),
+                               pagination=pagination,
+                               hot_users=hot_users)
+    return render_template('all_users.html',
                            all_users_datas=db_users.Users().get_all_users(),
-                           pagination=pagination)
+                           pagination=pagination,
+                           hot_users=hot_users)
 
 
 @app.route('/all_users')
 def all_users():
+    hot_users = db_users.Users().get_top5_users()
     pagination = page_html(total_count=db_users.Users().get_users_count(),
                            page_size=15,
                            current_page=1,
@@ -464,10 +472,12 @@ def all_users():
         return render_template('login/login-all_users.html',
                                user=user,
                                all_users_datas=db_users.Users().get_all_users(),
-                               pagination=pagination)
+                               pagination=pagination,
+                               hot_users=hot_users)
     return render_template('all_users.html',
                            all_users_datas=db_users.Users().get_all_users(),
-                           pagination=pagination)
+                           pagination=pagination,
+                           hot_users=hot_users)
 
 
 @app.route('/me_focus_questions')
