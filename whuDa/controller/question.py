@@ -104,7 +104,9 @@ def question(id):
             'content': answers[i].content,
             'username': answer_users[i].username,
             'avatar_url': answer_users[i].avatar_url,
-            'introduction': answer_users[i].introduction}
+            'introduction': answer_users[i].introduction,
+            'is_anonymous': answers[i].is_anonymous
+        }
         answers_and_users.append(answer_and_user)
     if question:
         topic_ids = db_topic_questions.Topic_question().get_topics_by_id(question_id=question.question_id)
