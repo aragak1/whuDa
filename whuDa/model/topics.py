@@ -225,7 +225,7 @@ class Topics(db.Model):
         db.session.delete(topic)
         db.session.commit()
 
-    def updat_topic(self, topic_id, name, introduction):
+    def update_topic(self, topic_id, name, introduction):
         topic = Topics.query.filter_by(topic_id=topic_id)
         topic.update({'name': name, 'introducation': introduction})
         db.session.commit()

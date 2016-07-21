@@ -109,8 +109,6 @@ def admin_add_topic():
     avatar = request.files['topic_avatar']
     if db_topics.Topics().is_exist_topic_name(name):
         return render_template('jump.html', title="添加失败", text='话题已经存在', url='/admin/topic/page/1')
-    # 添加话题
-    topic_id = db_topics.Topics().add_topic(name, introduction)
     if avatar:
         if '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
             # 原图片名
@@ -120,10 +118,13 @@ def admin_add_topic():
             avatar.save(os.path.join(upload_folder, filename))
             # 保存图片之后进行缩放处理
             resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
+            # 添加话题
+            topic_id = db_topics.Topics().add_topic(name, introduction)
             db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
             return render_template('jump.html', title="添加成功", text='话题添加成功', url='/admin/topic/page/1')
         else:
             return render_template('jump.html', title="添加失败", text='不支持的文件格式', url='/admin/topic/page/1')
+    db_topics.Topics().add_topic(name, introduction)
     return render_template('jump.html', title="添加成功", text='话题添加成功', url='/admin/topic/page/1')
 
 
@@ -143,7 +144,7 @@ def admin_update_topic():
     avatar = request.files['topic_avatar']
 
     # 修改话题名字和介绍
-    db_topics.Topics().updat_topic(topic_id, name, introduction)
+    db_topics.Topics().update_topic(topic_id, name, introduction)
 
     # 上传了图片
     if avatar:
