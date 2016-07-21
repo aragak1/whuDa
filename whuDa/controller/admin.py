@@ -69,10 +69,15 @@ def admin_add_topic():
 
 @app.route('/admin/topic/delete', methods=['POST'])
 def admin_delete_topic():
-    topic_id = request.form.get('id')
+    topic_id = request.form.get('topic_id')
     if db_topic_question.Topic_question().get_question_count(topic_id=topic_id):
         return 'not_null'
     if db_topics.Topics().is_exist_topic_id(topic_id):
         db_topics.Topics().delete_topic(topic_id)
         return 'success'
     return 'error'
+
+
+@app.route('/admin/topic/<int:topic_id>')
+def admin_update_topic(topic_id):
+    return render_template('admin/update_topic.html')

@@ -221,6 +221,6 @@ class Topics(db.Model):
 
     # 删除话题
     def delete_topic(self, topic_id):
-        topic = Topics.query.filter_by(topic_id=topic_id)
+        topic = Topics.query.filter_by(topic_id=topic_id).first()
         db.session.delete(topic)
         db.session.commit()
