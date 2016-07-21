@@ -118,7 +118,7 @@
                                             <td>{{ topic.name }}</td>
                                             <td>{{ topic.introduction }}</td>
                                             <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                            <td><button type="button" class="btn btn-outline btn-danger" data-id="{{ topic.id }}" onclick=";">删 除</button></td>
+                                            <td><button type="button" class="btn btn-outline btn-danger" data-id="{{ topic.topic_id }}" onclick="deleteTopic(this)">删 除</button></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

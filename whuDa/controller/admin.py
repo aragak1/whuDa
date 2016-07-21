@@ -3,9 +3,10 @@ from whuDa import app
 from flask import render_template, request
 from whuDa.controller.utils import resize_pic, requires_auth, page_html
 import whuDa.model.topics as db_topics
-import whuDa.model.users as db_users
+import whuDa.model.topic_question as db_topic_question
 import os
 from utils import page_html
+import whuDa.model.users as db_users
 
 
 @app.route('/admin')
@@ -64,3 +65,14 @@ def admin_add_topic():
         resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
         db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
         return 'success'
+
+
+@app.route('/admin/topic/delete', methods=['POST'])
+def admin_delete_topic():
+    topic_id = request.form.get('id')
+    if db_topic_question.Topic_question().get_question_count(topic_id=topic_id):
+        return 'not_null'
+    if db_topics.Topics().is_exist_topic_id(topic_id):
+        db_topics.Topics().delete_topic(topic_id)
+        return 'success'
+    return 'error'
