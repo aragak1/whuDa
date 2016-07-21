@@ -119,7 +119,7 @@
                                             <td style="width: 67px;">{{ topic.question_count }}</td>
                                             <td style="width: 67px;">{{ topic.name }}</td>
                                             <td>{{ topic.introduction }}</td>
-                                            <td><p><button type="button" class="btn btn-outline btn-primary" href="/admin/topic/{{ topic.topic_id }}">修 改</button></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/topic/{{ topic.topic_id }}">修 改</a></p></td>
                                             <td><button type="button" class="btn btn-outline btn-danger" data-topicId="{{ topic.topic_id }}" onclick="deleteTopic(this)">删 除</button></td>
                                         </tr>
                                     {% endfor %}
