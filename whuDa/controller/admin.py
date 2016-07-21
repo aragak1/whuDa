@@ -147,9 +147,10 @@ def admin_add_topic():
     avatar = request.files['topic_avatar']
     if db_topics.Topics().is_exist_topic_name(name):
         return render_template('jump.html', title="添加失败", text='话题已经存在', url='/admin/topic/page/1')
+    # 添加话题
+    topic_id = db_topics.Topics().add_topic(name, introduction)
     if avatar:
         if '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
-            topic_id = db_topics.Topics().add_topic(name, introduction)
             # 原图片名
             filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
             # 裁剪后的图片名
@@ -158,10 +159,10 @@ def admin_add_topic():
             # 保存图片之后进行缩放处理
             resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
             db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
-            return 'success'
+            return render_template('jump.html', title="添加成功", text='话题添加成功', url='/admin/topic/page/1')
         else:
-            pass
-        return render_template('jump.html', title="添加失败", text='话题已经存在', url='/admin/topic/page/1')
+            return render_template('jump.html', title="添加失败", text='不支持的文件格式', url='/admin/topic/page/1')
+    return render_template('jump.html', title="添加成功", text='话题添加成功', url='/admin/topic/page/1')
 
 
 # form直接提交
@@ -196,7 +197,7 @@ def admin_update_topic():
         else:
             return render_template('jump.html',
                                    title='修改失败',
-                                   text='不支持的文件名',
+                                   text='不支持的文件格式',
                                    url='/admin/topic/' + topic_id)
     return render_template('jump.html',
                            title='修改成功',
