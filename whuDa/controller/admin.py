@@ -25,6 +25,31 @@ def manage_admin(page_num):
                            pagination=pagination)
 
 
+@app.route('/admin/manage_admin/add', methods=['POST'])
+def admin_add_admin():
+    upload_folder = 'whuDa/static/img/topic'
+    allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
+    name = request.form.get('name')
+    if not name:
+        return 'empty_name'
+    introduction = request.form.get('introduction')
+    avatar = request.files['topic_avatar']
+    if db_topics.Topics().is_exist_topic_name(name):
+        return 'exist_topic'
+    if avatar and '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
+        topic_id = db_topics.Topics().add_topic(name, introduction)
+        # 原图片名
+        filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
+        # 裁剪后的图片名
+        avatar_filename = name + '.' + avatar.filename.rsplit('.', 1)[1]
+        avatar.save(os.path.join(upload_folder, filename))
+        # 保存图片之后进行缩放处理
+        resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
+        db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
+        return 'success'
+    return 'error_file'
+
+
 @app.route('/admin/manage_user/page/<int:page_num>')
 def manage_user(page_num):
     pagination = page_html(total_count=db_users.Users().get_general_user_count(),
@@ -34,6 +59,31 @@ def manage_user(page_num):
     return render_template('/admin/manage_user.html',
                            user_datas=db_users.Users().get_general_user_by_page(page_num, 15),
                            pagination=pagination)
+
+
+@app.route('/admin/manage_user/add', methods=['POST'])
+def admin_add_user():
+    upload_folder = 'whuDa/static/img/topic'
+    allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
+    name = request.form.get('name')
+    if not name:
+        return 'empty_name'
+    introduction = request.form.get('introduction')
+    avatar = request.files['topic_avatar']
+    if db_topics.Topics().is_exist_topic_name(name):
+        return 'exist_topic'
+    if avatar and '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
+        topic_id = db_topics.Topics().add_topic(name, introduction)
+        # 原图片名
+        filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
+        # 裁剪后的图片名
+        avatar_filename = name + '.' + avatar.filename.rsplit('.', 1)[1]
+        avatar.save(os.path.join(upload_folder, filename))
+        # 保存图片之后进行缩放处理
+        resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
+        db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
+        return 'success'
+    return 'error_file'
 
 
 @app.route('/admin/topic/page/<int:page_num>')
