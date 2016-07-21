@@ -13,7 +13,7 @@ def admin_index():
 
 @app.route('/admin/manage_admin')
 def admin_blank():
-    return render_template('admin/manage_admin.html.html')
+    return render_template('admin/manage_admin.html')
 
 
 @app.route('/admin/manage_user')
