@@ -106,6 +106,26 @@ class Topics(db.Model):
             return datas[start_index:]
         return datas
 
+    # 根据分页获取话题数据
+    def get_raw_topics_by_page(self, page_num, page_size):
+        total_count = Topics.query.count()
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        datas = []
+        if total_count > start_index:
+            for topic in Topics.query.all():
+                data = {
+                    'topic_id': topic.topic_id,
+                    'name': topic.topic_name,
+                    'introduction': topic.introduction,
+                    'url': topic.topic_url
+                }
+                datas.append(data)
+            if total_count > end_index:
+                return datas[start_index:end_index]
+            return datas[start_index:]
+        return datas
+
     # 获取所有的话题数目
     def get_topic_count(self):
         return Topics.query.count()
