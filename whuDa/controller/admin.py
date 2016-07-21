@@ -3,6 +3,7 @@ from whuDa import app
 from flask import render_template, request
 from whuDa.controller.utils import resize_pic, requires_auth
 import whuDa.model.topics as db_topics
+import whuDa.model.questions as db_questions
 import os
 
 
@@ -47,3 +48,20 @@ def admin_add_topic():
         resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
         db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
         return 'success'
+
+
+@app.route('/admin/questions')
+def admin_question():
+    temp_questions=db_questions.Questions().get_all_questions()
+    datas=[]
+    for quesion in temp_questions:
+        data={
+            'id':quesion.question_id,
+            'title':quesion.title,
+            'content':quesion.content
+        }
+        datas.append(data)
+    print 'quesions'
+    print datas
+    return render_template('admin/question.html',
+                           datas=datas)
