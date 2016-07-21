@@ -67,3 +67,8 @@ def admin_tables():
 @app.route('/admin/typography')
 def admin_typography():
     return render_template('admin/typography.html')
+
+
+@app.route('/admin/topic')
+def admin_topic():
+    return render_template('admin/topic.html')
