@@ -199,3 +199,11 @@ class Users(db.Model):
         old_row.view_count += 1
         db.session.commit()
 
+    # 获取所有管理员用户
+    def get_all_admin(self):
+        return db.session.query(Users).filter(Users.group_id == 0).all()
+
+    # 获取管理员的人数
+    def get_admin_count(self):
+        return db.session.query(Users).filter(Users.group_id == 0).count()
+

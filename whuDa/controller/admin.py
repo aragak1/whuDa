@@ -4,6 +4,7 @@ from flask import render_template, request
 from whuDa.controller.utils import resize_pic
 import whuDa.model.topics as db_topics
 import os
+from utils import page_html
 
 
 @app.route('/admin')
@@ -11,12 +12,17 @@ def admin_index():
     return render_template('admin/index.html')
 
 
-@app.route('/admin/manage_admin')
+@app.route('/admin/manage_admin/<int:page_num>')
 def admin_blank():
+    hot_users = db_users.Users().get_top5_users()
+    pagination = page_html(total_count=.db,
+                           page_size=15,
+                           current_page=1,
+                           url='discover/page')
     return render_template('admin/manage_admin.html')
 
 
-@app.route('/admin/manage_user')
+@app.route('/admin/manage_user/<int:page_num>')
 def admin_buttons():
     return render_template('admin/manage_user.html')
 
