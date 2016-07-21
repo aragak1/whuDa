@@ -27,7 +27,6 @@ def manage_admin(page_num):
 
 @app.route('/admin/manage_user/page/<int:page_num>')
 def manage_user(page_num):
-    print db_users.Users().get_general_user_by_page(page_num, 15)
     pagination = page_html(total_count=db_users.Users().get_general_user_count(),
                            page_size=15,
                            current_page=page_num,
