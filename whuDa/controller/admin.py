@@ -8,14 +8,14 @@ def admin_index():
     return render_template('admin/index.html')
 
 
-@app.route('/admin/blank')
+@app.route('/admin/manage_admin')
 def admin_blank():
-    return render_template('admin/blank.html')
+    return render_template('admin/manage_admin.html.html')
 
 
-@app.route('/admin/buttons')
+@app.route('/admin/manage_user')
 def admin_buttons():
-    return render_template('admin/buttons.html')
+    return render_template('admin/manage_user.html')
 
 
 @app.route('/admin/flot')
