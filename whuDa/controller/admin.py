@@ -6,7 +6,7 @@ import whuDa.model.topics as db_topics
 import whuDa.model.topic_question as db_topic_question
 import os
 import sys
-from utils import page_html
+from utils import page_html, check_mail, check_username, birthday_to_unix_time
 import whuDa.model.users as db_users
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -15,6 +15,12 @@ sys.setdefaultencoding('utf8')
 @app.route('/admin')
 def admin_index():
     return render_template('admin/index.html')
+
+
+@app.template_filter('timeformat')
+def timeformat_filter(t, format):
+    import time
+    return time.strftime(format, time.localtime(int(t)))
 
 
 @app.route('/admin/manage_admin/page/<int:page_num>')
@@ -30,27 +36,43 @@ def manage_admin(page_num):
 
 @app.route('/admin/manage_admin/add', methods=['POST'])
 def admin_add_admin():
-    upload_folder = 'whuDa/static/img/topic'
-    allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
-    name = request.form.get('name')
-    if not name:
-        return 'empty_name'
-    introduction = request.form.get('introduction')
-    avatar = request.files['topic_avatar']
-    if db_topics.Topics().is_exist_topic_name(name):
-        return 'exist_topic'
-    if avatar and '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
-        topic_id = db_topics.Topics().add_topic(name, introduction)
-        # 原图片名
-        filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
-        # 裁剪后的图片名
-        avatar_filename = name + '.' + avatar.filename.rsplit('.', 1)[1]
-        avatar.save(os.path.join(upload_folder, filename))
-        # 保存图片之后进行缩放处理
-        resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
-        db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
+    username = request.form.get('username')
+    password = request.form.get('password')
+    repeat_password = request.form.get('repeat_password')
+    sex = request.form.get('sex')
+    birthday_y = request.form.get('birthday_y')
+    birthday_m = request.form.get('birthday_m')
+    birthday_d = request.form.get('birthday_d')
+    department_id = request.form.get('department_id')
+    brief = request.form.get('brief')
+    email = request.form.get('email')
+    qq = request.form.get('qq')
+    phone = request.form.get('phone')
+    website = request.form.get('website')
+    if username == '':
+        return 'error1'
+    elif password == '':
+        return 'error2'
+    elif repeat_password == '':
+        return 'error3'
+    elif repeat_password != password:
+        return 'error4'
+    elif email == '':
+        return 'error5'
+    elif qq == '':
+        return 'error6'
+    elif phone == '':
+        return 'error7'
+    elif not check_username(username):
+        return 'error8'
+    elif not check_mail(email):
+        return 'error9'
+    else:
+        db_users.Users().add_user(username=username, password=password, sex=sex,
+                                  birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
+                                  department_id=department_id, introduction=brief,
+                                  email=email, qq=qq, phone=phone, website=website, group_id=0)
         return 'success'
-    return 'error_file'
 
 
 @app.route('/admin/manage_user/page/<int:page_num>')
@@ -66,27 +88,43 @@ def manage_user(page_num):
 
 @app.route('/admin/manage_user/add', methods=['POST'])
 def admin_add_user():
-    upload_folder = 'whuDa/static/img/topic'
-    allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
-    name = request.form.get('name')
-    if not name:
-        return 'empty_name'
-    introduction = request.form.get('introduction')
-    avatar = request.files['topic_avatar']
-    if db_topics.Topics().is_exist_topic_name(name):
-        return 'exist_topic'
-    if avatar and '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
-        topic_id = db_topics.Topics().add_topic(name, introduction)
-        # 原图片名
-        filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
-        # 裁剪后的图片名
-        avatar_filename = name + '.' + avatar.filename.rsplit('.', 1)[1]
-        avatar.save(os.path.join(upload_folder, filename))
-        # 保存图片之后进行缩放处理
-        resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
-        db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
+    username = request.form.get('username')
+    password = request.form.get('password')
+    repeat_password = request.form.get('repeat_password')
+    sex = request.form.get('sex')
+    birthday_y = request.form.get('birthday_y')
+    birthday_m = request.form.get('birthday_m')
+    birthday_d = request.form.get('birthday_d')
+    department_id = request.form.get('department_id')
+    brief = request.form.get('brief')
+    email = request.form.get('email')
+    qq = request.form.get('qq')
+    phone = request.form.get('phone')
+    website = request.form.get('website')
+    if username == '':
+        return 'error1'
+    elif password == '':
+        return 'error2'
+    elif repeat_password == '':
+        return 'error3'
+    elif repeat_password != password:
+        return 'error4'
+    elif email == '':
+        return 'error5'
+    elif qq == '':
+        return 'error6'
+    elif phone == '':
+        return 'error7'
+    elif not check_username(username):
+        return 'error8'
+    elif not check_mail(email):
+        return 'error9'
+    else:
+        db_users.Users().add_user(username=username, password=password, sex=sex,
+                                  birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
+                                  department_id=department_id, introduction=brief,
+                                  email=email, qq=qq, phone=phone, website=website, group_id=2)
         return 'success'
-    return 'error_file'
 
 
 @app.route('/admin/topic/page/<int:page_num>')
