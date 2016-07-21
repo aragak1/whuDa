@@ -112,29 +112,24 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td><img src="http://115.29.50.179/static/common/topic-mid-img.png" alt="" id="topic_pic" class="img-polaroid" name="topic_pic"></td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                        <td><button type="button" class="btn btn-outline btn-danger">删 除</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="http://115.29.50.179/static/common/topic-mid-img.png" alt="" id="topic_pic" class="img-polaroid" name="topic_pic"></td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                        <td><button type="button" class="btn btn-outline btn-danger">删 除</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="http://115.29.50.179/static/common/topic-mid-img.png" alt="" id="topic_pic" class="img-polaroid" name="topic_pic"></td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                        <td><button type="button" class="btn btn-outline btn-danger">删 除</button></td>
-                                    </tr>
+                                    {% for topic in topics %}
+                                        <tr>
+                                            <td><img src="/{{ topic.url }}" id="topic_pic" name="topic_pic"></td>
+                                            <td>{{ topic.name }}</td>
+                                            <td>{{ topic.introduction }}</td>
+                                            <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
+                                            <td><button type="button" class="btn btn-outline btn-danger" data-id="{{ topic.id }}" onclick=";">删 除</button></td>
+                                        </tr>
+                                    {% endfor %}
                                     </tbody>
                                 </table>
+                                <div class="page-control">
+                                    <ul class="pagination pull-right">
+                                        {% autoescape false %}
+                                        {{ pagination }}
+                                        {% endautoescape %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,5 +191,6 @@
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/admin/js/metisMenu.min.js"></script>
 <script src="/static/admin/js/sb-admin-2.js"></script>
+<script src="/static/admin/js/admin.js"></script>
 </body>
 </html>
