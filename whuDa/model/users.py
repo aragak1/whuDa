@@ -238,3 +238,10 @@ class Users(db.Model):
                 return general_users[start_index:end_index]
             return general_users[start_index:]
         return []
+
+    def add_user(self, username, password, sex, birthday, department_id, introduction, email, qq, phone, website, group_id):
+        user = Users(username=username, password=password, sex=sex, birthday=birthday, department_id=department_id,
+                     introduction=introduction, email=email, qq=qq, phone=phone, website=website, group_id=group_id)
+        db.session.add(user)
+        db.session.flush()
+        db.session.commit()
