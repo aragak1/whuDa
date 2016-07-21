@@ -5,8 +5,11 @@ from whuDa.controller.utils import resize_pic, requires_auth, page_html
 import whuDa.model.topics as db_topics
 import whuDa.model.topic_question as db_topic_question
 import os
+import sys
 from utils import page_html
 import whuDa.model.users as db_users
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 @app.route('/admin')
@@ -94,31 +97,36 @@ def admin_topic(page_num):
     return render_template('admin/topic.html', topics=topics, pagination=pagination)
 
 
+# form直接提交
 @app.route('/admin/topic/add', methods=['POST'])
 def admin_add_topic():
     upload_folder = 'whuDa/static/img/topic'
     allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
     name = request.form.get('name')
     if not name:
-        return 'empty_name'
+        return render_template('jump.html', title="添加失败", text='话题名不能为空', url='/admin/topic/page/1')
     introduction = request.form.get('introduction')
     avatar = request.files['topic_avatar']
     if db_topics.Topics().is_exist_topic_name(name):
-        return 'exist_topic'
-    if avatar and '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
-        topic_id = db_topics.Topics().add_topic(name, introduction)
-        # 原图片名
-        filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
-        # 裁剪后的图片名
-        avatar_filename = name + '.' + avatar.filename.rsplit('.', 1)[1]
-        avatar.save(os.path.join(upload_folder, filename))
-        # 保存图片之后进行缩放处理
-        resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
-        db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
-        return 'success'
-    return 'error_file'
+        return render_template('jump.html', title="添加失败", text='话题已经存在', url='/admin/topic/page/1')
+    if avatar:
+        if '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
+            topic_id = db_topics.Topics().add_topic(name, introduction)
+            # 原图片名
+            filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
+            # 裁剪后的图片名
+            avatar_filename = name + '.' + avatar.filename.rsplit('.', 1)[1]
+            avatar.save(os.path.join(upload_folder, filename))
+            # 保存图片之后进行缩放处理
+            resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
+            db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
+            return 'success'
+        else:
+            pass
+        return render_template('jump.html', title="添加失败", text='话题已经存在', url='/admin/topic/page/1')
 
 
+# form直接提交
 @app.route('/admin/topic/update', methods=['POST'])
 def admin_update_topic():
     upload_folder = 'whuDa/static/img/topic'
@@ -126,9 +134,10 @@ def admin_update_topic():
     name = request.form.get('name')
     topic_id = request.form.get('topic_id')
     if not name:
-        return 'empty_name'
-    if not db_topics.Topics().is_exist_topic_name(name):
-        return 'not_exist'
+        return render_template('jump.html',
+                               title='修改失败',
+                               text='话题名不能为空',
+                               url='/admin/topic/' + topic_id)
     introduction = request.form.get('introduction')
     avatar = request.files['topic_avatar']
 
@@ -147,10 +156,17 @@ def admin_update_topic():
             resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
             db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
         else:
-            return 'error_file'
-    return 'success'
+            return render_template('jump.html',
+                                   title='修改失败',
+                                   text='不支持的文件名',
+                                   url='/admin/topic/' + topic_id)
+    return render_template('jump.html',
+                           title='修改成功',
+                           text='话题修改成功',
+                           url='/admin/topic/page/1')
 
 
+# js提交
 @app.route('/admin/topic/delete', methods=['POST'])
 def admin_delete_topic():
     topic_id = request.form.get('topic_id')
