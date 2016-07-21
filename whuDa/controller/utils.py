@@ -1,9 +1,10 @@
 # _*_ coding:utf8 _*_
-from flask import session
+from flask import session, redirect
 from re import match
 from time import time, strftime, localtime, strptime, mktime
 from math import ceil
 from PIL import Image
+from functools import wraps
 import whuDa.model.questions as db_questions
 import whuDa.model.users as db_users
 import whuDa.model.question_focus as db_question_focus
@@ -475,3 +476,13 @@ def get_all_focus_data(uname):
         all_focus.append(focus_questions)
     datas = {'all_focus': all_focus}
     return datas
+
+
+def requires_auth(f):
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        if 'admin' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect('/')
+    return wrapped

@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template, request
-from whuDa.controller.utils import resize_pic
+from whuDa.controller.utils import resize_pic, requires_auth
 import whuDa.model.topics as db_topics
 import os
 from utils import page_html
@@ -27,8 +27,9 @@ def admin_buttons():
     return render_template('admin/manage_user.html')
 
 
+@requires_auth
 @app.route('/admin/topic/page/<int:page_num>')
-def admin_topic():
+def admin_topic(page_num):
     return render_template('admin/topic.html')
 
 
