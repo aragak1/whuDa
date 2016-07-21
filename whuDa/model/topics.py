@@ -211,3 +211,15 @@ class Topics(db.Model):
         user = Topics.query.filter_by(topic_id=topic_id)
         user.update({'topic_url': topic_url})
         db.session.commit()
+
+    # 判断topic_is是否存在
+    def is_exist_topic_id(self, topic_id):
+        if Topics.query.filter_by(topic_id=topic_id).count():
+            return True
+        return False
+
+    # 删除话题
+    def delete_topic(self, topic_id):
+        topic = Topics.query.filter_by(topic_id=topic_id)
+        db.session.delete(topic)
+        db.session.commit()
