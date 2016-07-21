@@ -209,8 +209,8 @@ class Topics(db.Model):
 
     # 更新话题的url
     def update_topic_url(self, topic_id, topic_url):
-        user = Topics.query.filter_by(topic_id=topic_id)
-        user.update({'topic_url': topic_url})
+        topic = Topics.query.filter_by(topic_id=topic_id)
+        topic.update({'topic_url': topic_url})
         db.session.commit()
 
     # 判断topic_is是否存在
@@ -221,6 +221,11 @@ class Topics(db.Model):
 
     # 删除话题
     def delete_topic(self, topic_id):
-        topic = Topics.query.filter_by(topic_id=topic_id)
+        topic = Topics.query.filter_by(topic_id=topic_id).first()
         db.session.delete(topic)
+        db.session.commit()
+
+    def updat_topic(self, topic_id, name, introduction):
+        topic = Topics.query.filter_by(topic_id=topic_id)
+        topic.update({'name': name, 'introducation': introduction})
         db.session.commit()

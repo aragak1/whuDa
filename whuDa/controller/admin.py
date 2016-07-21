@@ -49,6 +49,8 @@ def admin_add_topic():
     upload_folder = 'whuDa/static/img/topic'
     allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
     name = request.form.get('name')
+    if not name:
+        return 'empty_name'
     introduction = request.form.get('introduction')
     avatar = request.files['topic_avatar']
     if db_topics.Topics().is_exist_topic_name(name):
@@ -64,14 +66,53 @@ def admin_add_topic():
         resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
         db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
         return 'success'
+    return 'error_file'
+
+
+@app.route('/admin/topic/update', methods=['POST'])
+def admin_update_topic():
+    upload_folder = 'whuDa/static/img/topic'
+    allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
+    name = request.form.get('name')
+    topic_id = request.form.get('topic_id')
+    if not name:
+        return 'empty_name'
+    if not db_topics.Topics().is_exist_topic_name(name):
+        return 'not_exist'
+    introduction = request.form.get('introduction')
+    avatar = request.files['topic_avatar']
+
+    # 修改话题名字和介绍
+    db_topics.Topics().updat_topic(topic_id, name, introduction)
+
+    # 上传了图片
+    if avatar:
+        if '.' in avatar.filename and avatar.filename.rsplit('.', 1)[1] in allowed_extensions:
+            # 原图片名
+            filename = name + '-max.' + avatar.filename.rsplit('.', 1)[1]
+            # 裁剪后的图片名
+            avatar_filename = name + '.' + avatar.filename.rsplit('.', 1)[1]
+            avatar.save(os.path.join(upload_folder, filename))
+            # 保存图片之后进行缩放处理
+            resize_pic(os.path.join(upload_folder, filename), os.path.join(upload_folder, avatar_filename), 50, 50)
+            db_topics.Topics().update_topic_url(topic_id=topic_id, topic_url='static/img/topic/' + avatar_filename)
+        else:
+            return 'error_file'
+    return 'success'
 
 
 @app.route('/admin/topic/delete', methods=['POST'])
 def admin_delete_topic():
-    topic_id = request.form.get('id')
+    topic_id = request.form.get('topic_id')
     if db_topic_question.Topic_question().get_question_count(topic_id=topic_id):
         return 'not_null'
     if db_topics.Topics().is_exist_topic_id(topic_id):
         db_topics.Topics().delete_topic(topic_id)
         return 'success'
     return 'error'
+
+
+@app.route('/admin/topic/<int:topic_id>')
+def admin_topic_detail(topic_id):
+    topic = db_topics.Topics().get_topic_by_id(topic_id)
+    return render_template('admin/update_topic.html', topic=topic)
