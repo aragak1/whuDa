@@ -219,3 +219,22 @@ class Users(db.Model):
             return admins[start_index:]
         return []
 
+    # 获取普通用户人数
+    def get_general_user_count(self):
+        return db.session.query(Users).filter(Users.group_id == 2).count()
+
+    # 获取普通用户
+    def get_all_general_user(self):
+        return db.session.query(Users).filter(Users.group_id == 2).all()
+
+    # 按照分页获取所有普通用户
+    def get_general_user_by_page(self, page_num, page_size):
+        general_users = self.get_all_general_user()
+        total_count = len(general_users)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return general_users[start_index:end_index]
+            return general_users[start_index:]
+        return []

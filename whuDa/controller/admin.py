@@ -18,15 +18,22 @@ def manage_admin(page_num):
     pagination = page_html(total_count=db_users.Users().get_admin_count(),
                            page_size=15,
                            current_page=page_num,
-                           url='/admin/manage_admin/page')
-    return render_template('admin/manage_admin.html',
+                           url='admin/manage_admin/page')
+    return render_template('/admin/manage_admin.html',
                            admin_datas=db_users.Users().get_admins_by_page(page_num, 15),
                            pagination=pagination)
 
 
-@app.route('/admin/manage_user/<int:page_num>')
-def admin_buttons():
-    return render_template('admin/manage_user.html')
+@app.route('/admin/manage_user/page/<int:page_num>')
+def manage_user(page_num):
+    print db_users.Users().get_general_user_by_page(page_num, 15)
+    pagination = page_html(total_count=db_users.Users().get_general_user_count(),
+                           page_size=15,
+                           current_page=page_num,
+                           url='admin/manage_user/page')
+    return render_template('/admin/manage_user.html',
+                           user_datas=db_users.Users().get_general_user_by_page(page_num, 15),
+                           pagination=pagination)
 
 
 @app.route('/admin/topic/page/<int:page_num>')
