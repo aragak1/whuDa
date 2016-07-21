@@ -207,3 +207,15 @@ class Users(db.Model):
     def get_admin_count(self):
         return db.session.query(Users).filter(Users.group_id == 0).count()
 
+    # 按照分页获取所有管理员用户
+    def get_admins_by_page(self, page_num, page_size):
+        admins = self.get_all_admin()
+        total_count = len(admins)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return admins[start_index:end_index]
+            return admins[start_index:]
+        return []
+
