@@ -118,7 +118,8 @@ class Topics(db.Model):
                     'topic_id': topic.topic_id,
                     'name': topic.name,
                     'introduction': topic.introducation,
-                    'url': topic.topic_url
+                    'url': topic.topic_url,
+                    'question_count': db_topic_question.Topic_question().get_question_count(topic.topic_id)
                 }
                 datas.append(data)
             if total_count > end_index:

@@ -105,6 +105,7 @@
                                     <thead>
                                     <tr>
                                         <th>缩略图</th>
+                                        <th>问题数</th>
                                         <th>话题名</th>
                                         <th>话题介绍</th>
                                         <th>编辑</th>
@@ -115,7 +116,8 @@
                                     {% for topic in topics %}
                                         <tr>
                                             <td><img src="/{{ topic.url }}" id="topic_pic" name="topic_pic"></td>
-                                            <td>{{ topic.name }}</td>
+                                            <td style="width: 67px;">{{ topic.question_count }}</td>
+                                            <td style="width: 67px;">{{ topic.name }}</td>
                                             <td>{{ topic.introduction }}</td>
                                             <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
                                             <td><button type="button" class="btn btn-outline btn-danger" data-id="{{ topic.topic_id }}" onclick="deleteTopic(this)">删 除</button></td>
