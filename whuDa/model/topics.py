@@ -116,7 +116,9 @@ class Topics(db.Model):
 
     # 测试一个number是否为topic_id
     def is_topic_id(self, number):
-        return Topics.query.filter_by(topic_id=number).first()
+        if Topics.query.filter_by(topic_id=number).count():
+            return True
+        return False
 
     # 根据id获取话题
     def get_topic_by_id(self, topic_id):
@@ -168,3 +170,24 @@ class Topics(db.Model):
                 }
                 topics.append(data)
         return topics
+
+    # 添加一个新话题
+    def add_topic(self, name, introduction):
+        topic = Topics(name=name, introducation=introduction)
+        db.session.add(topic)
+        db.session.flush()
+        topic_id = topic.topic_id
+        db.session.commit()
+        return topic_id
+
+    # 判断话题名是否已经在数据库中
+    def is_exist_topic_name(self, name):
+        if Topics.query.filter_by(name=name).count():
+            return True
+        return False
+
+    # 更新话题的url
+    def update_topic_url(self, topic_id, topic_url):
+        user = Topics.query.filter_by(topic_id=topic_id)
+        user.update({'topic_url': topic_url})
+        db.session.commit()
