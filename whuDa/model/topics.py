@@ -116,8 +116,8 @@ class Topics(db.Model):
             for topic in Topics.query.all():
                 data = {
                     'topic_id': topic.topic_id,
-                    'name': topic.topic_name,
-                    'introduction': topic.introduction,
+                    'name': topic.name,
+                    'introduction': topic.introducation,
                     'url': topic.topic_url
                 }
                 datas.append(data)
