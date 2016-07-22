@@ -1,11 +1,11 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
-from flask import render_template, request
+from flask import render_template, request,redirect
 from whuDa.controller.utils import resize_pic, requires_auth, page_html
 import whuDa.model.topics as db_topics
+import whuDa.model.questions as db_questions
 import whuDa.model.topic_question as db_topic_question
-import os
-import sys
+import os,sys,json
 from utils import page_html, check_mail, check_username, birthday_to_unix_time
 import whuDa.model.users as db_users
 reload(sys)
@@ -185,7 +185,54 @@ def admin_delete_topic():
     if db_topics.Topics().is_exist_topic_id(topic_id):
         db_topics.Topics().delete_topic(topic_id)
         return 'success'
-    return 'error'
+
+
+@app.route('/admin/questions',methods=['POST','GET'])
+def admin_question():
+    temp_questions=db_questions.Questions().get_all_questions()
+    datas=[]
+    count=0
+    page_num=0
+    for quesion in temp_questions:
+        data={
+            'id':quesion.question_id,
+            'title':quesion.title,
+            'content':quesion.content
+        }
+        count+=1
+        datas.append(data)
+    if request.method=='GET':
+        datas=datas[:5]
+        page_num=int((count+4)/5)
+        return render_template('admin/question.html',
+                                datas=datas,
+                                count=count,
+                                page_num=page_num)
+    elif request.method=='POST':
+        page=int(request.form.get('page'))
+        print page
+        datas=datas[(page-1)*5:page*5]
+        return json.dumps(datas, ensure_ascii=False)
+
+
+
+@app.route('/admin/updateQuestion/<int:question_id>',methods=['POST','GET'])
+def admin_update_question(question_id):
+    temp_question=db_questions.Questions().get_question_by_id(question_id)
+    if request.method=='GET':
+        data={
+            'title':temp_question.title,
+            'content':temp_question.content
+        }
+        print data
+        return render_template('admin/update_question.html',
+                                data=data)
+    else :
+        title = request.form.get('title')
+        content = request.form.get('content')
+        db_questions.Questions.query.filter_by(question_id=question_id).update({'title':title,'content':content})
+        return redirect('/')
+
 
 
 @app.route('/admin/topic/<int:topic_id>')

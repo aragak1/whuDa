@@ -1,5 +1,5 @@
 # _*_ coding:utf8 _*_
-from whuDa import app
+from whuDa import app,db
 from flask import request, redirect, render_template, session
 from utils import is_login
 import whuDa.model.questions as db_questions
@@ -196,3 +196,13 @@ def add_question_focus():
         db_question_focus.Question_focus().add_focus_question(user.uid, question_id=question_id, cnt=0)
         return 'success'
     return 'error'
+
+
+@app.route('/question/delete_question',methods=['POST'])
+def delete_question():
+    question_id=request.form.get('question_id')
+    print question_id
+    db.session.delete(db_questions.Questions.query.filter(db_questions.Questions.question_id == question_id).first())
+    db.session.delete(db_topic_questions.Topic_question.query.filter(db_topic_questions.Topic_question.question_id==question_id).first())
+    db.session.commit()
+    return 'success'
