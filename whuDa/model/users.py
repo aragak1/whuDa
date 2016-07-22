@@ -240,7 +240,7 @@ class Users(db.Model):
         return []
 
     def add_user(self, username, password, sex, birthday, department_id, introduction, email, qq, phone, website, group_id):
-        user = Users(username=username, password=password, sex=sex, birthday=birthday, department_id=department_id,
+        user = Users(username=username, password=md5(password + salt).hexdigest(), sex=sex, birthday=birthday, department_id=department_id,
                      introduction=introduction, email=email, qq=qq, phone=phone, website=website, group_id=group_id)
         db.session.add(user)
         db.session.flush()
@@ -251,3 +251,49 @@ class Users(db.Model):
         if Users.query.filter_by(email=email).count():
             return True
         return False
+
+    # 用户名是否被他人使用
+    def is_username_used_by_other(self, uid, username):
+        if db.session.query(Users).filter(Users.uid != uid).filter(Users.username == username).count():
+            return True
+        return False
+
+    # 邮箱是否被他人使用
+    def is_email_used_by_other(self, uid, email):
+        if db.session.query(Users).filter(Users.uid != uid).filter(Users.email == email).count():
+            return True
+        return False
+
+    # 更新用户信息
+    def update_user(self, uid, username, sex, birthday, department_id, introduction, email, qq, phone, website):
+        old_row = Users.query.filter(Users.uid == uid).first()
+        old_row.username = username
+        old_row.sex = sex
+        old_row.birthday = birthday
+        old_row.department_id = department_id
+        old_row.introduction = introduction
+        old_row.email = email
+        old_row.qq = qq
+        old_row.phone = phone
+        old_row.website = website
+        db.session.commit()
+
+    # 删除用户
+    def delete_user(self, uid):
+        user = Users.query.filter_by(uid=uid).first()
+        db.session.delete(user)
+        db.session.commit()
+
+    # 检查设置密码时新的密码跟旧的密码一不一样
+    def check_pwd(self, uid, old_pwd):
+        user = db.session.query(Users).filter(Users.uid == uid).first()
+        if md5(old_pwd + salt).hexdigest() == user.password:
+            return True
+        else:
+            return False
+
+    # 更新密码
+    def update_pwd(self, uid, new_pwd):
+        old_row = Users.query.filter(Users.uid == uid).first()
+        old_row.password = md5(new_pwd + salt).hexdigest()
+        db.session.commit()

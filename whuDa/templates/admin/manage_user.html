@@ -128,9 +128,9 @@
                                             <td></td>
                                             {% endif %}
                                             <td>{{ user_data.last_ip }}</td>
-                                            <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                            <td><p><button type="button" class="btn btn-outline btn-primary">修改密码</button></p></td>
-                                            <td><p><button type="button" class="btn btn-outline btn-danger">删 除</button></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/manage_user/{{ user_data.uid }}">修 改</a></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/update_password_page/2/{{ user_data.uid }}">修改密码</a></p></td>
+                                            <td><p><button type="button" class="btn btn-outline btn-danger" data-uid="{{ user_data.uid }}" onclick="deleteUser(this)">删 除</button></p></td>
                                         </tr>
                                         {% endfor %}
                                         </tbody>
