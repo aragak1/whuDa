@@ -260,3 +260,43 @@ function deleteUser(obj) {
         location.reload()
     }
 }
+
+function update_password() {
+    var old_pwd = $('#old_pwd').val()
+    var new_pwd = $('#new_pwd').val()
+    var repeat_new_pwd = $('#repeat_new_pwd').val()
+    if (old_pwd == '') {
+        alert('原密码不能为空')
+        return
+    }
+    if (new_pwd == '') {
+        alert('新密码不能为空')
+        return
+    }
+    if (repeat_new_pwd == '') {
+        alert('请再次输入新密码')
+        return
+    }
+    if (new_pwd != repeat_new_pwd) {
+        alert('两次输入的新密码不一致，请检查')
+        return
+    }
+    $.post('/admin/update_password', {
+        'uid':uid,
+        'old_pwd':old_pwd,
+        'new_pwd':new_pwd,
+        'repeat_new_pwd':repeat_new_pwd
+        }, function (result) {
+            if (result == 'success') {
+                alert('修改密码成功！');
+                if (flag == 1) {
+                    location.href = '/admin/manage_admin/page/1'
+                } else {
+                    location.href = '/admin/manage_user/page/1'
+                }
+            } 
+            else {
+                alert('原密码不正确，请重试');
+            }
+        })
+}

@@ -240,7 +240,7 @@ class Users(db.Model):
         return []
 
     def add_user(self, username, password, sex, birthday, department_id, introduction, email, qq, phone, website, group_id):
-        user = Users(username=username, password=password, sex=sex, birthday=birthday, department_id=department_id,
+        user = Users(username=username, password=md5(password + salt).hexdigest(), sex=sex, birthday=birthday, department_id=department_id,
                      introduction=introduction, email=email, qq=qq, phone=phone, website=website, group_id=group_id)
         db.session.add(user)
         db.session.flush()
@@ -282,4 +282,18 @@ class Users(db.Model):
     def delete_user(self, uid):
         user = Users.query.filter_by(uid=uid).first()
         db.session.delete(user)
+        db.session.commit()
+
+    # 检查设置密码时新的密码跟旧的密码一不一样
+    def check_pwd(self, uid, old_pwd):
+        user = db.session.query(Users).filter(Users.uid == uid).first()
+        if md5(old_pwd + salt).hexdigest() == user.password:
+            return True
+        else:
+            return False
+
+    # 更新密码
+    def update_pwd(self, uid, new_pwd):
+        old_row = Users.query.filter(Users.uid == uid).first()
+        old_row.password = md5(new_pwd + salt).hexdigest()
         db.session.commit()

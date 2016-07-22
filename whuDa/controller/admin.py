@@ -287,3 +287,21 @@ def admin_delete_user():
     uid = request.form.get('uid')
     db_users.Users().delete_user(uid)
     return 'success'
+
+
+@app.route('/admin/update_password_page/<int:flag>/<int:uid>')
+def admin_update_password(flag, uid):
+    return render_template('admin/update_password.html', flag=flag, uid=uid)
+
+
+@app.route('/admin/update_password', methods=['POST'])
+def update_pwd():
+    uid = request.form.get('uid')
+    old_pwd = request.form.get('old_pwd')
+    new_pwd = request.form.get('new_pwd')
+    print db_users.Users().check_pwd(uid, old_pwd)
+    if not db_users.Users().check_pwd(uid, old_pwd):
+        return 'error'
+    else:
+        db_users.Users().update_pwd(uid, new_pwd)
+        return 'success'

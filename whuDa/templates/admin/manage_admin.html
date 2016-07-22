@@ -129,7 +129,7 @@
                                             {% endif %}
                                             <td>{{ admin_data.last_ip }}</td>
                                             <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/manage_admin/{{ admin_data.uid }}">修 改</a></p></td>
-                                            <td><p><a type="button" class="btn btn-outline btn-primary">修改密码</a></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/update_password_page/1/{{ admin_data.uid }}">修改密码</a></p></td>
                                             <td><p><button type="button" class="btn btn-outline btn-danger" data-uid="{{ admin_data.uid }}" onclick="deleteUser(this)">删 除</button></p></td>
                                         </tr>
                                         {% endfor %}
