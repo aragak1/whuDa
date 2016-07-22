@@ -85,7 +85,7 @@
             </div>
         </div>
     </nav>
-
+    <!-- 正文 -->
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -116,7 +116,7 @@
                                     <tr>
                                         <td>{{ data.id }}</td>
                                         <td>{{ data.title }}</td>
-                                        <td>{{ data.contnt }}</td>
+                                        <td>{{ data.content }}</td>
                                         <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
                                         <td><button type="button" class="btn btn-outline btn-danger" onclick="delete_question($(this),{{ data.id }})">删 除</button></td>
                                     </tr>
@@ -128,9 +128,25 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
+                        共有{{ count }}个问题
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dataTables_paginate paging_simple_numbers" aria-controls="dataTables-example"id="dataTables-example_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button previous disabled"tabindex="0" id="dataTables-example_next"><a onclick="get_page($(this))">上一页</a></li>
+                            <li class="paginate_button active"><a onclick="get_page($(this))">1</a></li>
+                            <li class="paginate_button"><a onclick="get_page($(this))">2</a></li>
+                            <li class="paginate_button next "  ><a onclick="get_page($(this))">下一页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
 
 <script src="/static/js/jquery.2.js"></script>

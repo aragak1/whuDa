@@ -203,5 +203,6 @@ def delete_question():
     question_id=request.form.get('question_id')
     print question_id
     db.session.delete(db_questions.Questions.query.filter(db_questions.Questions.question_id == question_id).first())
+    db.session.delete(db_topic_questions.Topic_question.query.filter(db_topic_questions.Topic_question.question_id==question_id).first())
     db.session.commit()
     return 'success'

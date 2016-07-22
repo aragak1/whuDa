@@ -116,9 +116,10 @@ class Topics(db.Model):
             for topic in Topics.query.all():
                 data = {
                     'topic_id': topic.topic_id,
-                    'name': topic.topic_name,
-                    'introduction': topic.introduction,
-                    'url': topic.topic_url
+                    'name': topic.name,
+                    'introduction': topic.introducation,
+                    'url': topic.topic_url,
+                    'question_count': db_topic_question.Topic_question().get_question_count(topic.topic_id)
                 }
                 datas.append(data)
             if total_count > end_index:
@@ -208,6 +209,23 @@ class Topics(db.Model):
 
     # 更新话题的url
     def update_topic_url(self, topic_id, topic_url):
-        user = Topics.query.filter_by(topic_id=topic_id)
-        user.update({'topic_url': topic_url})
+        topic = Topics.query.filter_by(topic_id=topic_id)
+        topic.update({'topic_url': topic_url})
+        db.session.commit()
+
+    # 判断topic_is是否存在
+    def is_exist_topic_id(self, topic_id):
+        if Topics.query.filter_by(topic_id=topic_id).count():
+            return True
+        return False
+
+    # 删除话题
+    def delete_topic(self, topic_id):
+        topic = Topics.query.filter_by(topic_id=topic_id).first()
+        db.session.delete(topic)
+        db.session.commit()
+
+    def update_topic(self, topic_id, name, introduction):
+        topic = Topics.query.filter_by(topic_id=topic_id)
+        topic.update({'name': name, 'introducation': introduction})
         db.session.commit()

@@ -94,6 +94,7 @@ class Questions(db.Model):
 
     # 判断问题提是否其是七天内新增的
     def is_published_in_this_week(self, question_id):
+        print question_id
         publish_time = Questions.query.filter_by(question_id=question_id).first().publish_time
         if time() - publish_time <= 604800:
             return True

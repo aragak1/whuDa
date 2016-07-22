@@ -34,8 +34,8 @@ class Topic_question(db.Model):
     # 一个话题下一周内发布的问题数
     def get_last_week_question_count(self, topic_id):
         count = 0
-        for question in Topic_question.query.filter_by(topic_id=topic_id).all():
-            if db_questions.Questions().is_published_in_this_week(question.question_id):
+        for tp_question in Topic_question.query.filter_by(topic_id=topic_id).all():
+            if db_questions.Questions().is_published_in_this_week(tp_question.question_id):
                 count += 1
         return count
 
