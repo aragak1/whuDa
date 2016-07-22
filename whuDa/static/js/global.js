@@ -101,7 +101,7 @@ function register() {
                 swal({
                         title:'注册失败',
                         text:'用户名不能为空',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     })
@@ -110,7 +110,7 @@ function register() {
                 swal({
                         title:'注册失败',
                         text:'邮箱不能为空',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     })
@@ -119,7 +119,7 @@ function register() {
                 swal({
                         title:'注册失败',
                         text:'密码不能为空',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     })
@@ -128,7 +128,7 @@ function register() {
                 swal({
                         title:'注册失败',
                         text:'请再次确认密码',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     })
@@ -137,18 +137,18 @@ function register() {
                 swal({
                         title:'注册失败',
                         text:'两次输入的密码不一致！',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     }, function () {
-                    location.reload()
+                    location.href = '/register'
                 })
             }
             else if (result == 'error6') {
                 swal({
                         title:'注册失败',
                         text:'用户名必须以字母开头',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     })
@@ -157,7 +157,7 @@ function register() {
                 swal({
                         title:'注册失败',
                         text:'邮箱名非法，请正确填写',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     })
@@ -166,11 +166,11 @@ function register() {
                 swal({
                         title:'注册失败',
                         text:'用户名或者邮箱已存在，请重新输入！',
-                        type:'warning',
+                        type:'error',
                         confirmButtonText:'确定',
                         confirmButtonColor:'#499ef3'
                     }, function () {
-                    location.reload()
+                    location.href = '/register'
                 })
             }
             else {
@@ -225,7 +225,7 @@ function login() {
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
                 }, function () {
-                    location.reload()
+                    location.href = '/login'
                 })
             }
         }
