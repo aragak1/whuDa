@@ -245,3 +245,9 @@ class Users(db.Model):
         db.session.add(user)
         db.session.flush()
         db.session.commit()
+
+    # 判断邮箱是否存在
+    def is_exist_email(self, email):
+        if Users.query.filter_by(email=email).count():
+            return True
+        return False

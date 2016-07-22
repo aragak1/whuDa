@@ -49,30 +49,15 @@ def admin_add_admin():
     qq = request.form.get('qq')
     phone = request.form.get('phone')
     website = request.form.get('website')
-    if username == '':
-        return 'error1'
-    elif password == '':
-        return 'error2'
-    elif repeat_password == '':
-        return 'error3'
-    elif repeat_password != password:
-        return 'error4'
-    elif email == '':
-        return 'error5'
-    elif qq == '':
-        return 'error6'
-    elif phone == '':
-        return 'error7'
-    elif not check_username(username):
-        return 'error8'
-    elif not check_mail(email):
-        return 'error9'
-    else:
-        db_users.Users().add_user(username=username, password=password, sex=sex,
-                                  birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
-                                  department_id=department_id, introduction=brief,
-                                  email=email, qq=qq, phone=phone, website=website, group_id=0)
-        return 'success'
+    if db_users.Users().is_exist_username(username):
+        return render_template('jump.html', title="添加失败", text='该用户名已存在', url='/admin/manage_admin/page/1')
+    if db_users.Users().is_exist_email(email):
+        return render_template('jump.html', title="添加失败", text='邮箱已被使用', url='/admin/manage_admin/page/1')
+    db_users.Users().add_user(username=username, password=password, sex=sex,
+                              birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
+                              department_id=department_id, introduction=brief,
+                              email=email, qq=qq, phone=phone, website=website, group_id=0)
+    return render_template('jump.html', title="添加成功", text='普通用户添加成功', url='/admin/manage_admin/page/1')
 
 
 @app.route('/admin/manage_user/page/<int:page_num>')
@@ -101,30 +86,15 @@ def admin_add_user():
     qq = request.form.get('qq')
     phone = request.form.get('phone')
     website = request.form.get('website')
-    if username == '':
-        return 'error1'
-    elif password == '':
-        return 'error2'
-    elif repeat_password == '':
-        return 'error3'
-    elif repeat_password != password:
-        return 'error4'
-    elif email == '':
-        return 'error5'
-    elif qq == '':
-        return 'error6'
-    elif phone == '':
-        return 'error7'
-    elif not check_username(username):
-        return 'error8'
-    elif not check_mail(email):
-        return 'error9'
-    else:
-        db_users.Users().add_user(username=username, password=password, sex=sex,
-                                  birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
-                                  department_id=department_id, introduction=brief,
-                                  email=email, qq=qq, phone=phone, website=website, group_id=2)
-        return 'success'
+    if db_users.Users().is_exist_username(username):
+        return render_template('jump.html', title="添加失败", text='该用户名已存在', url='/admin/manage_user/page/1')
+    if db_users.Users().is_exist_email(email):
+        return render_template('jump.html', title="添加失败", text='邮箱已被使用', url='/admin/manage_user/page/1')
+    db_users.Users().add_user(username=username, password=password, sex=sex,
+                              birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
+                              department_id=department_id, introduction=brief,
+                              email=email, qq=qq, phone=phone, website=website, group_id=2)
+    return render_template('jump.html', title="添加成功", text='普通用户添加成功', url='/admin/manage_user/page/1')
 
 
 @app.route('/admin/topic/page/<int:page_num>')
