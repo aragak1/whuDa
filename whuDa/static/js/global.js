@@ -199,7 +199,7 @@ function login() {
                 swal({
                     title:'登陆失败',
                     text:'用户名不能为空',
-                    type:'warning',
+                    type:'error',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
                 });
@@ -209,7 +209,7 @@ function login() {
                 swal({
                     title:'登陆失败',
                     text:'密码不能为空',
-                    type:'warning',
+                    type:'error',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
                 });
