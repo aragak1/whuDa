@@ -1,6 +1,6 @@
 function deleteTopic(obj) {
-    var r = confirm("确定要删除这个话题吗？请谨慎操作!");
-    if (r == true) {
+    var sure = confirm("确定要删除这个话题吗？请谨慎操作!");
+    if (sure == true) {
         var topic_id = obj.getAttribute('data-topicId')
         $.post('/admin/topic/delete', {
             'topic_id':topic_id
