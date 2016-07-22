@@ -19,6 +19,28 @@ function deleteTopic(obj) {
     }
 }
 
+function checkmail(email) {
+    var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    if(!myreg.test(email))
+    {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function checkusername(username) {
+    var myregg = /^[a-zA-Z][a-zA-Z0-9]*$/;
+    if(!myreg.test(username))
+    {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
 function add_admin() {
     var username = $('#username').val()
     var password = $('#password').val()
@@ -78,8 +100,7 @@ function add_admin() {
                 alert('邮箱名非法，请检查')
             }
             else {
-                alert('注册成功！')
-                location.href = '/admin/manage_admin/page/1'
+
             }
         }
     )
@@ -142,10 +163,6 @@ function add_general_user() {
             }
             else if (result == 'error9') {
                 alert('邮箱名非法，请检查')
-            }
-            else {
-                alert('注册成功！')
-                location.href = '/admin/manage_user/page/1'
             }
         }
     )
