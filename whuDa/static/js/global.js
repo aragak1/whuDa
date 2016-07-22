@@ -129,7 +129,12 @@ function login() {
         },function (result) {
             if (result == 'error1')
             {
-                alert('用户名不能为空')
+                swal({
+                    title:'登陆失败',
+                    text:'用户名不能为空',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
             }
             else if (result == 'error2')
             {
