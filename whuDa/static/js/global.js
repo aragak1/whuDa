@@ -53,12 +53,23 @@ $(document).ready(function () {
 
             success:function(data){
                 if (data='success'){
-                    alert('上传成功！');
-                    location.reload();
+                    swal({
+                        title:'上传成功',
+                        type:'success',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    }, function () {
+                        location.reload()
+                    })
                 }
             },
             error:function(data){
-                alert('上传失败！');
+                swal({
+                        title:'上传失败',
+                        type:'error',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    })
             }
         });
     }));
@@ -87,34 +98,90 @@ function register() {
             email:email
         },function (result) {
             if (result == 'error1') {
-                alert('用户名不能为空')
+                swal({
+                        title:'注册失败',
+                        text:'用户名不能为空',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    })
             }
             else if (result == 'error2') {
-                alert('邮箱不能为空')
+                swal({
+                        title:'注册失败',
+                        text:'邮箱不能为空',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    })
             }
             else if (result == 'error3') {
-                alert('密码不能为空')
+                swal({
+                        title:'注册失败',
+                        text:'密码不能为空',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    })
             }
             else if (result == 'error4') {
-                alert('请再次确认密码')
+                swal({
+                        title:'注册失败',
+                        text:'请再次确认密码',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    })
             }
             else if (result == 'error5') {
-                alert('两次输入的密码不一致！')
-                location.reload()
+                swal({
+                        title:'注册失败',
+                        text:'两次输入的密码不一致！',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    }, function () {
+                    location.reload()
+                })
             }
             else if (result == 'error6') {
-                alert('用户名必须以字母开头')
+                swal({
+                        title:'注册失败',
+                        text:'用户名必须以字母开头',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    })
             }
             else if (result == 'error7') {
-                alert('邮箱名非法，请正确填写')
+                swal({
+                        title:'注册失败',
+                        text:'邮箱名非法，请正确填写',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    })
             }
             else if (result == 'error8') {
-                alert('用户名或者邮箱已存在，请重新输入！')
-                location.reload()
+                swal({
+                        title:'注册失败',
+                        text:'用户名或者邮箱已存在，请重新输入！',
+                        type:'warning',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    }, function () {
+                    location.reload()
+                })
             }
             else {
-                alert('注册成功！')
-                location.href = '/'
+                swal({
+                        title:'注册成功',
+                        type:'success',
+                        confirmButtonText:'确定',
+                        confirmButtonColor:'#499ef3'
+                    }, function () {
+                    location.href = '/'
+                })
             }
         }
     )
@@ -132,20 +199,34 @@ function login() {
                 swal({
                     title:'登陆失败',
                     text:'用户名不能为空',
+                    type:'warning',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
                 });
             }
             else if (result == 'error2')
             {
-                alert('密码不能为空')
+                swal({
+                    title:'登陆失败',
+                    text:'密码不能为空',
+                    type:'warning',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
             }
             else if (result == 'success'){
                 location.href = '/'
             }
             else {
-                alert('用户名或密码错误！')
-                location.reload()
+                swal({
+                    title:'登陆失败',
+                    text:'用户名或密码错误！',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                    location.reload()
+                })
             }
         }
     )
@@ -169,17 +250,41 @@ function publish_question() {
         anonymous:is_anonymous
     },function (status) {
         if (status == 'empty_title') {
-            alert('标题不能为空')
+            swal({
+                    title:'发布失败',
+                    text:'标题不能为空',
+                    type:'warning',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
         }
         else if (status == 'empty_topics') {
-            alert('至少应该选择一个话题')
+            swal({
+                    title:'发布失败',
+                    text:'至少应该选择一个话题',
+                    type:'warning',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
         }
         else if(status == 'empty_content') {
-            alert('请填写回复内容')
+            swal({
+                    title:'发布失败',
+                    text:'请填写回复内容',
+                    type:'warning',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
         }
         else{
-            alert('发布成功')
-            location.href = '/question/' + status
+            swal({
+                    title:'发布成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.href = '/question/' + status
+            });
         }
     });
 };
@@ -202,12 +307,25 @@ function publish_comment() {
         focus_question:focus_question
     },function (status) {
         if (status == 'answered') {
-            alert('你已经回复过这个问题')
-            location.reload()
+            swal({
+                    title:'评论失败',
+                    text:'你已经回复过这个答案',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.reload()
+            });
         }
         else {
-            alert('回复成功')
-            location.reload()
+            swal({
+                    title:'回复成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.reload()
+            });
         }
     })
 }
@@ -408,14 +526,32 @@ function update_user_profile() {
         'department_id': department_id
     }, function (status) {
         if (status == 'error_qq') {
-            alert('错误的qq号！');
+            swal({
+                    title:'更改失败',
+                    text:'错误的qq号！',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
         }
         else if (status == 'error_mobile') {
-            alert('错误的手机号！')
+            swal({
+                    title:'更改失败',
+                    text:'错误的手机号！',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
         }
         else if (status == 'success') {
-            alert('修改成功了！')
-            location.reload()
+            swal({
+                    title:'更改成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.reload()
+            });
         }
     })
 }
@@ -430,14 +566,32 @@ function change_pass() {
         're_password': re_new_password
     }, function (status) {
         if (status == 'not_same') {
-            alert('两次输入的密码不一致');
+            swal({
+                    title:'更改失败',
+                    text:'两次输入的密码不一致',
+                    type:'warning',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
         }
         else if (status == 'error_pass') {
-            alert('原密码输入不正确');
+            swal({
+                    title:'更改失败',
+                    text:'原密码输入不正确',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
         }
         else if (status == 'success') {
-            alert('密码修改次成功！');
-            location.reload()
+            swal({
+                    title:'密码更改成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.reload()
+            });
         }
     })
 }
