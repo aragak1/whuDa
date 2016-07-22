@@ -13,6 +13,8 @@
     <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/static/admin/css/pagination.css" rel="stylesheet">
     <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <script src="/static/sw/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/sw/sweetalert.css">
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -155,7 +157,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <form id="add_user_form" action="/admin/manage_admin/add" method="post" enctype="multipart/form-data">
+                                    <form id="add_user_form" action="/admin/manage_user/add" method="post" enctype="multipart/form-data">
                                         <table class="table table-striped">
                                             <tbody>
                                             <tr>
