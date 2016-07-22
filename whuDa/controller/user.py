@@ -19,9 +19,9 @@ def register():
         repeat_password = request.form.get('repeat_password')
         email = request.form.get('email')
         ip = request.remote_addr
-        if username == '':
+        if username == '' or username.isspace():
             return 'error1'
-        elif email == '':
+        elif email == '' or email.isspace():
             return 'error2'
         elif password == '':
             return 'error3'
@@ -52,7 +52,7 @@ def login():
         else:
             login_type = 'username'
 
-        if username == '':
+        if username == '' or username.isspace():
             return 'error1'
         elif password == '':
             return 'error2'
