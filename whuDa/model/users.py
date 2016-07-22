@@ -277,3 +277,9 @@ class Users(db.Model):
         old_row.phone = phone
         old_row.website = website
         db.session.commit()
+
+    # 删除用户
+    def delete_user(self, uid):
+        user = Users.query.filter_by(uid=uid).first()
+        db.session.delete(user)
+        db.session.commit()

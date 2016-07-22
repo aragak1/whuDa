@@ -240,3 +240,23 @@ function update_general_user() {
     }
     document.forms["update_user_form"].submit()
 }
+
+function deleteUser(obj) {
+    var r = confirm("确定要删除这个用户吗？请谨慎操作!");
+    if (r == true) {
+        var uid = obj.getAttribute('data-uid')
+        $.post('/admin/user/delete', {
+            'uid':uid
+        }, function (result) {
+            if (result == 'success') {
+                alert('删除成功！');
+                location.reload();
+            } 
+            else {
+                alert('删除失败!');
+            }
+        })
+    } else {
+        location.reload()
+    }
+}

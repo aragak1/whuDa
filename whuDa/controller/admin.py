@@ -280,3 +280,10 @@ def admin_update_user():
                                  department_id=department_id, introduction=brief,
                                  email=email, qq=qq, phone=phone, website=website)
     return render_template('jump.html', title="更改成功", text='普通用户信息修改成功', url='/admin/manage_user/page/1')
+
+
+@app.route('/admin/user/delete', methods=['POST'])
+def admin_delete_user():
+    uid = request.form.get('uid')
+    db_users.Users().delete_user(uid)
+    return 'success'
