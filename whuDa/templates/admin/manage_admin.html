@@ -115,8 +115,8 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        {% for admin_data in admin_datas %}
                                         <tr>
-                                            {% for admin_data in admin_datas %}
                                             <td>{{ admin_data.username }}</td>
                                             <td>{{ admin_data.sex }}</td>
                                             <td>{{ admin_data.email }}</td>
@@ -131,8 +131,8 @@
                                             <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
                                             <td><p><button type="button" class="btn btn-outline btn-primary">修改密码</button></p></td>
                                             <td><p><button type="button" class="btn btn-outline btn-danger">删 除</button></p></td>
-                                            {% endfor %}
                                         </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                     <div class="page-control">
@@ -155,7 +155,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <form>
+                                    <form id="add_admin_form">
                                         <table class="table table-striped">
                                             <tbody>
                                             <tr>

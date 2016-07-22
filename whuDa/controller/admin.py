@@ -72,7 +72,7 @@ def admin_add_admin():
                                   birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
                                   department_id=department_id, introduction=brief,
                                   email=email, qq=qq, phone=phone, website=website, group_id=0)
-        return 'success'
+        return render_template('jump.html', title="添加成功", text='管理员添加成功', url='/admin/manage_admin/page/1')
 
 
 @app.route('/admin/manage_user/page/<int:page_num>')
@@ -124,7 +124,7 @@ def admin_add_user():
                                   birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
                                   department_id=department_id, introduction=brief,
                                   email=email, qq=qq, phone=phone, website=website, group_id=2)
-        return 'success'
+        return render_template('jump.html', title="添加成功", text='普通用户添加成功', url='/admin/manage_user/page/1')
 
 
 @app.route('/admin/topic/page/<int:page_num>')
