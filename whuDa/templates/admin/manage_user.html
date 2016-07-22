@@ -45,7 +45,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                        <li><a href="/admin/logout"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
                         </li>
                     </ul>
                 </li>
@@ -128,9 +128,9 @@
                                             <td></td>
                                             {% endif %}
                                             <td>{{ user_data.last_ip }}</td>
-                                            <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                            <td><p><button type="button" class="btn btn-outline btn-primary">修改密码</button></p></td>
-                                            <td><p><button type="button" class="btn btn-outline btn-danger">删 除</button></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/manage_user/{{ user_data.uid }}">修 改</a></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/update_password_page/2/{{ user_data.uid }}">修改密码</a></p></td>
+                                            <td><p><button type="button" class="btn btn-outline btn-danger" data-uid="{{ user_data.uid }}" onclick="deleteUser(this)">删 除</button></p></td>
                                         </tr>
                                         {% endfor %}
                                         </tbody>
@@ -155,14 +155,14 @@
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <form id="add_user_form">
+                                    <form id="add_user_form" action="/admin/manage_admin/add" method="post" enctype="multipart/form-data">
                                         <table class="table table-striped">
                                             <tbody>
                                             <tr>
                                                 <td>用户名：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="username"/>
+                                                        <input class="form-control" id="username" name="username"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -170,7 +170,7 @@
                                                 <td>密码：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="password"/>
+                                                        <input class="form-control" id="password" name="password"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -178,7 +178,7 @@
                                                 <td>确认密码：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="repeat_password"/>
+                                                        <input class="form-control" id="repeat_password" name="repeat_password"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -199,7 +199,7 @@
                                                 <td>生日：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <select id="birthday_y">
+                                                        <select id="birthday_y" name="birthday_y">
                                                             <option value="1970" selected>1970</option>
                                                             <option value="1971">1971</option>
                                                             <option value="1972">1972</option>
@@ -248,7 +248,7 @@
                                                             <option value="2015">2015</option>
                                                             <option value="2016">2016</option>
                                                         </select>年
-                                                        <select id="birthday_m">
+                                                        <select id="birthday_m" name="birthday_m">
                                                             <option value="1" selected>1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
@@ -262,7 +262,7 @@
                                                             <option value="11">11</option>
                                                             <option value="12">12</option>
                                                         </select>月
-                                                        <select id="birthday_d">
+                                                        <select id="birthday_d" name="birthday_d">
                                                             <option value="1" selected>1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
@@ -302,7 +302,7 @@
                                                 <td>学院：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <select id="department_id">
+                                                        <select id="department_id" name="department_id">
                                                             <option value="1" selected>哲学学院</option>
                                                             <option value="2">国学院</option>
                                                             <option value="3">文学院</option>
@@ -350,7 +350,7 @@
                                                 <td>简介：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="brief"/>
+                                                        <input class="form-control" id="brief" name="brief"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -358,7 +358,7 @@
                                                 <td>邮箱：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="email"/>
+                                                        <input class="form-control" id="email" name="email"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -366,7 +366,7 @@
                                                 <td>QQ：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="qq"/>
+                                                        <input class="form-control" id="qq" name="qq"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -374,7 +374,7 @@
                                                 <td>电话：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="phone"/>
+                                                        <input class="form-control" id="phone" name="phone"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -382,7 +382,7 @@
                                                 <td>网站：</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input class="form-control" id="website"/>
+                                                        <input class="form-control" id="website" name="website"/>
                                                     </div>
                                                 </td>
                                             </tr>
