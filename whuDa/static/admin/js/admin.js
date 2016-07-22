@@ -1,22 +1,47 @@
 function deleteTopic(obj) {
-    var sure = confirm("确定要删除这个话题吗？请谨慎操作!");
-    if (sure == true) {
+    swal({
+        title: '确定要删除吗？',
+        text: '该操作不可逆转，请谨慎使用',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        closeOnConfirm: false,
+        cancelButtonText: '取消'
+    }, function () {
         var topic_id = obj.getAttribute('data-topicId')
         $.post('/admin/topic/delete', {
             'topic_id':topic_id
         }, function (result) {
             if (result == 'success') {
-                alert('删除成功！');
-                location.reload();
+                swal({
+                    title: '删除成功',
+                    type: 'success',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#337ab7'
+                }, function () {
+                    location.reload();
+                });
             } else if (result == 'error') {
-                alert('删除失败!');
+                swal({
+                    title: '删除失败',
+                    type: 'error',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#337ab7'
+                });
+                return false;
             } else if (result == 'not_null') {
-                alert('话题下问题数不为0，无法删除!');
+                swal({
+                    title: '修改失败',
+                    text: '话题下问题数不为0，无法删除',
+                    type: 'error',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#337ab7'
+                });
+                return false;
             }
         })
-    } else {
-        location.reload()
-    }
+    })
 }
 
 function checkmail(email) {
