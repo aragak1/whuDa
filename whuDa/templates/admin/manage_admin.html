@@ -128,8 +128,8 @@
                                             <td></td>
                                             {% endif %}
                                             <td>{{ admin_data.last_ip }}</td>
-                                            <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                            <td><p><button type="button" class="btn btn-outline btn-primary">修改密码</button></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/manage_admin/{{ admin_data.uid }}">修 改</a></p></td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary">修改密码</a></p></td>
                                             <td><p><button type="button" class="btn btn-outline btn-danger">删 除</button></p></td>
                                         </tr>
                                         {% endfor %}

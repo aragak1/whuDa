@@ -192,3 +192,91 @@ def admin_delete_topic():
 def admin_topic_detail(topic_id):
     topic = db_topics.Topics().get_topic_by_id(topic_id)
     return render_template('admin/update_topic.html', topic=topic)
+
+
+@app.route('/admin/manage_admin/<int:uid>')
+def admin_detail(uid):
+    from utils import get_date
+    import time
+    import whuDa.model.department as db_department
+    user = db_users.Users().get_user_by_id(uid)
+    dates = {
+        'year': [y for y in range(1900, 1 + get_date(time.time())['year'])],
+        'month': [m for m in range(1, 13)],
+        'day': [d for d in range(1, 32)]}
+    birthday = db_users.Users().get_birthday_dict(uid)
+    departments = db_department.Department().get_all_department()
+    return render_template('admin/update_admin.html',
+                           user=user,
+                           dates=dates,
+                           birthday=birthday,
+                           departments=departments)
+
+
+@app.route('/admin/manage_user/<int:uid>')
+def general_user_detail(uid):
+    from utils import get_date
+    import time
+    import whuDa.model.department as db_department
+    user = db_users.Users().get_user_by_id(uid)
+    dates = {
+        'year': [y for y in range(1900, 1 + get_date(time.time())['year'])],
+        'month': [m for m in range(1, 13)],
+        'day': [d for d in range(1, 32)]}
+    birthday = db_users.Users().get_birthday_dict(uid)
+    departments = db_department.Department().get_all_department()
+    return render_template('admin/update_general_user.html',
+                           user=user,
+                           dates=dates,
+                           birthday=birthday,
+                           departments=departments)
+
+
+@app.route('/admin/manage_admin/update', methods=['POST'])
+def admin_update_admin():
+    uid = request.form.get('uid')
+    username = request.form.get('username')
+    sex = request.form.get('sex')
+    birthday_y = request.form.get('birthday_y')
+    birthday_m = request.form.get('birthday_m')
+    birthday_d = request.form.get('birthday_d')
+    department_id = request.form.get('department_id')
+    brief = request.form.get('brief')
+    email = request.form.get('email')
+    qq = request.form.get('qq')
+    phone = request.form.get('phone')
+    website = request.form.get('website')
+    if db_users.Users().is_username_used_by_other(uid, username):
+        return render_template('jump.html', title="更改失败", text='该用户名已存在', url='/admin/manage_admin/page/1')
+    if db_users.Users().is_email_used_by_other(uid, email):
+        return render_template('jump.html', title="更改失败", text='邮箱已被使用', url='/admin/manage_admin/page/1')
+    db_users.Users().update_user(uid=uid, username=username, sex=sex,
+                                 birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
+                                 department_id=department_id, introduction=brief,
+                                 email=email, qq=qq, phone=phone, website=website)
+    return render_template('jump.html', title="更改成功", text='管理员信息修改成功', url='/admin/manage_admin/page/1')
+
+
+@app.route('/admin/manage_user/update', methods=['POST'])
+def admin_update_user():
+    uid = request.form.get('uid')
+    username = request.form.get('username')
+    sex = request.form.get('sex')
+    birthday_y = request.form.get('birthday_y')
+    birthday_m = request.form.get('birthday_m')
+    birthday_d = request.form.get('birthday_d')
+    department_id = request.form.get('department_id')
+    brief = request.form.get('brief')
+    email = request.form.get('email')
+    qq = request.form.get('qq')
+    phone = request.form.get('phone')
+    website = request.form.get('website')
+    if db_users.Users().is_username_used_by_other(uid, username):
+        return render_template('jump.html', title="更改失败", text='该用户名已存在', url='/admin/manage_user/page/1')
+    if db_users.Users().is_email_used_by_other(uid, email):
+        return render_template('jump.html', title="更改失败", text='邮箱已被使用', url='/admin/manage_user/page/1')
+    db_users.Users().update_user(uid=uid, username=username, sex=sex,
+                                 birthday=birthday_to_unix_time(birthday_y, birthday_m, birthday_d),
+                                 department_id=department_id, introduction=brief,
+                                 email=email, qq=qq, phone=phone, website=website)
+    return render_template('jump.html', title="更改成功", text='普通用户信息修改成功', url='/admin/manage_user/page/1')

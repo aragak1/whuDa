@@ -140,3 +140,103 @@ function add_general_user() {
     }
     document.forms["add_user_form"].submit()
 }
+
+function update_admin() {
+    var username = $('#username').val()
+    var password = $('#password').val()
+    var repeat_password = $('#repeat_password').val()
+    var sex = $('#sex').val()
+    var birthday_y = $('#birthday_y').val()
+    var birthday_m = $('#birthday_m').val()
+    var birthday_d = $('#birthday_d').val()
+    var department_id = $('#department_id').val()
+    var brief = $('#brief').val()
+    var email = $('#email').val()
+    var qq = $('#qq').val()
+    var phone = $('#phone').val()
+    var website = $('#website').val()
+
+    if (username == '') {
+        alert('用户名不能为空')
+        return
+    }
+    if (password == '') {
+        alert('密码不能为空')
+        return
+    }
+    if (repeat_password == '') {
+        alert('请再次确认密码')
+        return
+    }
+    if (repeat_password != password) {
+        alert('两次输入的密码不一致，请检查')
+        return
+    }
+    if (email == '') {
+        alert('邮箱不能为空')
+        return
+    }
+    if (phone == '') {
+        alert('电话不能为空')
+        return
+    }
+    if (!checkusername(username)) {
+        alert('用户名必须以字母开头')
+        return
+    }
+    if (!checkmail(email)) {
+        alert('邮箱格式不正确，请重新输入')
+        return
+    }
+    document.forms["update_admin_form"].submit()
+}
+
+function update_general_user() {
+    var username = $('#username').val()
+    var password = $('#password').val()
+    var repeat_password = $('#repeat_password').val()
+    var sex = $('#sex').val()
+    var birthday_y = $('#birthday_y').val()
+    var birthday_m = $('#birthday_m').val()
+    var birthday_d = $('#birthday_d').val()
+    var department_id = $('#department_id').val()
+    var brief = $('#brief').val()
+    var email = $('#email').val()
+    var qq = $('#qq').val()
+    var phone = $('#phone').val()
+    var website = $('#website').val()
+
+    if (username == '') {
+        alert('用户名不能为空')
+        return
+    }
+    if (password == '') {
+        alert('密码不能为空')
+        return
+    }
+    if (repeat_password == '') {
+        alert('请再次确认密码')
+        return
+    }
+    if (repeat_password != password) {
+        alert('两次输入的密码不一致，请检查')
+        return
+    }
+    if (email == '') {
+        alert('邮箱不能为空')
+        return
+    }
+    if (phone == '') {
+        alert('电话不能为空')
+        return
+    }
+    if (!checkusername(username)) {
+        alert('用户名必须以字母开头')
+        return
+    }
+    if (!checkmail(email)) {
+        alert('邮箱格式不正确，请重新输入')
+        return
+    }
+    document.forms["update_user_form"].submit()
+}

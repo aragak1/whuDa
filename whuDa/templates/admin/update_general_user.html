@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>普通用户管理</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/admin/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/admin/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/admin/css/pagination.css" rel="stylesheet">
+    <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="/static/admin/js/admin.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/admin">whuDa 后台管理系统</a>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        asdf
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/admin/logout"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> 概览</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> 用户管理<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/manage_admin/page/1">管理员</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/manage_user/page/1" class="active">普通用户</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/admin/topic/page/1"><i class="fa fa-table fa-fw"></i> 话题管理</a>
+                        </li>
+                        <li>
+                            <a href="/admin/forms"><i class="fa fa-edit fa-fw"></i> 问题管理</a>
+                        </li>
+                        <li>
+                            <a href="/admin/forms"><i class="fa fa-comment fa-fw"></i> 回答管理</a>
+                        </li>
+                        <li>
+                            <a href="/admin/forms"><i class="fa fa-wrench fa-fw"></i> 网站管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                修改普通用户信息
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <form id="update_user_form" action="/admin/manage_user/update" method="post" enctype="multipart/form-data">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                            <tr hidden="true">
+                                                <td>UID：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="uid" name="uid" value="{{ user.uid }}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>用户名：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="username" name="username" value="{{ user.username }}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>性别：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <input name="sex" id="sex" value="1" type="radio" {% if user.sex == 1 %} checked="checked" {% endif %}/>男</label>
+                                                        <label>
+                                                            <input name="sex" id="sex" value="0" type="radio" {% if user.sex == 0 %} checked="checked" {% endif %}/>女</label>
+                                                        <label>
+                                                            <input name="sex" id="sex" value="2" type="radio" {% if user.sex == 2 %} checked="checked" {% endif %}/>保密</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>生日：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <select id="birthday_y" name="birthday_y">
+                                                            {% autoescape false %}
+                                                            {% for year in dates.year %}
+                                                                <option value="{{ year }}"
+                                                                        {% if birthday %}
+                                                                            {% if birthday.year == year %}
+                                                                        selected
+                                                                            {% endif %}
+                                                                        {% endif %}>
+                                                                    {{ year }}
+                                                                </option>
+                                                            {% endfor %}
+                                                            {% endautoescape %}
+                                                        </select>年
+                                                        <select id="birthday_m" name="birthday_m">
+                                                            {% autoescape false %}
+                                                            {% for month in dates.month %}
+                                                                <option value="{{ month }}"
+                                                                        {% if birthday %}{% if birthday.month == month %}
+                                                                        selected
+                                                                        {% endif %}{% endif %}
+                                                                > {{ month }}</option>
+                                                            {% endfor %}
+                                                            {% endautoescape %}
+                                                        </select>月
+                                                        <select id="birthday_d" name="birthday_d">
+                                                            {% autoescape false %}
+                                                            {% for day in dates.day %}
+                                                                <option value="{{ day }}"
+                                                                        {% if birthday %}
+                                                                            {% if birthday.day == day %}
+                                                                        selected
+                                                                            {% endif %}
+                                                                        {% endif %}>
+                                                                    {{ day }}
+                                                                </option>
+                                                            {% endfor %}
+                                                            {% endautoescape %}
+                                                        </select>日
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>学院：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <select id="department_id" name="department_id">
+                                                            {% for department in departments %}
+                                                                <option value="{{ department.department_id }}"
+                                                                        {% if user.department_id == department.department_id %}
+                                                                        check="checked"
+                                                                        {% endif %}>{{ department.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>简介：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="brief" name="brief" value="{{ user.introduction }}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>邮箱：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="email" name="email" value="{{ user.email }}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>QQ：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="qq" name="qq" value="{{ user.qq }}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>电话：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="phone" name="phone" value="{{ user.phone }}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>网站：</td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input class="form-control" id="website" name="website" value="{{ user.website }}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a type="button" class="btn btn-primary" onclick="update_general_user()">保存</a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.2.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/admin/js/metisMenu.min.js"></script>
+    <script src="/static/admin/js/sb-admin-2.js"></script>
+</body>
+</html>
