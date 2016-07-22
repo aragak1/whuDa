@@ -216,7 +216,7 @@ def admin_question():
 
 
 
-@app.route('/admin/updateQuestion/<int:question_id>',methods=['POST','GET'])
+@app.route('/admin/updateQuestion/<int:question_id>', methods=['POST','GET'])
 def admin_update_question(question_id):
     temp_question=db_questions.Questions().get_question_by_id(question_id)
     if request.method=='GET':
@@ -232,7 +232,6 @@ def admin_update_question(question_id):
         content = request.form.get('content')
         db_questions.Questions.query.filter_by(question_id=question_id).update({'title':title,'content':content})
         return redirect('/')
-
 
 
 @app.route('/admin/topic/<int:topic_id>')
