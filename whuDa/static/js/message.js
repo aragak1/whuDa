@@ -1,6 +1,3 @@
-/**
- * Created by terry on 16-7-19.
- */
 function send_message() {
     var content = $('textarea[name="message"]').val()
     var recipient = $('input[name="recipient"]').val()
@@ -11,11 +8,23 @@ function send_message() {
         'session_id': session_id
     },function (status) {
         if (status == 'success') {
-            alert('发送成功!')
+            swal({
+                title:'发送成功',
+                type:'success',
+                confirmButtonText:'确定',
+                confirmButtonColor:'#499ef3'
+            }, function () {
+                location.reload();
+            });
         }
         else if (status == 'empty_content') {
-            alert('私信内容不能为空!');
-            location.reload()
+            swal({
+                title:'发送失败',
+                text:'私信内容不能为空',
+                type:'error',
+                confirmButtonText:'确定',
+                confirmButtonColor:'#499ef3'
+            });
         }
     })
 }
@@ -36,15 +45,69 @@ function send_new_session() {
         'content': content
     }, function (status) {
         if (status == 'not_exist_user') {
-            alert('不存在该用户！');
+            swal({
+                title:'发送失败',
+                text:'不存在该用户',
+                type:'error',
+                confirmButtonText:'确定',
+                confirmButtonColor:'#499ef3'
+            });
         }
         else if (status == 'empty_content') {
-            alert('内容不能为空');
+            swal({
+                title:'发送失败',
+                text:'内容不能为空',
+                type:'error',
+                confirmButtonText:'确定',
+                confirmButtonColor:'#499ef3'
+            });
         }
         else if (status == 'success') {
             $('#aw-ajax-box').children('.modal').hide();
-            alert('私信发送成功！');
-            location.reload()
+            swal({
+                title:'发送成功',
+                type:'success',
+                confirmButtonText:'确定',
+                confirmButtonColor:'#499ef3'
+            }, function () {
+                location.reload();
+            });
         }
     })
+}
+
+function delete_session(obj) {
+    swal({
+        title: '确定要删除吗？',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        closeOnConfirm: false,
+        cancelButtonText: '取消'
+    }, function () {
+        var session_id = obj.getAttribute('data-id');
+        $.post('/session/delete', {
+            'session_id': session_id
+        }, function (status) {
+            if (status == 'success') {
+                swal({
+                    title: '删除成功',
+                    type: 'success',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#499ef3'
+                }, function () {
+                    location.reload();
+                });
+            }
+            else if (status == 'error') {
+                swal({
+                    title: '删除失败',
+                    type: 'error',
+                    confirmButtonText: '确定',
+                    confirmButtonColor: '#499ef3'
+                });
+            }
+        });
+    });
 }

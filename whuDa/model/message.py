@@ -37,11 +37,17 @@ class Message(db.Model):
         for message in Message.query.filter_by(recipient_uid=uid).all():
             if message.session_id not in session_ids:
                 session_ids.append(message.session_id)
-        return session_ids
+        for message in Message.query.filter_by(sender_uid=uid).all():
+            if message.session_id not in session_ids:
+                session_ids.append(message.session_id)
+        return list(set(session_ids))
 
     # 获取一次会话中最早的一次消息
     def get_first_session_message(self, session_id, uid):
-        return Message.query.filter(Message.recipient_uid == uid, Message.session_id == session_id).order_by(Message.send_time).first()
+        message = Message.query.filter(Message.recipient_uid == uid, Message.session_id == session_id).order_by(Message.send_time).first()
+        if not message:
+            message = Message.query.filter(Message.sender_uid == uid, Message.session_id == session_id).order_by(Message.send_time).first()
+        return message
 
     # 获取一次会话中的消息条数
     def get_session_message_count(self, session_id):
@@ -97,3 +103,14 @@ class Message(db.Model):
                           send_time=time())
         db.session.add(message)
         db.session.commit()
+
+    # 判断是否存在并删除一次回话
+    def delete_session(self, session_id):
+        if Message.query.filter_by(session_id=session_id).count():
+            rows = Message.query.filter_by(session_id=session_id).all()
+            for row in rows:
+                db.session.delete(row)
+                db.session.commit()
+            return True
+        return False
+

@@ -538,3 +538,13 @@ def remove_from_favorite():
     question_id = request.form.get('question_id')
     db_question_favorite.Question_favorite().remove_favorite(uid, question_id)
     return 'success'
+
+
+@app.route('/session/delete', methods=['POST'])
+def session_delete():
+    if is_login():
+        session_id = int(request.form.get('session_id'))
+        if db_message.Message().delete_session(session_id):
+            return 'success'
+        return 'error'
+    return 'error'
