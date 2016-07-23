@@ -1,5 +1,3 @@
-/*
- * 页面监听*/
 $(document).ready(function () {
     // 文本框内容发生改变
     $('#aw_edit_topic_title').bind('input propertychange', function () {
@@ -37,13 +35,12 @@ $(document).ready(function () {
         $('#pb_tag-bar').append(topic_html);
     });
 
-    //绑定了`submit`事件。
+    //绑定submit事件。
     $('#upload-form').on('submit',(function(e) {
         e.preventDefault();
         //序列化表单
         var serializeData = $(this).serialize();
 
-        // var formData = new FormData(this);
         $(this).ajaxSubmit({
             type:'POST',
             url: '/user/avatar/upload',
@@ -75,7 +72,7 @@ $(document).ready(function () {
         });
     }));
 
-    //绑定文件选择事件，一选择了图片，就让`form`提交。
+    //绑定文件选择事件，一选择了图片，就让form提交。
     $("#upload_file").on("change", function() {
         $(this).parent().submit();
     });
@@ -83,8 +80,6 @@ $(document).ready(function () {
 });
 
 
-/*
- * 自定义函数*/
 function register() {
     var username = $('#username').val()
     var password = $('#password').val()
