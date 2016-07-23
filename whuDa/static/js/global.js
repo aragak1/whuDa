@@ -696,3 +696,29 @@ function remove_question_from_favorite(uid, question_id) {
         }
     })
 }
+
+function add_topic() {
+    var topic_name = $('#aw_edit_topic_title').val();
+    $.post('/topic/user/add', {
+        'topic_name': topic_name
+    }, function (status) {
+        if (status == 'existed') {
+            swal({
+                    title:'添加失败',
+                    text:'话题已经存在',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+            return false;
+        }
+        if (status == 'success') {
+            swal({
+                    title:'话题添加成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+        }
+    })
+}

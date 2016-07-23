@@ -206,6 +206,7 @@ def cancel_topic_focus():
         return 'success'
     return 'error'
 
+
 # 取消关注话题
 @app.route('/topic/add_focus', methods=['POST'])
 def add_topic_focus():
@@ -213,5 +214,17 @@ def add_topic_focus():
         user = db_users.Users().get_user(session['username'])
         topic_id = request.form.get('topic_id')
         db_topic_focus.Topic_focus().add_focus_topic(user.uid, topic_id)
+        return 'success'
+    return 'error'
+
+
+# 用户在发布问题的时候添加话题
+@app.route('/topic/user/add', methods=['POST'])
+def user_add_topic():
+    if is_login():
+        topic_name = request.form.get('topic_name')
+        if db_topics.Topics().is_exist_topic_name(topic_name):
+            return 'existed'
+        db_topics.Topics().add_topic(name=topic_name, introduction=topic_name)
         return 'success'
     return 'error'
