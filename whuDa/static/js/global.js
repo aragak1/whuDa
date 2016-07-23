@@ -28,12 +28,13 @@ $(document).ready(function () {
     });
 
     // 添加topic tags
-    $(document).on('click', '.question', function () {
+    $('ul.aw-dropdown-list').on('click', '.question', function () {
         var topic_name = $(this).text();
-        $('#pb_tag-bar').append('<span class="topic-tag"><a class="text">' +
+        var topic_html = '<span class="topic-tag"><a class="text">' +
             topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
             '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
-            topic_name + '" name="topics[]"></span>');
+            topic_name + '" name="topics[]"></span>';
+        $('#pb_tag-bar').append(topic_html);
     });
 
     //绑定了`submit`事件。

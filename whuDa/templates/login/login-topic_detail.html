@@ -99,13 +99,11 @@
         </div>
         <!-- 发起 -->
         <div class="aw-publish-btn">
-            <a id="header_publish" class="btn-primary" href="/publish" onclick="AWS.dialog('publish', {'category_enable':'0', 'category_id':'0', 'topic_title':''}); return false;"><i class="icon icon-ask"></i>发起</a>
+            <a id="header_publish" class="btn-primary" href="/publish"><i class="icon icon-ask"></i>发起</a>
             <div class="dropdown-list pull-right">
                 <ul>
                     <li>
-                        <form method="post" action="/publish">
-                            <a onclick="$(this).parents('form').submit();">问题</a>
-                        </form>
+                            <a href="/publish">问题</a>
                     </li>
                 </ul>
             </div>

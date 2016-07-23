@@ -90,7 +90,8 @@
             <div class="aw-dropdown dropdown-list pull-right">
                 <ul class="aw-dropdown-list">
                     <li>
-                        <a href="/message"><i class="icon icon-inbox"></i> 私信</a>
+                        <a href="/message"><i class="icon icon-inbox"></i> 私信
+                        </a>
                     </li>
                     <li class="hidden-xs"><a href="/setting"><i class="icon icon-setting"></i> 设置</a></li>
                     <li><a href="/logout"><i class="icon icon-logout"></i> 退出</a></li>
@@ -122,7 +123,6 @@
                         <li class="active">问题</li>
                         <h2 class="hidden-xs"><i class="icon icon-ask"></i> 发起</h2>
                     </ul>
-                    <form action="/publish/ajax/publish_question/" method="post" id="question_form" onsubmit=";">
                         <input type="hidden" name="post_hash" value="" />
                         <input type="hidden" name="attach_access_key" value="" />
                         <input type="hidden" name="question_id" id="question_id" value="" />
@@ -153,12 +153,13 @@
                                 <h3>添加话题:</h3>
                                 <div class="aw-topic-bar active" data-type="publish">
                                     <div class="tag-bar clearfix" id="pb_tag-bar">
-                                        <span class="aw-edit-topic icon-inverse" style="display: none;"><i class="icon icon-edit"></i> 编辑话题</span>
                                     </div>
                                     <div class="aw-edit-topic-box form-inline" style="display: block;">
                                         <input type="text" class="form-control" id="aw_edit_topic_title" autocomplete="off" placeholder="创建或搜索添加新话题...">
-                                        <a class="btn btn-normal btn-success close-edit">添加</a>
+                                        <a class="btn btn-normal btn-success add" style="display: none;">添加</a>
+                                        <a class="btn btn-normal btn-success close-edit">取消</a>
                                         <div class="aw-dropdown" id="edit_topic_title_div" style="display: none;">
+                                            <p class="title" style="display: none;">没有找到相关结果</p>
                                             <ul class="aw-dropdown-list" style="display: none;">
                                             </ul>
                                         </div>
@@ -172,7 +173,6 @@
                                 <a class="btn btn-large btn-success btn-publish-submit" id="publish_submit" onclick="publish_question()">确认发起</a>
                             </div>
                         </div>
-                    </form>
                 </div>
                 <!-- 侧边栏 -->
                 <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs">
