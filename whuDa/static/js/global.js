@@ -384,12 +384,12 @@ function c_more_dynamic(){
                     list_html += '<a href="/people'+ obj[i].user_url +'" class="aw-user-name">'+ obj[i].dynamic_str +'</a> • '+ obj[i].publish_time +' •'
                 }
                 list_html += '<a href="/question/'+ obj[i].question_id +'" class="text-color-999">'+ obj[i].question_answer_count +' 个回复</a></p>'
-                list_html += '<h4><a href="/question/'+ obj[i].question_uid +'">'+ obj[i].title +'</a></h4></div>'
-                list_html += '<div class="mod-body clearfix"></div>'
+                list_html += '<h4><a href="/question/'+ obj[i].question_uid +'">'+ obj[i].title +'</a></h4>'
+                list_html += '<div class="meta clearfix">'
                 list_html += '<span class="pull-right more-operate">'
-                list_html += '<a onclick=";" class="text-color-999"><i class="icon icon-favor"></i>收藏</a>'
-                list_html += '<a class="text-color-999 dropdown-toggle" data-toggle="dropdown">'
-                list_html += '</span></div>'
+                list_html += '<a href="javascript:;" onclick=";" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>'
+                list_html += '<a class="text-color-999 dropdown-toggle" data-toggle="dropdown"></a>'
+                list_html += '</span></div></div></div>'
                 $('#main_contents').append(list_html)
             }
         }
