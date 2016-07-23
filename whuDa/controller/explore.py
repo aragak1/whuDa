@@ -529,3 +529,12 @@ def add_to_favorite():
     add_time = time()
     db_question_favorite.Question_favorite().add_favorite(uid, question_id, add_time)
     return 'success'
+
+
+@app.route('/remove_from_favor', methods=['POST'])
+def remove_from_favorite():
+    import whuDa.model.question_favorite as db_question_favorite
+    uid = request.form.get('uid')
+    question_id = request.form.get('question_id')
+    db_question_favorite.Question_favorite().remove_favorite(uid, question_id)
+    return 'success'

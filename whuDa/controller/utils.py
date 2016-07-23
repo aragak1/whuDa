@@ -409,10 +409,13 @@ def get_user_focus_questions_list_datas(uid):
 
 # 获取动态页面需要渲染的数据，根据页数获取
 def get_dynamic_datas_by_page(page_num, page_size, uid):
+    import whuDa.model.question_favorite as db_question_favorite
     datas = []
     questions = db_questions.Questions().get_dynamic_questions(uid)
     for question in questions:
+        is_favor = db_question_favorite.Question_favorite().is_question_in_favor(uid, question.question_id)
         data = {
+            'is_favor': is_favor,
             'question_id': question.question_id,
             'title': question.title,
             'username': db_users.Users().get_user_by_id(question.questioner_uid).username,

@@ -387,7 +387,12 @@ function c_more_dynamic(){
                 list_html += '<h4><a href="/question/'+ obj[i].question_uid +'">'+ obj[i].title +'</a></h4>'
                 list_html += '<div class="meta clearfix">'
                 list_html += '<span class="pull-right more-operate">'
-                list_html += '<a href="javascript:;" onclick="add_question_to_favorite(user_uid, '+ obj[i].question_id +')" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>'
+                if (obj[i].is_favor) {
+                    list_html += '<a href="javascript:;" onclick="remove_question_from_favorite(user_uid, '+ obj[i].question_id +')" class="text-color-999" style="color: #499ef3;"><i class="icon icon-favor" style="color: #499ef3;"></i>取消收藏</a>'
+                }
+                else {
+                    list_html += '<a href="javascript:;" onclick="add_question_to_favorite(user_uid, '+ obj[i].question_id +')" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>'
+                }
                 list_html += '<a class="text-color-999 dropdown-toggle" data-toggle="dropdown"></a>'
                 list_html += '</span></div></div></div>'
                 $('#main_contents').append(list_html)
@@ -671,7 +676,27 @@ function add_question_to_favorite(uid, question_id) {
                     type:'success',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
-                });
+                }, function () {
+                location.reload()
+            });
+        }
+    })
+}
+
+function remove_question_from_favorite(uid, question_id) {
+    $.post('/remove_from_favor',{
+        uid:uid,
+        question_id:question_id
+    },function (status) {
+        if (status == 'success') {
+            swal({
+                    title:'取消收藏成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.reload()
+            });
         }
     })
 }

@@ -156,7 +156,11 @@
                                         <div class="meta clearfix">
                                             <!-- 投票栏 -->
 			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick="add_question_to_favorite(user_uid, {{ data.question_id }})" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>
+                                                {% if data.is_favor %}
+                                                <a href="javascript:;" onclick="remove_question_from_favorite(user_uid, {{ data.question_id }})" class="text-color-999" style="color: #499ef3;"><i class="icon icon-favor" style="color: #499ef3;"></i>取消收藏</a>
+                                                {% else %}
+                                                <a href="javascript:;" onclick="add_question_to_favorite(user_uid, {{ data.question_id }})" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>
+                                                {% endif %}
 				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown"></a>
 			                                </span>
                                         </div>
