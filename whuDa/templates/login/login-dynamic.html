@@ -23,6 +23,10 @@
     <script src="/static/js/global.js" type="text/javascript"></script>
     <script src="/static/js/dynamic.js" type="text/javascript"></script>
     <script type="text/javascript" src="/static/js/compatibility.js"></script>
+
+    <script src="/static/sw/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/sw/sweetalert.css">
+
     <script>
         current_dynamic_page = 1
         user_uid = {{ user.uid }}
@@ -152,7 +156,7 @@
                                         <div class="meta clearfix">
                                             <!-- 投票栏 -->
 			                                <span class="pull-right more-operate">
-								                <a href="javascript:;" onclick=";" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>
+								                <a href="javascript:;" onclick="add_question_to_favorite(user_uid, {{ data.question_id }})" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>
 				                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown"></a>
 			                                </span>
                                         </div>

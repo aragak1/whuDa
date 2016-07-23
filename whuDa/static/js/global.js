@@ -387,7 +387,7 @@ function c_more_dynamic(){
                 list_html += '<h4><a href="/question/'+ obj[i].question_uid +'">'+ obj[i].title +'</a></h4>'
                 list_html += '<div class="meta clearfix">'
                 list_html += '<span class="pull-right more-operate">'
-                list_html += '<a href="javascript:;" onclick=";" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>'
+                list_html += '<a href="javascript:;" onclick="add_question_to_favorite(user_uid, '+ obj[i].question_id +')" class="text-color-999"><i class="icon icon-favor"></i>收藏该问题</a>'
                 list_html += '<a class="text-color-999 dropdown-toggle" data-toggle="dropdown"></a>'
                 list_html += '</span></div></div></div>'
                 $('#main_contents').append(list_html)
@@ -658,4 +658,20 @@ function global_search() {
         return
     }
     location.href = '/search/' + keyword
+}
+
+function add_question_to_favorite(uid, question_id) {
+    $.post('/add_to_favor',{
+        uid:uid,
+        question_id:question_id
+    },function (status) {
+        if (status == 'success') {
+            swal({
+                    title:'收藏成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+        }
+    })
 }
