@@ -26,6 +26,7 @@
     <script src="/static/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/static/js/compatibility.js"></script>
     <script src="/static/js/message.js" type="text/javascript"></script>
+    <script src="/static/js/global.js" type="text/javascript"></script>
     <!--[if lte IE 8]>
 	<script type="text/javascript" src="/static/js/respond.js"></script>
 <![endif]-->
@@ -45,7 +46,7 @@
         </div>
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
-            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" />
+            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" onkeydown="if(event.keyCode==13){document.getElementById('global_search_btns').click();return false;}"/>
             <span title="搜索" id="global_search_btns" onclick="global_search();"><i class="icon icon-search"></i></span>
         </div>
         <!-- 导航 -->
@@ -152,8 +153,8 @@
                                 <li><a href="/dynamic" rel="all"><i class="icon icon-home"></i>最新动态</a></li>
                                 <li><a href="/home/#draft_list__draft" rel="draft_list__draft"><i class="icon icon-draft"></i>我的草稿</a></li>
                                 <li><a href="/favorite/"><i class="icon icon-favor"></i>我的收藏</a></li>
-                                <li><a href="/home/#all__focus" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
-                                <li><a href="/home/#focus_topic__focus" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
+                                <li><a href="/me_focus_questions" rel="all__focus"><i class="icon icon-check"></i>我关注的问题</a></li>
+                                <li><a href="/me_focus_topics" rel="focus_topic__focus"><i class="icon icon-mytopic"></i>我关注的话题</a></li>
                                 <li><a href="/home/#invite_list__invite" rel="invite_list__invite"><i class="icon icon-invite"></i>邀请我回复的问题</a></li>
                             </ul>
                         </div>
@@ -163,7 +164,7 @@
                         <div class="mod-body">
                             <ul>
                                 <li><a href="/topic"><i class="icon icon-topic"></i>所有话题</a></li>
-                                <li><a href="/people"><i class="icon icon-user"></i>所有用户</a></li>
+                                <li><a href="/all_users"><i class="icon icon-user"></i>所有用户</a></li>
                             </ul>
                         </div>
                     </div>

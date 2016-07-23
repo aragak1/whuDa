@@ -46,7 +46,7 @@
         </div>
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
-            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" />
+            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" onkeydown="if(event.keyCode==13){document.getElementById('global_search_btns').click();return false;}"/>
             <span title="搜索" id="global_search_btns" onclick="global_search();"><i class="icon icon-search"></i></span>
         </div>
         <!-- 导航 -->
@@ -168,8 +168,6 @@
                                             <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
                                         </ul>
                                     </div>
-
-                                    <a href="javascript:;" class="text-color-999" onclick=""><i class="icon icon-report"></i>举报</a>
                                 </div>
                             </div>
                         </div>
@@ -243,22 +241,7 @@
                                         <!-- 投票栏 -->
 											<span class="operate">
 												<a class="agree" onclick=";"><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i><b class="count">0</b></a>
-												<a class="disagree " onclick=""><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-disagree" data-original-title="对回复持反对意见"></i></a>
 												</span>
-                                        <!-- 可显示/隐藏的操作box -->
-                                        <div class="more-operate">
-                                            <div class="btn-group pull-left">
-                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="icon icon-share"></i>分享</a>
-                                                <div aria-labelledby="dropdownMenu" role="menu" class="aw-dropdown shareout pull-right">
-                                                    <ul class="aw-dropdown-list">
-                                                        <li><a onclick=";"><i class="icon icon-weibo"></i> 微博</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-qzone"></i> QZONE</a></li>
-                                                        <li><a onclick=";"><i class="icon icon-wechat"></i> 微信</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -302,11 +285,6 @@
                                         <input type="hidden" id="question_id" value="{{ question.question_id }}">
                                         <a onclick="publish_comment();" class="btn btn-normal btn-success pull-right btn-reply">回复</a>
                                         <span class="pull-right text-color-999" id="answer_content_message">&nbsp;</span>
-                                        <div class="aw-upload-box">
-                                            <a class="btn btn-default">上传附件</a>
-                                            <div class="upload-container"></div>
-                                            <span class="text-color-999 aw-upload-tips hidden-xs">允许 : jpg,jpeg,png,zip,rar,7z</span>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -316,10 +294,10 @@
                 </div>
                 <!-- 侧边栏 -->
                 <div class="col-md-3 aw-side-bar hidden-xs hidden-sm">
-                    <!-- 发起人 -->
+                    <!-- 最后修改 -->
                     <div class="aw-mod">
                         <div class="mod-head">
-                            <h3>发起人</h3>
+                            <h3>最后修改</h3>
                         </div>
                         <div class="mod-body">
                             <dl>
@@ -340,20 +318,6 @@
                                     </dd>
                                 {% endif %}
                             </dl>
-                        </div>
-                    </div>
-
-                    <!-- 邀请别人回复 -->
-                    <div class="aw-mod email-invite-replay">
-                        <div class="mod-head">
-                            <h3>邀请别人回复</h3>
-                        </div>
-                        <div class="mod-body clearfix">
-                            <!-- 侧边栏邀请box -->
-                            <form method="post" action="/" onsubmit="return false;" id="email_invite_form">
-                                <input class="form-control" type="text" name="email" placeholder="邀请回复..."/>
-                                <a class="pull-right btn btn-mini btn-success" onclick=";">邀请</a>
-                            </form>
                         </div>
                     </div>
 

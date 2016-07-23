@@ -45,7 +45,7 @@
         </div>
         <!-- 搜索框 -->
         <div class="aw-search-box  hidden-xs hidden-sm">
-            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" />
+            <input class="form-control search-query" type="text" placeholder="搜索问题" id="aw-search-query" onkeydown="if(event.keyCode==13){document.getElementById('global_search_btns').click();return false;}"/>
             <span title="搜索" id="global_search_btns" onclick="global_search();"><i class="icon icon-search"></i></span>
         </div>
         <!-- 导航 -->
@@ -152,11 +152,6 @@
                                     </div>
                                     <div class="mod-body">
                                         <span class="pull-right text-color-999" id="question_detail_message">&nbsp;</span>
-                                        <div class="aw-upload-box">
-                                            <a class="btn btn-default">上传附件</a>
-                                            <div class="upload-container"></div>
-                                            <span class="text-color-999 aw-upload-tips hidden-xs">允许 : jpg,jpeg,png,zip,rar,7z</span>
-                                        </div>
                                     </div>
                                 </div>
                                 <h3>添加话题:</h3>
@@ -166,10 +161,8 @@
                                     </div>
                                     <div class="aw-edit-topic-box form-inline" style="display: block;">
                                         <input type="text" class="form-control" id="aw_edit_topic_title" autocomplete="off" placeholder="创建或搜索添加新话题...">
-                                        <a class="btn btn-normal btn-success add" style="display: none;">添加</a>
-                                        <a class="btn btn-normal btn-gray close-edit">取消</a>
+                                        <a class="btn btn-normal btn-success close-edit">添加</a>
                                         <div class="aw-dropdown" id="edit_topic_title_div" style="display: none;">
-                                            <p class="title" style="display: none;">没有找到相关结果</p>
                                             <ul class="aw-dropdown-list" style="display: none;">
                                             </ul>
                                         </div>
