@@ -1,5 +1,3 @@
-/*
- * 页面监听*/
 $(document).ready(function () {
     // 文本框内容发生改变
     $('#aw_edit_topic_title').bind('input propertychange', function () {
@@ -28,21 +26,21 @@ $(document).ready(function () {
     });
 
     // 添加topic tags
-    $(document).on('click', '.question', function () {
+    $('ul.aw-dropdown-list').on('click', '.question', function () {
         var topic_name = $(this).text();
-        $('#pb_tag-bar').append('<span class="topic-tag"><a class="text">' +
+        var topic_html = '<span class="topic-tag"><a class="text">' +
             topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
             '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
-            topic_name + '" name="topics[]"></span>');
+            topic_name + '" name="topics[]"></span>';
+        $('#pb_tag-bar').append(topic_html);
     });
 
-    //绑定了`submit`事件。
+    //绑定submit事件。
     $('#upload-form').on('submit',(function(e) {
         e.preventDefault();
         //序列化表单
         var serializeData = $(this).serialize();
 
-        // var formData = new FormData(this);
         $(this).ajaxSubmit({
             type:'POST',
             url: '/user/avatar/upload',
@@ -74,7 +72,7 @@ $(document).ready(function () {
         });
     }));
 
-    //绑定文件选择事件，一选择了图片，就让`form`提交。
+    //绑定文件选择事件，一选择了图片，就让form提交。
     $("#upload_file").on("change", function() {
         $(this).parent().submit();
     });
@@ -82,8 +80,6 @@ $(document).ready(function () {
 });
 
 
-/*
- * 自定义函数*/
 function register() {
     var username = $('#username').val()
     var password = $('#password').val()
@@ -701,18 +697,23 @@ function remove_question_from_favorite(uid, question_id) {
     })
 }
 
-function get_more_favor_question() {
+function get_more_favor_question() 
+{
     var next_page = current_favor_page + 1;
     current_favor_page++
     var uid = user_uid
     var post_url = '/api/favorite/' + uid + '/page/'+ next_page +'.json'
-    $.getJSON(post_url, function (datas) {
-        if (jQuery.isEmptyObject(datas)){
+    $.getJSON(post_url, function (datas) 
+    {
+        if (jQuery.isEmptyObject(datas))
+        {
             $('#favor_question_more').children('span').text('没有更多了');
         }
-        else {
+        else 
+        {
             var obj = eval(datas)
-            for (var i=0; i<obj.length; i++) {
+            for (var i=0; i<obj.length; i++) 
+            {
                 var list_html = '<div class="aw-item"><div class="mod-head">'
                 list_html += '<a class="aw-user-img aw-border-radius-5" href="/people/'+ obj[i].questioner_uid +'">'
                 list_html += '<img src="'+ obj[i].avatar_url +'" alt="'+ obj[i].username +'">'
@@ -725,6 +726,38 @@ function get_more_favor_question() {
                 list_html += '</h4></div></div>'
                 $('#favor_question_list').append(list_html);
             }
+        }
+    })
+}
+
+function add_topic() {
+    var topic_name = $('#aw_edit_topic_title').val();
+    $.post('/topic/user/add', {
+        'topic_name': topic_name
+    }, function (status) {
+        if (status == 'existed') {
+            swal({
+                    title:'添加失败',
+                    text:'话题已经存在',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+            return false;
+        }
+        if (status == 'success') {
+            swal({
+                    title:'话题添加成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                var topic_html = '<span class="topic-tag"><a class="text">' +
+                topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
+                '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
+                topic_name + '" name="topics[]"></span>';
+                $('#pb_tag-bar').append(topic_html);
+            });
         }
     })
 }

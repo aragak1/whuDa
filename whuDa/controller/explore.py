@@ -551,3 +551,13 @@ def my_favorite():
                            favor_datas=favor_datas,
                            hot_topics=hot_users,
                            topics=topics)
+
+
+@app.route('/session/delete', methods=['POST'])
+def session_delete():
+    if is_login():
+        session_id = int(request.form.get('session_id'))
+        if db_message.Message().delete_session(session_id):
+            return 'success'
+        return 'error'
+    return 'error'
