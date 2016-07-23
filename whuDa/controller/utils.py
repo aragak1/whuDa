@@ -24,7 +24,7 @@ def is_login():
 
 
 def check_mail(email):
-    if match('[a-zA-Z0-9_.-]*@[a-zA-Z0-9._-]', email, 0):
+    if match('^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$', email, 0):
         return True
     return False
 
