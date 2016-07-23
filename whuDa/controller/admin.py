@@ -210,7 +210,6 @@ def admin_question():
                                 page_num=page_num)
     elif request.method=='POST':
         page=int(request.form.get('page'))
-        print page
         datas=datas[(page-1)*5:page*5]
         return json.dumps(datas, ensure_ascii=False)
 
@@ -224,7 +223,6 @@ def admin_update_question(question_id):
             'title':temp_question.title,
             'content':temp_question.content
         }
-        print data
         return render_template('admin/update_question.html',
                                 data=data)
     else :
@@ -345,7 +343,6 @@ def update_pwd():
     uid = request.form.get('uid')
     old_pwd = request.form.get('old_pwd')
     new_pwd = request.form.get('new_pwd')
-    print db_users.Users().check_pwd(uid, old_pwd)
     if not db_users.Users().check_pwd(uid, old_pwd):
         return 'error'
     else:
