@@ -241,3 +241,29 @@ class Questions(db.Model):
                 questions.append(data)
         return questions
 
+    # 获取用户收藏的问题
+    def get_favor_questions_by_page(self, uid, page_num, page_size):
+        import whuDa.model.question_favorite as db_question_favorite
+        favor_datas = []
+        questions = db.session.query(db_question_favorite.Question_favorite).\
+            filter(db_question_favorite.Question_favorite.uid == uid).all()
+        for question in questions:
+            favor_question = db.session.query(Questions).filter(Questions.question_id == question.question_id).first()
+            data = {
+                'questioner_uid': favor_question.questioner_uid,
+                'avatar_url': db_users.Users().get_user_by_id(uid).avatar_url,
+                'username': db_users.Users().get_user_by_id(uid).username,
+                'question_id': favor_question.question_id,
+                'reply_count': self.get_question_reply_count(favor_question.question_id),
+                'title': favor_question.title
+            }
+            favor_datas.append(data)
+
+        total_count = len(favor_datas)
+        start_index = (page_num - 1) * page_size
+        end_index = start_index + page_size
+        if total_count > start_index:
+            if total_count > end_index:
+                return favor_datas[start_index:end_index]
+            return favor_datas[start_index:]
+        return []

@@ -157,3 +157,9 @@ def get_search_datas(keyword):
     if not users and not topics and not questions:
         results['empty'] = True
     return json.dumps(results, ensure_ascii=False)
+
+
+@app.route('/api/favorite/<int:uid>/page/<int:page_num>.json', methods=['POST', 'GET'])
+def get_favorite_by_page(uid, page_num):
+    return json.dumps(db_questions.Questions().get_favor_questions_by_page(uid, page_num, 15), ensure_ascii=False)
+
