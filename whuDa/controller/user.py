@@ -129,8 +129,16 @@ def change_pass():
     old_password = request.form.get('old_password')
     new_password = request.form.get('new_password')
     re_password = request.form.get('re_password')
+    if old_password == '':
+        return 'old_empty'
+    if new_password == '':
+        return 'new_empty'
+    if re_password == '':
+        return 're_empty'
     if new_password != re_password:
         return 'not_same'
     if not db_users.Users().is_user_password(session['username'], old_password):
         return 'error_pass'
+    user = db_users.Users().get_user(session['username'])
+    db_users.Users().update_pwd(user.uid, new_password)
     return 'success'

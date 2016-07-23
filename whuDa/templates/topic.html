@@ -89,7 +89,7 @@
                     <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
                         <li><a href="/topic-recent-month">30 天</a></li>
                         <li><a href="/topic-recent-week">7 天</a></li>
-                        <li class="active"><a href="#">全部</a></li>
+                        <li class="active"><a href="/topic">全部</a></li>
                         <h2 class="hidden-xs"><i class="icon icon-topic"></i> 热门话题</h2>
                     </ul>
 
@@ -145,7 +145,7 @@
                                     </a>
 
                                 </dt>
-                                <dd class="pull-left">{{ today_topic.name }}</dd>
+                                <dd class="pull-left"><a href="/topic/{{ today_topic.topic_id }}">{{ today_topic.name }}</a></dd>
                             </dl>
                             <!-- 话题描述 -->
                             <p>

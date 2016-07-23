@@ -574,6 +574,33 @@ function change_pass() {
                     confirmButtonColor:'#499ef3'
                 });
         }
+        else if (status == 'old_empty') {
+            swal({
+                    title:'更改失败',
+                    text:'原密码不能为空',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+        }
+        else if (status == 'new_empty') {
+            swal({
+                    title:'更改失败',
+                    text:'新密码不能为空',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+        }
+        else if (status == 're_empty') {
+            swal({
+                    title:'更改失败',
+                    text:'请再次重复新密码',
+                    type:'warning',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+        }
         else if (status == 'error_pass') {
             swal({
                     title:'更改失败',
