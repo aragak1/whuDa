@@ -8,6 +8,7 @@ import whuDa.model.topics as db_topics
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.users as db_users
 import whuDa.model.answers as db_answers
+import whuDa.model.answer_agree as db_answer_agree
 from utils import get_past_time
 
 '''
@@ -107,7 +108,9 @@ def question(id):
             'username': answer_users[i].username,
             'avatar_url': answer_users[i].avatar_url,
             'introduction': answer_users[i].introduction,
-            'is_anonymous': answers[i].is_anonymous
+            'is_anonymous': answers[i].is_anonymous,
+            'agree_count': db_answer_agree.Anser_agree().get_answer_agree_count(answers[i].answer_id),
+            'answer_id': answers[i].answer_id
         }
         answers_and_users.append(answer_and_user)
     if question:
@@ -123,6 +126,8 @@ def question(id):
                 five_related_questions = related_questions[0:5]
             else:
                 five_related_questions = related_questions
+            for i in range(len(answers)):
+                answers_and_users[i]['agree'] = db_answer_agree.Anser_agree().agree(user.uid, answers[i].answer_uid)
             return render_template('login/login-question_detail.html',
                                    question=question,
                                    topics=topics,

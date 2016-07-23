@@ -67,19 +67,8 @@ create table answer_comments(
 
 create table answer_agree(
     id int(11) unsigned not null auto_increment comment '自增主键',
-    question_id int(11) not null comment '赞同问题的ID',
     answer_id int(11) not null comment '被赞回答的ID',
-    agree_uid int(11) not null comment '被赞用户的UID',
-    uid int(11) not null comment '赞同用户的UID',
-    primary key (id)
-) default charset=utf8;
-
-create table answer_disagree(
-    id int(11) unsigned not null auto_increment comment '自增主键',
-    question_id int(11) not null comment '反对问题的ID',
-    answer_id int(11) not null comment '被反对回答的ID',
-    disagree_uid int(11) not null comment '被反对用户的UID',
-    uid int(11) not null comment '反对用户UID',
+    agree_uid int(11) not null comment '赞用户的UID',
     primary key (id)
 ) default charset=utf8;
 
@@ -138,15 +127,6 @@ create table message(
     send_time int(10) not null comment '发送时间',
     is_read tinyint(1) not null default 0 comment '是否已读',
     primary key (message_id)
-) default charset=utf8;
-
-create table question_invite(
-    question_invite_id int(11) unsigned not null auto_increment comment '邀请ID',
-    question_id int(11) not null comment '邀请回答的问题ID',
-    sender_uid int(11) not null comment '发送邀请的用户UID',
-    recipient_uid int(11) not null comment '被邀请的用户UID',
-    send_time int(10) not null comment '邀请发送时间',
-    primary key(question_invite_id)
 ) default charset=utf8;
 
 create table question_favorite(
@@ -210,5 +190,6 @@ insert into topics(name, introducation) values
 ('代码', '代码就是程序员用开发工具所支持的语言写出来的源文件，是一组由字符、符号或信号码元以离散形式表示信息的明确的规则体系。代码设计的原则包括唯一确定性、标准化和通用性、可扩充性与稳定性、便于识别与记忆、力求短小与格式统一以及容易修改等'),
 ('老白', '老白是一个正直可爱并且非常善良的美少女，为我们提供了非常大的帮助'),
 ('国际软件学院', '武汉大学国际软件学院是教育部、国家计委首批批准成立的国家示范性软件学院，是为了适应我国经济结构战略性调整的要求和软件产业发展对人才的迫切需要而建立的，旨在为我国软件产业发展带来新的推动力，支持国家“以信息化带动工业化”的战略部署，培养复合型、实用型、国际化的高层次软件人才');
+insert into topic_recommend(recommend_time, topic_id) values(1469184324, 1);
 
 

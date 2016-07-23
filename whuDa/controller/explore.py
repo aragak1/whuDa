@@ -11,6 +11,7 @@ import whuDa.model.users as db_users
 import whuDa.model.notification as db_notification
 import whuDa.model.question_focus as db_question_focus
 import whuDa.model.message as db_message
+import whuDa.model.answer_agree as db_answer_agree
 from utils import is_login, get_discover_datas, page_html, get_hot_datas, get_wait_reply_datas, get_date
 from whuDa import app
 from utils import get_user_answer_datas, get_user_question_datas, get_user_focus_question_datas
@@ -548,3 +549,18 @@ def session_delete():
             return 'success'
         return 'error'
     return 'error'
+
+
+@app.route('/answer/update', methods=['POST'])
+def answer_update():
+    if is_login():
+        answer_id = int(request.form.get('answer_id'))
+        type_ = request.form.get('type')
+        user = db_users.Users().get_user(session['username'])
+        if type_ == 'agree':
+            db_answer_agree.Anser_agree().add_agree(user.uid, answer_id)
+        if type_ == 'disagree':
+            db_answer_agree.Anser_agree().delete_agree(user.uid, answer_id)
+        return 'success'
+    return 'error'
+

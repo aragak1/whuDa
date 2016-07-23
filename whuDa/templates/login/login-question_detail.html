@@ -193,7 +193,7 @@
                         </div>
                         <div class="mod-body aw-feed-list">
                             {% for x in answers_and_users %}
-                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_46859">
+                            <div class="aw-item" id="answer_list_46859">
                                 <div class="mod-head">
                                     {% if x.is_anonymous %}
                                         <a class="anchor" name="answer_1"></a>
@@ -201,10 +201,7 @@
                                         <a class="aw-user-img aw-border-radius-5"><img src="/static/img/avatar/avatar.png" alt="anonymous" /></a>
                                         <div class="title">
                                             <p>
-                                                <a class="aw-user-name">匿名用户</a>																																		</p>
-                                            <p class="text-color-999 aw-agree-by collapse">
-                                                赞同来自:
-                                            </p>
+                                                <a class="aw-user-name">匿名用户</a>
                                         </div>
                                     {% else %}
                                         <a class="anchor" name="answer_1"></a>
@@ -217,10 +214,7 @@
                                                     - <span class="text-color-999">
                                                     {{ x.introduction }}
                                                 {% endif %}
-                                                </span>																																			</p>
-                                            <p class="text-color-999 aw-agree-by collapse">
-                                                赞同来自:
-                                            </p>
+                                                </span>
                                         </div>
                                     {% endif %}
                                 </div>
@@ -238,20 +232,19 @@
                                         <span class="text-color-999 pull-right">17 小时前</span>
                                         <!-- 投票栏 -->
 											<span class="operate">
-												<a class="agree" onclick=";"><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i><b class="count">0</b></a>
-												</span>
+                                                {% if x.agree %}
+												    <a class="agree active" data-aid="{{ x.answer_id }}" onclick="answer_disagree(this);"><i data-placement="right" data-toggle="tooltip" class="icon icon-agree"></i><b class="count">{{ x.agree_count }}</b></a>
+                                                {% else %}
+                                                    <a class="agree" data-aid="{{ x.answer_id }}" onclick="answer_agree(this);"><i data-placement="right" data-toggle="tooltip" class="icon icon-agree"></i><b class="count">{{ x.agree_count }}</b></a>
+                                                {% endif %}
+                                            </span>
+
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
                         </div>
                         <div class="mod-footer">
-                            <div class="aw-load-more-content collapse" id="load_uninterested_answers">
-                                <span class="text-color-999 aw-alert-box text-color-999" href="javascript:;" tabindex="-1" onclick="AWS.alert('被折叠的回复是被你或者被大多数用户认为没有帮助的回复');">为什么被折叠?</span>
-                                <a href="javascript:;" class="aw-load-more-content"><span class="hide_answers_count">0</span> 个回复被折叠</a>
-                            </div>
-
-                            <div class="collapse aw-feed-list" id="uninterested_answers_list"></div>
                         </div>
                     </div>
 
