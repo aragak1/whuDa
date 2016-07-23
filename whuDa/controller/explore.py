@@ -540,6 +540,19 @@ def remove_from_favorite():
     return 'success'
 
 
+@app.route('/favorite')
+def my_favorite():
+    user = db_users.Users().get_user(session['username'])
+    favor_datas = db_questions.Questions().get_favor_questions_by_page(user.uid, 1, 15)
+    hot_users = db_users.Users().get_top3_users()
+    topics = db_topics.Topics().get_3_topics(user.uid)
+    return render_template('login/my_favor_questions.html',
+                           user=user,
+                           favor_datas=favor_datas,
+                           hot_topics=hot_users,
+                           topics=topics)
+
+
 @app.route('/session/delete', methods=['POST'])
 def session_delete():
     if is_login():

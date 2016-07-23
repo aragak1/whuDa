@@ -697,6 +697,39 @@ function remove_question_from_favorite(uid, question_id) {
     })
 }
 
+function get_more_favor_question() 
+{
+    var next_page = current_favor_page + 1;
+    current_favor_page++
+    var uid = user_uid
+    var post_url = '/api/favorite/' + uid + '/page/'+ next_page +'.json'
+    $.getJSON(post_url, function (datas) 
+    {
+        if (jQuery.isEmptyObject(datas))
+        {
+            $('#favor_question_more').children('span').text('没有更多了');
+        }
+        else 
+        {
+            var obj = eval(datas)
+            for (var i=0; i<obj.length; i++) 
+            {
+                var list_html = '<div class="aw-item"><div class="mod-head">'
+                list_html += '<a class="aw-user-img aw-border-radius-5" href="/people/'+ obj[i].questioner_uid +'">'
+                list_html += '<img src="'+ obj[i].avatar_url +'" alt="'+ obj[i].username +'">'
+                list_html += '</a><p class="text-color-999">'
+                list_html += '<a href="/question/'+ obj[i].question_id +'" class="text-color-999">'+ obj[i].reply_count +' 个回复</a>'
+                list_html += '</p><h4>'
+                list_html += '<a href="/question/'+ obj[i].question_id +'">'+ obj[i].title +'</a>'
+                list_html += '<a href="javascript:;" onclick="remove_question_from_favorite(user_uid, '+ obj[i].question_id +')" class="pull-right text-color-999" style="color: #499ef3;">'
+                list_html += '取消收藏</a>'
+                list_html += '</h4></div></div>'
+                $('#favor_question_list').append(list_html);
+            }
+        }
+    })
+}
+
 function add_topic() {
     var topic_name = $('#aw_edit_topic_title').val();
     $.post('/topic/user/add', {
