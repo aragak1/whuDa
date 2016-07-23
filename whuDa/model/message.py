@@ -19,7 +19,10 @@ class Message(db.Model):
 
     # 开启一次新的会话
     def send_new_session(self, sender_uid, recipient_uid, content):
-        session_id = Message.query.order_by(desc(Message.session_id)).first().session_id + 1
+        if not Message.query.count():
+            session_id = 1
+        else:
+            session_id = Message.query.order_by(desc(Message.session_id)).first().session_id + 1
         message = Message(sender_uid=sender_uid,
                           recipient_uid=recipient_uid,
                           content=content,
