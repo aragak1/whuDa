@@ -195,6 +195,7 @@ def topic_detail(topic_id):
     elif request.method == 'POST':
         return 'error'
 
+
 # 添加关注话题
 @app.route('/topic/cancel_focus', methods=['POST'])
 def cancel_topic_focus():
