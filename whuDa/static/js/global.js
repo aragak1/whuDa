@@ -718,7 +718,13 @@ function add_topic() {
                     type:'success',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
-                });
+                }, function () {
+                var topic_html = '<span class="topic-tag"><a class="text">' +
+                topic_name + '</a><a class="close" onclick="$(this).parents(\'.topic-tag\').remove();">' +
+                '<i class="icon icon-delete"></i></a><input type="hidden" value="' +
+                topic_name + '" name="topics[]"></span>';
+                $('#pb_tag-bar').append(topic_html);
+            });
         }
     })
 }
