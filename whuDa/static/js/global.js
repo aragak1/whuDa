@@ -732,7 +732,17 @@ function get_more_favor_question()
 }
 
 function add_topic() {
-    var topic_name = $('#aw_edit_topic_title').val();
+    var topic_name = $.trim($('#aw_edit_topic_title').val());
+    if (topic_name == '') {
+        swal({
+                    title:'添加失败',
+                    text:'话题不能为空',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+            return false;
+    }
     $.post('/topic/user/add', {
         'topic_name': topic_name
     }, function (status) {
