@@ -12,11 +12,11 @@ import whuDa.model.topic_focus as db_topic_focus
 
 @app.route('/topic')
 def topic():
-    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15)
+    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=14)
     today_topic = db_topics.Topics().get_topic_by_id(
         db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
     pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                           page_size=15,
+                           page_size=14,
                            current_page=1,
                            url='topic/page')
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
@@ -38,9 +38,9 @@ def topic():
 @app.route('/topic/page/<int:page_num>')
 def get_page_topic(page_num):
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
-    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15)
+    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=14)
     pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                           page_size=15,
+                           page_size=14,
                            current_page=page_num,
                            url='topic/page')
     today_topic = db_topics.Topics().get_topic_by_id(
@@ -64,9 +64,9 @@ def get_page_topic(page_num):
 
 @app.route('/topic-recent-week')
 def topic_recent_week():
-    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15, last_week=True)
+    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=14, last_week=True)
     pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                           page_size=15,
+                           page_size=14,
                            current_page=1,
                            url='topic/page')
     today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
@@ -90,9 +90,9 @@ def topic_recent_week():
 
 @app.route('/topic-recent-week/page/<int:page_num>')
 def topic_recent_week_page(page_num):
-    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15, last_week=True)
+    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=14, last_week=True)
     pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                           page_size=15,
+                           page_size=14,
                            current_page=page_num,
                            url='topic-recent-week/page')
     today_topic = db_topics.Topics().get_topic_by_id(
@@ -119,9 +119,9 @@ def topic_recent_week_page(page_num):
 @app.route('/topic-recent-month')
 def topic_recent_month():
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
-    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=15, last_month=True)
+    datas = db_topics.Topics().get_topics_by_page(page_num=1, page_size=14, last_month=True)
     pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                           page_size=15,
+                           page_size=14,
                            current_page=1,
                            url='topic/page')
     today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
@@ -145,9 +145,9 @@ def topic_recent_month():
 @app.route('/topic-recent-month/page/<int:page_num>')
 def topic_recent_month_page(page_num):
     db_topic_recommend.Topic_recommend().test_and_update_today_recommend_topic()
-    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=15, last_month=True)
+    datas = db_topics.Topics().get_topics_by_page(page_num=page_num, page_size=14, last_month=True)
     pagination = page_html(total_count=db_topics.Topics().get_topic_count(),
-                           page_size=15,
+                           page_size=14,
                            current_page=page_num,
                            url='topic/page')
     today_topic = db_topics.Topics().get_topic_by_id(db_topic_recommend.Topic_recommend().get_today_recommend_topic_id())
