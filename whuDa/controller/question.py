@@ -1,7 +1,7 @@
 # _*_ coding:utf8 _*_
 from whuDa import app,db
 from flask import request, redirect, render_template, session
-from utils import is_login
+from utils import is_login, get_past_time
 import whuDa.model.questions as db_questions
 import whuDa.model.topic_question as db_topic_questions
 import whuDa.model.topics as db_topics
@@ -110,7 +110,8 @@ def question(id):
             'introduction': answer_users[i].introduction,
             'is_anonymous': answers[i].is_anonymous,
             'agree_count': db_answer_agree.Anser_agree().get_answer_agree_count(answers[i].answer_id),
-            'answer_id': answers[i].answer_id
+            'answer_id': answers[i].answer_id,
+            'answer_time': get_past_time(answers[i].answer_time)
         }
         answers_and_users.append(answer_and_user)
     if question:
