@@ -225,6 +225,8 @@ def user_add_topic():
         topic_name = request.form.get('topic_name')
         if db_topics.Topics().is_exist_topic_name(topic_name):
             return 'existed'
+        if not topic_name or topic_name.isspace():
+            return 'empty'
         db_topics.Topics().add_topic(name=topic_name, introduction=topic_name)
         return 'success'
     return 'error'

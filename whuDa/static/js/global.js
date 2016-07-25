@@ -770,6 +770,15 @@ function add_topic() {
                 $('#pb_tag-bar').append(topic_html);
             });
         }
+        if (status == 'empty') {
+            swal({
+                    title:'添加失败',
+                    text:'话题不能为空',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+        }
     })
 }
 
