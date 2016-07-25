@@ -1,6 +1,6 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
-from flask import render_template, request,redirect
+from flask import render_template, request, redirect, session
 from whuDa.controller.utils import resize_pic, requires_auth, page_html
 import whuDa.model.topics as db_topics
 import whuDa.model.questions as db_questions
@@ -350,6 +350,20 @@ def update_pwd():
         return 'success'
 
 
-@app.route('/admin/login')
+@app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
-    return render_template('admin/login.html')
+    if request.method == 'GET':
+        return render_template('admin/login.html')
+    else:
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if db_users.Users().admin_login(username, password):
+            session['admin'] = username
+            return 'success'
+        return 'error'
+
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin', None)
+    return redirect('/')

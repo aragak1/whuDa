@@ -297,3 +297,9 @@ class Users(db.Model):
         old_row = Users.query.filter(Users.uid == uid).first()
         old_row.password = md5(new_pwd + salt).hexdigest()
         db.session.commit()
+
+    def admin_login(self, username, password, login_type='username'):
+        if self.vaild(username, password, login_type):
+            if db.session.query(Users).filter(Users.username == username, Users.group_id == 0).count():
+                return True
+        return False

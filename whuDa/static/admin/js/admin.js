@@ -572,3 +572,25 @@ function update_password() {
         }
     })
 }
+
+function admin_login() {
+    var username = $('input[name="username"]').val()
+    var password = $('input[name="password"]').val()
+    $.post('/admin/login', {
+        'username': username,
+        'password': password
+    }, function (status) {
+        if (status == 'success') {
+            location.href = '/admin'
+        } else if (status == 'error') {
+            swal({
+                title: '登录失败',
+                text: '用户名或密码不正确',
+                type: 'error',
+                confirmButtonText: '确定',
+                confirmButtonColor: '#337ab7'
+            });
+            return false;
+        }
+    })
+}
