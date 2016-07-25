@@ -41,7 +41,7 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    Terry
+                    {{ admin.username }}
                 </a>
                 <!-- /.dropdown-user -->
             </li>
@@ -53,7 +53,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                    <li><a href="/admin/logout"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -223,6 +223,7 @@
                                     </div>
                                     <div class="timeline-body">
                                         <p>你可以添加新的管理员，新的管理员用户同样拥有对系统的控制权限。</p>
+                                        <p>注意：默认的管理员用户和密码都为admin，请及时创建新的管理员用户或更改你的密码。</p>
                                     </div>
                                 </div>
                             </li>

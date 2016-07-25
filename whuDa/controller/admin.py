@@ -13,8 +13,10 @@ sys.setdefaultencoding('utf8')
 
 
 @app.route('/admin')
+@requires_auth
 def admin_index():
-    return render_template('admin/index.html')
+    admin = db_users.Users().get_user(session['admin'])
+    return render_template('admin/index.html', admin=admin)
 
 
 @app.template_filter('timeformat')
@@ -24,21 +26,24 @@ def timeformat_filter(t, format):
 
 
 @app.route('/admin/manage_admin/page/<int:page_num>')
+@requires_auth
 def manage_admin(page_num):
+    admin = db_users.Users().get_user(session['admin'])
     pagination = page_html(total_count=db_users.Users().get_admin_count(),
                            page_size=15,
                            current_page=page_num,
                            url='admin/manage_admin/page')
     return render_template('/admin/manage_admin.html',
                            admin_datas=db_users.Users().get_admins_by_page(page_num, 15),
-                           pagination=pagination)
+                           pagination=pagination,
+                           admin=admin)
 
 
 @app.route('/admin/manage_admin/add', methods=['POST'])
+@requires_auth
 def admin_add_admin():
     username = request.form.get('username')
     password = request.form.get('password')
-    repeat_password = request.form.get('repeat_password')
     sex = request.form.get('sex')
     birthday_y = request.form.get('birthday_y')
     birthday_m = request.form.get('birthday_m')
@@ -61,21 +66,24 @@ def admin_add_admin():
 
 
 @app.route('/admin/manage_user/page/<int:page_num>')
+@requires_auth
 def manage_user(page_num):
+    admin = db_users.Users().get_user(session['admin'])
     pagination = page_html(total_count=db_users.Users().get_general_user_count(),
                            page_size=15,
                            current_page=page_num,
                            url='admin/manage_user/page')
     return render_template('/admin/manage_user.html',
                            user_datas=db_users.Users().get_general_user_by_page(page_num, 15),
-                           pagination=pagination)
+                           pagination=pagination,
+                           admin=admin)
 
 
 @app.route('/admin/manage_user/add', methods=['POST'])
+@requires_auth
 def admin_add_user():
     username = request.form.get('username')
     password = request.form.get('password')
-    repeat_password = request.form.get('repeat_password')
     sex = request.form.get('sex')
     birthday_y = request.form.get('birthday_y')
     birthday_m = request.form.get('birthday_m')
@@ -98,15 +106,18 @@ def admin_add_user():
 
 
 @app.route('/admin/topic/page/<int:page_num>')
+@requires_auth
 def admin_topic(page_num):
+    admin = db_users.Users().get_user(session['admin'])
     total_count = db_topics.Topics().get_topic_count()
     pagination = page_html(total_count=total_count, page_size=15, current_page=page_num, url='admin/topic/page')
     topics = db_topics.Topics().get_raw_topics_by_page(page_num=page_num, page_size=15)
-    return render_template('admin/topic.html', topics=topics, pagination=pagination)
+    return render_template('admin/topic.html', topics=topics, pagination=pagination, admin=admin)
 
 
 # form直接提交
 @app.route('/admin/topic/add', methods=['POST'])
+@requires_auth
 def admin_add_topic():
     upload_folder = 'whuDa/static/img/topic'
     allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -138,6 +149,7 @@ def admin_add_topic():
 
 # form直接提交
 @app.route('/admin/topic/update', methods=['POST'])
+@requires_auth
 def admin_update_topic():
     upload_folder = 'whuDa/static/img/topic'
     allowed_extensions = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -178,6 +190,7 @@ def admin_update_topic():
 
 # js提交
 @app.route('/admin/topic/delete', methods=['POST'])
+@requires_auth
 def admin_delete_topic():
     topic_id = request.form.get('topic_id')
     if db_topic_question.Topic_question().get_question_count(topic_id=topic_id):
@@ -187,45 +200,49 @@ def admin_delete_topic():
         return 'success'
 
 
-@app.route('/admin/questions',methods=['POST','GET'])
+@app.route('/admin/questions',methods=['POST', 'GET'])
+@requires_auth
 def admin_question():
-    temp_questions=db_questions.Questions().get_all_questions()
-    datas=[]
-    count=0
-    page_num=0
+    admin = db_users.Users().get_user(session['admin'])
+    temp_questions = db_questions.Questions().get_all_questions()
+    datas = []
+    count = 0
+    page_num = 0
     for quesion in temp_questions:
-        data={
-            'id':quesion.question_id,
-            'title':quesion.title,
-            'content':quesion.content
+        data = {
+            'id': quesion.question_id,
+            'title': quesion.title,
+            'content': quesion.content
         }
-        count+=1
+        count += 1
         datas.append(data)
-    if request.method=='GET':
-        datas=datas[:5]
-        page_num=int((count+4)/5)
+    if request.method == 'GET':
+        datas = datas[:5]
+        page_num = int((count+4)/5)
         return render_template('admin/question.html',
-                                datas=datas,
-                                count=count,
-                                page_num=page_num)
-    elif request.method=='POST':
-        page=int(request.form.get('page'))
-        datas=datas[(page-1)*5:page*5]
+                               datas=datas,
+                               count=count,
+                               page_num=page_num,
+                               admin=admin)
+    elif request.method == 'POST':
+        page = int(request.form.get('page'))
+        datas = datas[(page-1)*5:page*5]
         return json.dumps(datas, ensure_ascii=False)
 
 
-
-@app.route('/admin/updateQuestion/<int:question_id>', methods=['POST','GET'])
+@app.route('/admin/updateQuestion/<int:question_id>', methods=['POST', 'GET'])
+@requires_auth
 def admin_update_question(question_id):
-    temp_question=db_questions.Questions().get_question_by_id(question_id)
-    if request.method=='GET':
-        data={
-            'title':temp_question.title,
-            'content':temp_question.content
+    admin = db_users.Users().get_user(session['admin'])
+    temp_question = db_questions.Questions().get_question_by_id(question_id)
+    if request.method == 'GET':
+        data = {
+            'title': temp_question.title,
+            'content': temp_question.content
         }
         return render_template('admin/update_question.html',
-                                data=data)
-    else :
+                               data=data, admin=admin)
+    else:
         title = request.form.get('title')
         content = request.form.get('content')
         db_questions.Questions.query.filter_by(question_id=question_id).update({'title':title,'content':content})
@@ -233,13 +250,17 @@ def admin_update_question(question_id):
 
 
 @app.route('/admin/topic/<int:topic_id>')
+@requires_auth
 def admin_topic_detail(topic_id):
+    admin = db_users.Users().get_user(session['admin'])
     topic = db_topics.Topics().get_topic_by_id(topic_id)
-    return render_template('admin/update_topic.html', topic=topic)
+    return render_template('admin/update_topic.html', topic=topic, admin=admin)
 
 
 @app.route('/admin/manage_admin/<int:uid>')
+@requires_auth
 def admin_detail(uid):
+    admin = db_users.Users().get_user(session['admin'])
     from utils import get_date
     import time
     import whuDa.model.department as db_department
@@ -254,11 +275,13 @@ def admin_detail(uid):
                            user=user,
                            dates=dates,
                            birthday=birthday,
-                           departments=departments)
+                           departments=departments, admin=admin)
 
 
 @app.route('/admin/manage_user/<int:uid>')
+@requires_auth
 def general_user_detail(uid):
+    admin = db_users.Users().get_user(session['admin'])
     from utils import get_date
     import time
     import whuDa.model.department as db_department
@@ -273,10 +296,12 @@ def general_user_detail(uid):
                            user=user,
                            dates=dates,
                            birthday=birthday,
-                           departments=departments)
+                           departments=departments,
+                           admin=admin)
 
 
 @app.route('/admin/manage_admin/update', methods=['POST'])
+@requires_auth
 def admin_update_admin():
     uid = request.form.get('uid')
     username = request.form.get('username')
@@ -302,6 +327,7 @@ def admin_update_admin():
 
 
 @app.route('/admin/manage_user/update', methods=['POST'])
+@requires_auth
 def admin_update_user():
     uid = request.form.get('uid')
     username = request.form.get('username')
@@ -327,6 +353,7 @@ def admin_update_user():
 
 
 @app.route('/admin/user/delete', methods=['POST'])
+@requires_auth
 def admin_delete_user():
     uid = request.form.get('uid')
     db_users.Users().delete_user(uid)
@@ -334,11 +361,14 @@ def admin_delete_user():
 
 
 @app.route('/admin/update_password_page/<int:flag>/<int:uid>')
+@requires_auth
 def admin_update_password(flag, uid):
-    return render_template('admin/update_password.html', flag=flag, uid=uid)
+    admin = db_users.Users().get_user(session['admin'])
+    return render_template('admin/update_password.html', flag=flag, uid=uid, admin=admin)
 
 
 @app.route('/admin/update_password', methods=['POST'])
+@requires_auth
 def update_pwd():
     uid = request.form.get('uid')
     old_pwd = request.form.get('old_pwd')
@@ -364,6 +394,7 @@ def admin_login():
 
 
 @app.route('/admin/logout')
+@requires_auth
 def admin_logout():
     session.pop('admin', None)
     return redirect('/')
