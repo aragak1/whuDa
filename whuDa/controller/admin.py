@@ -348,3 +348,8 @@ def update_pwd():
     else:
         db_users.Users().update_pwd(uid, new_pwd)
         return 'success'
+
+
+@app.route('/admin/login')
+def admin_login():
+    return render_template('admin/login.html')
