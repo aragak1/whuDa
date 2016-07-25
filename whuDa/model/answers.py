@@ -83,3 +83,6 @@ class Answers(db.Model):
             return answers[start_index:]
         return []
 
+    def get_total_answer_count(self):
+        return Answers.query.count()
+

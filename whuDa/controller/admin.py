@@ -1,12 +1,12 @@
 # _*_ coding:utf8 _*_
 from whuDa import app
 from flask import render_template, request, redirect, session
-from whuDa.controller.utils import resize_pic, requires_auth, page_html
+from whuDa.controller.utils import resize_pic, requires_auth
 import whuDa.model.topics as db_topics
 import whuDa.model.questions as db_questions
 import whuDa.model.topic_question as db_topic_question
 import os, sys, json
-from utils import page_html, check_mail, check_username, birthday_to_unix_time
+from utils import page_html, birthday_to_unix_time, get_admin_index_data
 import whuDa.model.users as db_users
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -16,7 +16,9 @@ sys.setdefaultencoding('utf8')
 @requires_auth
 def admin_index():
     admin = db_users.Users().get_user(session['admin'])
-    return render_template('admin/index.html', admin=admin)
+    return render_template('admin/index.html',
+                           admin=admin,
+                           data=get_admin_index_data())
 
 
 @app.template_filter('timeformat')
@@ -200,7 +202,7 @@ def admin_delete_topic():
         return 'success'
 
 
-@app.route('/admin/questions',methods=['POST', 'GET'])
+@app.route('/admin/questions', methods=['POST', 'GET'])
 @requires_auth
 def admin_question():
     admin = db_users.Users().get_user(session['admin'])

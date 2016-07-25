@@ -267,3 +267,7 @@ class Questions(db.Model):
                 return favor_datas[start_index:end_index]
             return favor_datas[start_index:]
         return []
+
+    # 获取问题数
+    def get_question_count(self):
+        return Questions.query.count()

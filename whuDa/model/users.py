@@ -303,3 +303,7 @@ class Users(db.Model):
             if db.session.query(Users).filter(Users.username == username, Users.group_id == 0).count():
                 return True
         return False
+
+    # 获取用户数
+    def get_user_count(self):
+        return Users.query.count()

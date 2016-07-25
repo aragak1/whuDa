@@ -11,6 +11,7 @@ import whuDa.model.question_focus as db_question_focus
 import whuDa.model.answers as db_answers
 import whuDa.model.answer_agree as db_answer_agree
 import whuDa.model.notification as db_notification
+import whuDa.model.topics as db_topics
 import sys
 
 reload(sys)
@@ -489,3 +490,13 @@ def requires_auth(f):
         else:
             return redirect('/')
     return wrapped
+
+
+def get_admin_index_data():
+    data = {
+        'user_count': db_users.Users().get_user_count(),
+        'question_count': db_questions.Questions().get_question_count(),
+        'answer_count': db_answers.Answers().get_total_answer_count(),
+        'topic_count': db_topics.Topics().get_topic_count()
+    }
+    return data
