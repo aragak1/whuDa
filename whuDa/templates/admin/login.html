@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>whuDa后台管理系统 - 登录</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/admin/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/admin/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="/static/sw/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/sw/sweetalert.css">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">登录</h3>
+                </div>
+                <div class="panel-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="用户名" name="username" type="email" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="密码" name="password" type="password" value="">
+                        </div>
+                        <a class="btn btn-lg btn-primary btn-block" onclick="admin_login();">Login</a>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/jquery.2.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/admin/js/admin.js"></script>
+</body>
+</html>

@@ -656,9 +656,10 @@ function user_focus_topics_more() {
 function global_search() {
     var keyword = $('#aw-search-query').val()
     if (keyword == '' || keyword.replace(/^\s+|\s+$/g,"").length == 0) {
-        return
+        return false;
     }
-    location.href = '/search/' + keyword
+    location.href = '/search/' + encodeURIComponent(keyword)
+    
 }
 
 function add_question_to_favorite(uid, question_id) {
