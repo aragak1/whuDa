@@ -95,7 +95,7 @@ def question(id):
     answer_count = db_answers.Answers().get_answer_count(question.question_id)
     questioner = db_users.Users().get_user_by_id(uid=question.questioner_uid)
     question_focus_cnt = db_question_focus.Question_focus().get_question_foucs_count(id)
-    answers = db_answers.Answers().get_all_answer(id)
+    answers = db_answers.Answers().get_all_answer(question_id=id)
     answer_users = []
     for answer in answers:
         answer_users.append(db_users.Users().get_user_by_id(answer.answer_uid))
