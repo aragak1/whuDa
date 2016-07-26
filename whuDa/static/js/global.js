@@ -781,25 +781,3 @@ function add_topic() {
         }
     })
 }
-
-function answer_agree(obj) {
-    var answer_id = obj.getAttribute('data-aid');
-    var type = 'agree';
-    $.post('/answer/update', {
-        'answer_id': answer_id,
-        'type': type
-    }, function () {
-        location.reload();
-    })
-}
-
-function answer_disagree(obj) {
-    var answer_id = obj.getAttribute('data-aid');
-    var type = 'disagree';
-    $.post('/answer/update', {
-        'answer_id': answer_id,
-        'type': type
-    }, function () {
-        location.reload();
-    })
-}
