@@ -110,3 +110,4 @@ class Topic_focus(db.Model):
             return focus_topics[start_index:]
         return []
 
+

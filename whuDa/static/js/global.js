@@ -263,10 +263,46 @@ function publish_question() {
                     confirmButtonColor:'#499ef3'
                 });
         }
-        else if(status == 'empty_content') {
+        else{
             swal({
-                    title:'发布失败',
-                    text:'请填写回复内容',
+                    title:'发布成功',
+                    type:'success',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.href = '/question/' + status
+            });
+        }
+    });
+};
+
+function update_question(obj) {
+    var question_id = obj.getAttribute('data-id')
+    var title = $('#question_contents').val()
+    var content =  editor.$txt.html();
+    var topics = new Array()
+    $('a.text').each(function () {
+        topics.push($(this).text())
+    });
+    $.post('/update/question',{
+        title:title,
+        content:content,
+        'topics[]':topics,
+        question_id: question_id
+    },function (status) {
+        if (status == 'empty_title') {
+            swal({
+                    title:'修改失败',
+                    text:'标题不能为空',
+                    type:'warning',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                });
+        }
+        else if (status == 'empty_topics') {
+            swal({
+                    title:'修改失败',
+                    text:'至少应该选择一个话题',
                     type:'warning',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
@@ -274,7 +310,7 @@ function publish_question() {
         }
         else{
             swal({
-                    title:'发布成功',
+                    title:'修改成功',
                     type:'success',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'
@@ -306,6 +342,17 @@ function publish_comment() {
             swal({
                     title:'评论失败',
                     text:'你已经回复过这个答案',
+                    type:'error',
+                    confirmButtonText:'确定',
+                    confirmButtonColor:'#499ef3'
+                }, function () {
+                location.reload()
+            });
+        }
+        else if (status == 'empty_content'){
+            swal({
+                    title:'评论失败',
+                    text:'评论内容不能为空',
                     type:'error',
                     confirmButtonText:'确定',
                     confirmButtonColor:'#499ef3'

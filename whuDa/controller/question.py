@@ -37,14 +37,16 @@ def publish():
 
 
 @app.route('/publish/<int:question_id>', methods=['GET', 'POST'])
-def update_question(question_id):
+def update_question_(question_id):
     if is_login():
         if request.method == 'POST':
             return 'success'
         else:
             user = db_users.Users().get_user(session['username'])
             question = db_questions.Questions().get_question_by_id(question_id)
-            return render_template('login/publish.html', user=user, question=question)
+            return render_template('login/update_question.html',
+                                   user=user,
+                                   question=question)
     return redirect('/')
 
 
@@ -84,6 +86,30 @@ def publish_question():
             db_users.Users().add_question_count(session['username'])
             return str(question_id)
     return redirect('/')
+
+
+@app.route('/update/question', methods=['POST'])
+def update_question():
+    if is_login():
+        title = request.form.get('title')
+        content = request.form.get('content')
+        topics = request.form.getlist('topics[]')
+        question_id = int(request.form.get('question_id'))
+        if title == '':
+            return 'empty_title'
+        if not topics:
+            return 'empty_topics'
+        db_questions.Questions().update_question(question_id, title=title, content=content)
+        db_topic_questions.Topic_question().delete_question_topics(question_id)
+
+        # 把问题所属的话题加入表中
+        for topic in topics:
+            topic_id = db_topics.Topics().get_topic_id_by_name(topic)
+            db_topic_questions.Topic_question().add_to_topic(
+                question_id=question_id,
+                topic_id=topic_id)
+        return str(question_id)
+    return 'error'
 
 
 @app.route('/question/<int:id>')
@@ -163,7 +189,8 @@ def answer():
         # 判断是否已经回答过该问题
         if db_answers.Answers().answered(uid=answer_user.uid, question_id=question_id):
             return 'answered'
-        if answer_content == '':
+        # 回复编辑器自带<p><br></p>标签
+        if len(answer_content) <= 11:
             return 'empty_content'
         # 添加答案
         db_answers.Answers().add_answer(question_id=question_id,

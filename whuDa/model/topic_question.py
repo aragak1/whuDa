@@ -54,3 +54,8 @@ class Topic_question(db.Model):
             result.append(item.question_id)
         return result
 
+    # 删除问题所属的话题
+    def delete_question_topics(self, question_id):
+        for row in Topic_question.query.filter_by(question_id=question_id).all():
+            db.session.delete(row)
+            db.session.commit()

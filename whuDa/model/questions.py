@@ -271,3 +271,9 @@ class Questions(db.Model):
     # 获取问题数
     def get_question_count(self):
         return Questions.query.count()
+
+    # 修改问题
+    def update_question(self, question_id, title, content):
+        question = Questions.query.filter_by(question_id=question_id)
+        question.update({Questions.title: title, Questions.content: content})
+        db.session.commit()
