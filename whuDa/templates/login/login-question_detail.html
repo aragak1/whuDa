@@ -234,7 +234,7 @@
                                                 {% if x.agree %}
                                                     <a class="agree active" data-aid="{{ x.answer_id }}" onclick="answer_disagree(this);"><i data-placement="right" data-toggle="tooltip" class="icon icon-agree"></i><b class="count">{{ x.agree_count }}</b></a>
                                                 {% else %}
-                                                    <a class="agree" data-aid="{{ x.answer_id }}" onclick="answer_agree(this);"><i data-placement="right" data-toggle="tooltip" class="icon icon-agree"></i><b class="count">{{ x.agree_count }}</b></a>
+                                                    <a class="agree {{ x.agree }}" data-aid="{{ x.answer_id }}" onclick="answer_agree(this);"><i data-placement="right" data-toggle="tooltip" class="icon icon-agree"></i><b class="count">{{ x.agree_count }}</b></a>
                                                 {% endif %}
                                             </span>
 
