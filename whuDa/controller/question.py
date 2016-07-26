@@ -128,7 +128,7 @@ def question(id):
             else:
                 five_related_questions = related_questions
             for i in range(len(answers)):
-                answers_and_users[i]['agree'] = db_answer_agree.Anser_agree().agree(user.uid, answers[i].answer_uid)
+                answers_and_users[i]['agree'] = db_answer_agree.Anser_agree().agree(user.uid, answers[i].answer_id)
             return render_template('login/login-question_detail.html',
                                    question=question,
                                    topics=topics,
