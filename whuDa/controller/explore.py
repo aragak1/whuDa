@@ -567,13 +567,16 @@ def session_delete():
 @app.route('/answer/update', methods=['POST'])
 def answer_update():
     if is_login():
+        import whuDa.model.answers as db_answers
         answer_id = int(request.form.get('answer_id'))
         type_ = request.form.get('type')
         user = db_users.Users().get_user(session['username'])
         if type_ == 'agree':
             db_answer_agree.Anser_agree().add_agree(user.uid, answer_id)
+            db_users.Users().update_user_agree(db_answers.Answers().get_answer_uid(answer_id))
         if type_ == 'disagree':
             db_answer_agree.Anser_agree().delete_agree(user.uid, answer_id)
+            db_users.Users().update_user_agree(db_answers.Answers().get_answer_uid(answer_id), decrease=True)
         return 'success'
     return 'error'
 

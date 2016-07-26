@@ -86,3 +86,7 @@ class Answers(db.Model):
     def get_total_answer_count(self):
         return Answers.query.count()
 
+    # 获取某一个回复的回答者
+    def get_answer_uid(self, answer_id):
+        return Answers.query.filter_by(answer_id=answer_id).first().answer_uid
+

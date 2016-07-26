@@ -20,6 +20,8 @@ class Anser_agree(db.Model):
 
     # 赞同某个答案
     def add_agree(self, uid, answer_id):
+        if Anser_agree.query.filter(Anser_agree.answer_id == answer_id, Anser_agree.agree_uid == uid).count():
+            return False
         row = Anser_agree(answer_id=answer_id, agree_uid=uid)
         db.session.add(row)
         db.session.commit()

@@ -307,3 +307,12 @@ class Users(db.Model):
     # 获取用户数
     def get_user_count(self):
         return Users.query.count()
+
+    # 用户赞同数增加/减少
+    def update_user_agree(self, uid, decrease=False):
+        user = Users.query.filter_by(uid=uid)
+        if decrease:
+            user.update({Users.agree_count: Users.agree_count - 1})
+        else:
+            user.update({Users.agree_count: Users.agree_count + 1})
+        db.session.commit()
