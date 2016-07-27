@@ -190,7 +190,7 @@ def answer():
         if db_answers.Answers().answered(uid=answer_user.uid, question_id=question_id):
             return 'answered'
         # 回复编辑器自带<p><br></p>标签
-        if len(answer_content) <= 11:
+        if len(answer_content) <= 1:
             return 'empty_content'
         # 添加答案
         db_answers.Answers().add_answer(question_id=question_id,

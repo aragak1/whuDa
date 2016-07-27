@@ -431,6 +431,7 @@ def get_dynamic_datas_by_page(page_num, page_size, uid):
             'agree_count': db_answer_agree.Anser_agree().get_answer_agree_count(question.question_id)
         }
         datas.append(data)
+    datas.reverse()
     start_index = (page_num-1) * page_size
     end_index = start_index + page_size
     total_count = len(questions)
