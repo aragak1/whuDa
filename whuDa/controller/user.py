@@ -51,13 +51,15 @@ def login():
             login_type = 'email'
         else:
             login_type = 'username'
-
         if username == '' or username.isspace():
             return 'error1'
         elif password == '':
             return 'error2'
         elif db_users.Users().vaild(username, password, login_type):
-            session['username'] = username
+            if login_type == 'email':
+                session['username'] = db_users.Users().get_user_by_email(username).username
+            else:
+                session['username'] = username
             return 'success'
         else:
             return 'false'

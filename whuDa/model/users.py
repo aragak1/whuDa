@@ -69,6 +69,10 @@ class Users(db.Model):
     def get_user(self, username):
         return db.session.query(Users).filter(Users.username == username).first()
 
+    # 通过email获取一个user
+    def get_user_by_email(self, email):
+        return Users.query.filter_by(email=email).first()
+
     # 通过uid获取一个user
     def get_user_by_id(self, uid):
         return Users.query.filter_by(uid=uid).first()
