@@ -12,6 +12,8 @@
     <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/static/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <link href="/static/editor/css/wangEditor.min.css" rel="stylesheet" type="text/css" >
+    <script src="/static/sw/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/sw/sweetalert.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -97,32 +99,32 @@
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <tr>
-                                            <td>标签：
-                                            </td>
-                                            <td>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>标签：
+                                        </td>
+                                        <td>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>问题标题</td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input class="form-control" name="name" value="{{ data.title }}" id="update_question_text" />
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>问题内容</td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="2" name="content" id="update_question_content">{{ data.content }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <button type="submit" class="btn btn-primary"onclick="submit()">修改</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>问题标题</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input class="form-control" name="name" value="{{ data.title }}" id="update_question_text" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>问题内容</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="2" name="content" id="update_question_content">{{ data.content }}</textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <button type="submit" class="btn btn-primary"onclick="submit()">修改</button>
                             </div>
                         </div>
                     </div>

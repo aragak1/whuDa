@@ -11,6 +11,8 @@
     <link href="/static/admin/css/sb-admin-2.css" rel="stylesheet">
     <link href="/static/admin/css/pagination.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="/static/sw/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/sw/sweetalert.css">
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -103,13 +105,13 @@
                                     </thead>
                                     <tbody>
                                     {% for data in datas %}
-                                    <tr>
-                                        <td>{{ data.id }}</td>
-                                        <td>{{ data.title }}</td>
-                                        <td>{{ data.content }}</td>
-                                        <td><p><button type="button" class="btn btn-outline btn-primary">修 改</button></p></td>
-                                        <td><button type="button" class="btn btn-outline btn-danger" onclick="delete_question($(this),{{ data.id }})">删 除</button></td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{ data.id }}</td>
+                                            <td>{{ data.title }}</td>
+                                            <td>{{ data.content }}</td>
+                                            <td><p><a type="button" class="btn btn-outline btn-primary" href="/admin/updateQuestion/{{ data.id }}">修 改</a></p></td>
+                                            <td><button type="button" class="btn btn-outline btn-danger" onclick="delete_question($(this),{{ data.id }})">删 除</button></td>
+                                        </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>

@@ -1,7 +1,18 @@
 function delete_question(this_element,question_id){
-    $.post('/question/delete_question',
-    {'question_id':question_id});
-    this_element.parent().parent().remove();
+    swal({
+        title: '确定要删除吗？',
+        text: '该操作不可逆转，请谨慎使用',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        closeOnConfirm: false,
+        cancelButtonText: '取消'
+    }, function () {
+        $.post('/question/delete_question',
+            {'question_id':question_id});
+        this_element.parent().parent().remove();
+    })
 }
 function get_page(this_element){
     var this_parent=this_element.parent();
@@ -19,8 +30,8 @@ function get_page(this_element){
             $('tbody').empty();
             $.each(datas,function(i,item){
                 var html_doc="<tr><td>"+item.id+"</td><td>"+item.title+"</td><td>"+item.content+"</td>"+
-                "<td><p><button type=\"button\" class=\"btn btn-outline btn-primary\">修 改</button></p></td>"+
-                "<td><button type=\"button\" class=\"btn btn-outline btn-danger\" onclick=\"delete_question($(this),"+item.id+")\">删 除</button></td></tr>";
+                    "<td><p><button type=\"button\" class=\"btn btn-outline btn-primary\">修 改</button></p></td>"+
+                    "<td><button type=\"button\" class=\"btn btn-outline btn-danger\" onclick=\"delete_question($(this),"+item.id+")\">删 除</button></td></tr>";
                 $('tbody').append(html_doc);
             });
             if(!active.prev().hasClass('previous')){
@@ -38,8 +49,8 @@ function get_page(this_element){
             $('tbody').empty();
             $.each(datas,function(i,item){
                 var html_doc="<tr><td>"+item.id+"</td><td>"+item.title+"</td><td>"+item.content+"</td>"+
-                "<td><p><button type=\"button\" class=\"btn btn-outline btn-primary\">修 改</button></p></td>"+
-                "<td><button type=\"button\" class=\"btn btn-outline btn-danger\" onclick=\"delete_question($(this),"+item.id+")\">删 除</button></td></tr>";
+                    "<td><p><button type=\"button\" class=\"btn btn-outline btn-primary\">修 改</button></p></td>"+
+                    "<td><button type=\"button\" class=\"btn btn-outline btn-danger\" onclick=\"delete_question($(this),"+item.id+")\">删 除</button></td></tr>";
                 $('tbody').append(html_doc);
             });
             if(!active.next().hasClass('next')){
@@ -57,8 +68,8 @@ function get_page(this_element){
             $('tbody').empty();
             $.each(datas,function(i,item){
                 var html_doc="<tr><td>"+item.id+"</td><td>"+item.title+"</td><td>"+item.content+"</td>"+
-                "<td><p><button type=\"button\" class=\"btn btn-outline btn-primary\">修 改</button></p></td>"+
-                "<td><button type=\"button\" class=\"btn btn-outline btn-danger\" onclick=\"delete_question($(this),"+item.id+")\">删 除</button></td></tr>";
+                    "<td><p><button type=\"button\" class=\"btn btn-outline btn-primary\">修 改</button></p></td>"+
+                    "<td><button type=\"button\" class=\"btn btn-outline btn-danger\" onclick=\"delete_question($(this),"+item.id+")\">删 除</button></td></tr>";
                 $('tbody').append(html_doc);
             });
             active.removeClass('active');
